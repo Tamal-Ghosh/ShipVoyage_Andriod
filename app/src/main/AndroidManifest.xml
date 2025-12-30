@@ -20,6 +20,33 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- Auth Activities -->
+        <activity android:name=".ui.auth.LoginActivity" android:exported="false" />
+        <activity android:name=".ui.auth.SignupActivity" android:exported="false" />
+        <activity android:name=".ui.auth.UserTypeActivity" android:exported="false" />
+
+        <!-- Admin Activities -->
+        <activity android:name=".ui.admin.AdminDashboardActivity" android:exported="false" />
+        <activity android:name=".ui.admin.ManageShipsActivity" android:exported="false" />
+        <activity android:name=".ui.admin.ManageRoomsActivity" android:exported="false" />
+        <activity android:name=".ui.admin.ManageToursActivity" android:exported="false" />
+        <activity android:name=".ui.admin.ManageTourInstancesActivity" android:exported="false" />
+        <activity android:name=".ui.admin.ManageFeaturedPhotosActivity" android:exported="false" />
+        <activity android:name=".ui.admin.ViewBookingsActivity" android:exported="false" />
+        <activity android:name=".ui.admin.CustomerListActivity" android:exported="false" />
+        <activity android:name=".ui.admin.AdminProfileActivity" android:exported="false" />
+
+        <!-- Passenger Activities -->
+        <activity android:name=".ui.passenger.PassengerHomeActivity" android:exported="false" />
+        <activity android:name=".ui.passenger.UpcomingToursActivity" android:exported="false" />
+        <activity android:name=".ui.passenger.SearchResultsActivity" android:exported="false" />
+        <activity android:name=".ui.passenger.TourDetailsActivity" android:exported="false" />
+        <activity android:name=".ui.passenger.BookingActivity" android:exported="false" />
+        <activity android:name=".ui.passenger.PaymentActivity" android:exported="false" />
+        <activity android:name=".ui.passenger.ProfileActivity" android:exported="false" />
+        <activity android:name=".ui.passenger.MyBookingsActivity" android:exported="false" />
+        <activity android:name=".ui.passenger.SupportActivity" android:exported="false" />
     </application>
 
 </manifest>

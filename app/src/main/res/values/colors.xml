@@ -1,5 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <!-- Primary Colors -->
+    <color name="primary">#1E4A8A</color>
+    <color name="primary_dark">#1E3A8A</color>
+    <color name="primary_light">#2563B5</color>
+    
+    <!-- Secondary Colors -->
+    <color name="secondary">#10B981</color>
+    <color name="secondary_dark">#059669</color>
+    
+    <!-- Accent Colors -->
+    <color name="accent">#EA580C</color>
+    <color name="accent_light">#F59E0B</color>
+    
+    <!-- Neutral Colors -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="background">#F5F7FA</color>
+    <color name="surface">#F9FAFB</color>
+    <color name="card_bg">#FFFFFF</color>
+    
+    <!-- Text Colors -->
+    <color name="text_primary">#1F2937</color>
+    <color name="text_secondary">#6B7280</color>
+    <color name="text_tertiary">#9CA3AF</color>
+    <color name="text_light">#E5E7EB</color>
+    <color name="text_white">#FFFFFF</color>
+    
+    <!-- Border & Divider Colors -->
+    <color name="border">#D1D5DB</color>
+    <color name="border_light">#E5E7EB</color>
+    <color name="divider">#F3F4F6</color>
+    
+    <!-- Status Colors -->
+    <color name="status_confirmed">#D1FAE5</color>
+    <color name="status_confirmed_text">#065F46</color>
+    <color name="status_pending">#FEF3C7</color>
+    <color name="status_pending_text">#92400E</color>
+    
+    <!-- Review & Rating -->
+    <color name="star_color">#F59E0B</color>
+    
+    <!-- Gradient colors -->
+    <color name="gradient_start">#1E4A8A</color>
+    <color name="gradient_end">#2563B5</color>
 </resources>
