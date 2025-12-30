@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "671932830416",
+    "project_id": "shipvoyage-454a2",
+    "storage_bucket": "shipvoyage-454a2.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:671932830416:android:778e2791a5710fb8fcc4d5",
+        "android_client_info": {
+          "package_name": "com.example.shipvoyage"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCMBn9T67meaCWUaVimg05jKSImwWoJTHE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
