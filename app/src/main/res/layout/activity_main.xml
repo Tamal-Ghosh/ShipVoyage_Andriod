@@ -5,17 +5,59 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
+    android:padding="16dp"
     tools:context=".MainActivity">
 
-    <Button
-        android:id="@+id/manageShipsButton"
+    <TextView
+        android:id="@+id/titleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Manage Ships"
-        style="@style/ButtonStyle.Primary"
+        android:text="ShipVoyage Admin Panel"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="@color/text_primary"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="32dp" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/titleText">
+
+        <Button
+            android:id="@+id/manageShipsButton"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:text="Manage Ships"
+            android:textColor="@android:color/white"
+            style="@style/ButtonStyle.Primary" />
+
+        <Button
+            android:id="@+id/manageToursButton"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Manage Tours"
+            android:textColor="@android:color/white"
+            style="@style/ButtonStyle.Primary" />
+
+        <Button
+            android:id="@+id/manageInstancesButton"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Tour Instances"
+            android:textColor="@android:color/white"
+            style="@style/ButtonStyle.Primary" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

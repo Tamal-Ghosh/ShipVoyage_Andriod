@@ -9,6 +9,7 @@ import androidx.appcompat.widget.PopupMenu;
 
 import com.example.shipvoyage.R;
 import com.example.shipvoyage.ui.admin.ManageShipsActivity;
+import com.example.shipvoyage.ui.admin.ManageTourInstancesActivity;
 import com.example.shipvoyage.ui.admin.ManageToursActivity;
 
 public class AdminNavHelper {
@@ -27,6 +28,8 @@ public class AdminNavHelper {
                     intent = new Intent(activity, ManageShipsActivity.class);
                 } else if (id == R.id.nav_tours) {
                     intent = new Intent(activity, ManageToursActivity.class);
+                } else if (id == R.id.nav_instances) {
+                    intent = new Intent(activity, ManageTourInstancesActivity.class);
                 }
 
                 if (intent != null) {

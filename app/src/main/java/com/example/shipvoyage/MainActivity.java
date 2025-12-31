@@ -11,6 +11,8 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.shipvoyage.ui.admin.ManageShipsActivity;
+import com.example.shipvoyage.ui.admin.ManageTourInstancesActivity;
+import com.example.shipvoyage.ui.admin.ManageToursActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,6 +30,18 @@ public class MainActivity extends AppCompatActivity {
         Button manageShipsButton = findViewById(R.id.manageShipsButton);
         manageShipsButton.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, ManageShipsActivity.class);
+            startActivity(intent);
+        });
+
+        Button manageToursButton = findViewById(R.id.manageToursButton);
+        manageToursButton.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, ManageToursActivity.class);
+            startActivity(intent);
+        });
+
+        Button manageInstancesButton = findViewById(R.id.manageInstancesButton);
+        manageInstancesButton.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, ManageTourInstancesActivity.class);
             startActivity(intent);
         });
     }

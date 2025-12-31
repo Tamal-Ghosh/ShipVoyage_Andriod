@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
+    android:id="@+id/manageShipsRoot"
     tools:context=".ui.admin.ManageShipsActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -31,8 +32,9 @@
                 android:layout_height="40dp"
                 android:layout_gravity="end"
                 android:layout_marginEnd="@dimen/padding_medium"
-                android:src="@android:drawable/ic_menu_more"
+                android:src="@drawable/ic_menu_moreoverflow"
                 android:background="?attr/selectableItemBackgroundBorderless"
+                android:scaleType="centerInside"
                 android:contentDescription="Menu" />
 
         </androidx.appcompat.widget.Toolbar>
@@ -103,6 +105,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:orientation="vertical"
+                android:id="@+id/manageShips"
                 android:layout_marginEnd="@dimen/padding_small">
 
                 <TextView

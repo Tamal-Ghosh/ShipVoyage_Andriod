@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
+    android:id="@+id/manageToursRoot"
     tools:context=".ui.admin.ManageToursActivity">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -27,8 +28,9 @@
                 android:layout_height="40dp"
                 android:layout_gravity="end"
                 android:layout_marginEnd="@dimen/padding_medium"
-                android:src="@android:drawable/ic_menu_more"
+                android:src="@drawable/ic_menu_moreoverflow"
                 android:background="?attr/selectableItemBackgroundBorderless"
+                android:scaleType="centerInside"
                 android:contentDescription="Menu" />
 
         </androidx.appcompat.widget.Toolbar>

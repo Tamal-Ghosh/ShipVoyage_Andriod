@@ -4,12 +4,16 @@ public class TourInstance {
     public String id;
     public String tourId;
     public String shipId;
-    public long startDate;
-    public long endDate;
+    public String startDate;
+    public String endDate;
+    
+    // Transient fields for display purposes
+    public String tourName;
+    public String shipName;
 
     public TourInstance() {}
 
-    public TourInstance(String id, String tourId, String shipId, long startDate, long endDate) {
+    public TourInstance(String id, String tourId, String shipId, String startDate, String endDate) {
         this.id = id;
         this.tourId = tourId;
         this.shipId = shipId;
@@ -41,19 +45,36 @@ public class TourInstance {
         this.shipId = shipId;
     }
 
-    public long getStartDate() {
+    public String getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(long startDate) {
+    public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
 
-    public long getEndDate() {
+    public String getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(long endDate) {
+    public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
+
+    public String getTourName() {
+        return tourName;
+    }
+
+    public void setTourName(String tourName) {
+        this.tourName = tourName;
+    }
+
+    public String getShipName() {
+        return shipName;
+    }
+
+    public void setShipName(String shipName) {
+        this.shipName = shipName;
+    }
 }
+
