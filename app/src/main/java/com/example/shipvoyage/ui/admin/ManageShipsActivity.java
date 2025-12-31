@@ -5,6 +5,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +17,8 @@ import com.example.shipvoyage.R;
 import com.example.shipvoyage.adapter.ShipAdapter;
 import com.example.shipvoyage.dao.ShipDAO;
 import com.example.shipvoyage.model.Ship;
+import com.example.shipvoyage.util.AdminNavHelper;
+import com.google.firebase.database.DataSnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -62,6 +65,9 @@ public class ManageShipsActivity extends AppCompatActivity {
         cancelBtn = findViewById(R.id.cancelBtn);
         searchBtn = findViewById(R.id.searchBtn);
 
+        ImageButton menuBtn = findViewById(R.id.menuBtn);
+        menuBtn.setOnClickListener(v -> AdminNavHelper.setupNavigationMenu(this, v));
+
         shipsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         
         shipAdapter = new ShipAdapter(new ShipAdapter.OnShipClickListener() {
@@ -91,6 +97,7 @@ public class ManageShipsActivity extends AppCompatActivity {
         searchBtn.setOnClickListener(v -> performSearch());
         
         searchField.addTextChangedListener(new TextWatcher() {
+
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -109,7 +116,7 @@ public class ManageShipsActivity extends AppCompatActivity {
     private void loadShips() {
         shipDAO.getAllShips().addOnSuccessListener(dataSnapshot -> {
             shipsList.clear();
-            for (com.google.firebase.database.DataSnapshot snapshot : dataSnapshot.getChildren()) {
+            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                 Ship ship = snapshot.getValue(Ship.class);
                 if (ship != null) {
                     shipsList.add(ship);

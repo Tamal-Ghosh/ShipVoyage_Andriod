@@ -21,20 +21,31 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/shipName"
+                android:id="@+id/tourName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Ship Name"
+                android:text="Tour Name"
                 style="@style/TextAppearance.Title"
                 android:layout_marginBottom="@dimen/padding_xsmall" />
 
             <TextView
-                android:id="@+id/shipCapacity"
+                android:id="@+id/tourRoute"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Capacity: 0"
+                android:text="From → To"
                 style="@style/TextAppearance.Body"
-                android:textColor="@color/text_secondary" />
+                android:textColor="@color/text_secondary"
+                android:layout_marginBottom="@dimen/padding_xsmall" />
+
+            <TextView
+                android:id="@+id/tourDescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Description"
+                style="@style/TextAppearance.BodySmall"
+                android:textColor="@color/text_tertiary"
+                android:maxLines="2"
+                android:ellipsize="end" />
 
         </LinearLayout>
 
@@ -48,18 +59,18 @@
                 android:id="@+id/editBtn"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
-                android:layout_marginEnd="@dimen/padding_small"
+                android:src="@android:drawable/ic_menu_edit"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="Edit"
-                android:src="@drawable/baseline_edit_24" />
+                android:layout_marginEnd="@dimen/padding_small" />
 
             <ImageButton
                 android:id="@+id/deleteBtn"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:src="@android:drawable/ic_menu_delete"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="Delete"
-                android:src="@drawable/baseline_delete_24" />
+                android:contentDescription="Delete" />
 
         </LinearLayout>
 
