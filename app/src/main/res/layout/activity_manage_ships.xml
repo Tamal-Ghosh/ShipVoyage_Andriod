@@ -69,8 +69,10 @@
             android:id="@+id/searchBtn"
             android:layout_width="wrap_content"
             android:layout_height="@dimen/button_height_small"
-            android:text="Search"
-                style="@style/ButtonStyle.Accent" />    </LinearLayout>
+            android:text="SEARCH"
+            android:textColor="@color/text_white"
+            android:backgroundTint="#FF9100"
+            style="@style/Widget.MaterialComponents.Button" />    </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/shipsRecyclerView"
@@ -100,63 +102,37 @@
             android:weightSum="2"
             android:layout_marginBottom="@dimen/padding_medium">
 
-            <LinearLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="vertical"
-                android:id="@+id/manageShips"
-                android:layout_marginEnd="@dimen/padding_small">
+                android:hint="Ship Name"
+                android:layout_marginEnd="@dimen/padding_small"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Ship Name"
-                    style="@style/TextAppearance.Body"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="@dimen/padding_small" />
-
-                <EditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/nameField"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/input_height"
-                    android:hint="Enter Ship Name"
-                    android:paddingStart="@dimen/padding_medium"
-                    android:paddingEnd="@dimen/padding_medium"
-                    android:background="@color/surface"
-                    android:textColor="@color/text_primary"
-                    android:textColorHint="@color/text_tertiary" />
+                    android:layout_height="wrap_content"
+                    android:inputType="text" />
 
-            </LinearLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <LinearLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="vertical"
-                android:layout_marginStart="@dimen/padding_small">
+                android:hint="Capacity"
+                android:layout_marginStart="@dimen/padding_small"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Capacity"
-                    style="@style/TextAppearance.Body"
-                    android:textStyle="bold"
-                    android:layout_marginBottom="@dimen/padding_small" />
-
-                <EditText
+                <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/capacityField"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/input_height"
-                    android:hint="Enter Capacity"
-                    android:inputType="number"
-                    android:paddingStart="@dimen/padding_medium"
-                    android:paddingEnd="@dimen/padding_medium"
-                    android:background="@color/surface"
-                    android:textColor="@color/text_primary"
-                    android:textColorHint="@color/text_tertiary" />
+                    android:layout_height="wrap_content"
+                    android:inputType="number" />
 
-            </LinearLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
         </LinearLayout>
 
@@ -172,7 +148,9 @@
                 android:layout_width="100dp"
                 android:layout_height="@dimen/button_height_small"
                 android:text="Cancel"
-                style="@style/ButtonStyle.Ghost"
+                android:textColor="@color/text_primary"
+                android:backgroundTint="#CCCCCC"
+                style="@style/Widget.MaterialComponents.Button"
                 android:layout_marginEnd="@dimen/padding_medium" />
 
             <Button
@@ -181,7 +159,8 @@
                 android:layout_height="@dimen/button_height_small"
                 android:text="Save"
                 android:textColor="@color/text_white"
-                android:backgroundTint="#4cd137" />
+                android:backgroundTint="#26A65B"
+                style="@style/Widget.MaterialComponents.Button" />
 
         </LinearLayout>
 

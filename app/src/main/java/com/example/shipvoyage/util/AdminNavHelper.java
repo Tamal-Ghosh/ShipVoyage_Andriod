@@ -10,6 +10,7 @@ import androidx.appcompat.widget.PopupMenu;
 import com.example.shipvoyage.R;
 import com.example.shipvoyage.ui.admin.AdminDashboardActivity;
 import com.example.shipvoyage.ui.admin.CustomerListActivity;
+import com.example.shipvoyage.ui.admin.ManageRoomsActivity;
 import com.example.shipvoyage.ui.admin.ManageShipsActivity;
 import com.example.shipvoyage.ui.admin.ManageTourInstancesActivity;
 import com.example.shipvoyage.ui.admin.ManageToursActivity;
@@ -35,6 +36,8 @@ public class AdminNavHelper {
                     intent = new Intent(activity, ManageToursActivity.class);
                 } else if (id == R.id.nav_instances) {
                     intent = new Intent(activity, ManageTourInstancesActivity.class);
+                } else if (id == R.id.nav_rooms) {
+                    intent = new Intent(activity, ManageRoomsActivity.class);
                 } else if (id == R.id.nav_bookings) {
                     intent = new Intent(activity, ViewBookingsActivity.class);
                 } else if (id == R.id.nav_customers) {

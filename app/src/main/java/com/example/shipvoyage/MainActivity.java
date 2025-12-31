@@ -10,9 +10,11 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.shipvoyage.ui.admin.AdminDashboardActivity;
 import com.example.shipvoyage.ui.admin.ManageShipsActivity;
 import com.example.shipvoyage.ui.admin.ManageTourInstancesActivity;
 import com.example.shipvoyage.ui.admin.ManageToursActivity;
+import com.example.shipvoyage.ui.passenger.PassengerHomeActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,6 +27,12 @@ public class MainActivity extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+        });
+
+        Button adminDashboardButton = findViewById(R.id.adminDashboardButton);
+        adminDashboardButton.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, AdminDashboardActivity.class);
+            startActivity(intent);
         });
 
         Button manageShipsButton = findViewById(R.id.manageShipsButton);
@@ -42,6 +50,12 @@ public class MainActivity extends AppCompatActivity {
         Button manageInstancesButton = findViewById(R.id.manageInstancesButton);
         manageInstancesButton.setOnClickListener(v -> {
             Intent intent = new Intent(MainActivity.this, ManageTourInstancesActivity.class);
+            startActivity(intent);
+        });
+
+        Button passengerHomeButton = findViewById(R.id.passengerHomeButton);
+        passengerHomeButton.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, PassengerHomeActivity.class);
             startActivity(intent);
         });
     }

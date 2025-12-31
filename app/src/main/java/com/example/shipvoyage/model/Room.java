@@ -1,5 +1,8 @@
 package com.example.shipvoyage.model;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class Room {
     public String id;
     public String shipId;
@@ -65,5 +68,16 @@ public class Room {
 
     public void setAvailability(boolean availability) {
         this.availability = availability;
+    }
+    
+    public Map<String, Object> toMap() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("id", id);
+        map.put("shipId", shipId);
+        map.put("roomNumber", roomNumber);
+        map.put("type", type);
+        map.put("price", price);
+        map.put("availability", availability);
+        return map;
     }
 }

@@ -13,14 +13,26 @@
         android:id="@+id/titleText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ShipVoyage Admin Panel"
-        android:textSize="24sp"
+        android:text="ShipVoyage"
+        android:textSize="28sp"
         android:textStyle="bold"
         android:textColor="@color/text_primary"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="32dp" />
+
+    <TextView
+        android:id="@+id/subtitleText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Choose Your Portal"
+        android:textSize="16sp"
+        android:textColor="#666666"
+        app:layout_constraintTop_toBottomOf="@id/titleText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -30,32 +42,78 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/titleText">
+        app:layout_constraintTop_toBottomOf="@id/subtitleText">
+
+        <!-- Admin Section -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Admin Panel"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/primary"
+            android:layout_marginBottom="12dp" />
+
+        <Button
+            android:id="@+id/adminDashboardButton"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:text="Admin Dashboard"
+            android:textColor="@android:color/white"
+            style="@style/ButtonStyle.Primary" />
 
         <Button
             android:id="@+id/manageShipsButton"
-            android:layout_width="200dp"
+            android:layout_width="240dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:text="Manage Ships"
             android:textColor="@android:color/white"
             style="@style/ButtonStyle.Primary" />
 
         <Button
             android:id="@+id/manageToursButton"
-            android:layout_width="200dp"
+            android:layout_width="240dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:text="Manage Tours"
             android:textColor="@android:color/white"
             style="@style/ButtonStyle.Primary" />
 
         <Button
             android:id="@+id/manageInstancesButton"
-            android:layout_width="200dp"
+            android:layout_width="240dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:text="Tour Instances"
             android:textColor="@android:color/white"
+            style="@style/ButtonStyle.Primary" />
+
+        <!-- Divider -->
+        <View
+            android:layout_width="240dp"
+            android:layout_height="1dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="24dp"
+            android:background="@color/divider" />
+
+        <!-- Passenger Section -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Passenger Portal"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@color/secondary"
+            android:layout_marginBottom="12dp" />
+
+        <Button
+            android:id="@+id/passengerHomeButton"
+            android:layout_width="240dp"
+            android:layout_height="wrap_content"
+            android:text="Browse Tours"
+            android:textColor="@android:color/white"
+            android:backgroundTint="@color/secondary"
             style="@style/ButtonStyle.Primary" />
 
     </LinearLayout>

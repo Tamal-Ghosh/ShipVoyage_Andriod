@@ -1,8 +1,9 @@
 package com.example.shipvoyage.model;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Booking {
+public class Booking implements Serializable {
     public String id;
     public String tourInstanceId;
     public String userId;
@@ -10,11 +11,12 @@ public class Booking {
     public double price;
     public String status; // PENDING, CONFIRMED, CANCELLED
     public String paymentMethod; // BKASH, VISA, etc.
+    public String bookingDate;
     
     // Transient fields for display
-    public String customerName;
-    public String customerEmail;
-    public String customerPhone;
+    public transient String customerName;
+    public transient String customerEmail;
+    public transient String customerPhone;
 
     public Booking() {}
 
@@ -82,6 +84,14 @@ public class Booking {
 
     public void setPaymentMethod(String paymentMethod) {
         this.paymentMethod = paymentMethod;
+    }
+
+    public String getBookingDate() {
+        return bookingDate;
+    }
+
+    public void setBookingDate(String bookingDate) {
+        this.bookingDate = bookingDate;
     }
 
     public String getCustomerName() {

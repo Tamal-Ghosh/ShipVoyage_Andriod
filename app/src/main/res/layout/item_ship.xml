@@ -51,7 +51,9 @@
                 android:layout_marginEnd="@dimen/padding_small"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="Edit"
-                android:src="@drawable/baseline_edit_24" />
+                android:scaleType="centerInside"
+                android:src="@drawable/baseline_edit_24"
+                android:tint="#5DADE2" />
 
             <ImageButton
                 android:id="@+id/deleteBtn"
@@ -59,7 +61,9 @@
                 android:layout_height="40dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="Delete"
-                android:src="@drawable/baseline_delete_24" />
+                android:scaleType="centerInside"
+                android:src="@drawable/baseline_delete_24"
+                android:tint="#E74C3C" />
 
         </LinearLayout>
 
