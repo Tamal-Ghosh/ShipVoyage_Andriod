@@ -10,6 +10,11 @@ public class Booking {
     public double price;
     public String status; // PENDING, CONFIRMED, CANCELLED
     public String paymentMethod; // BKASH, VISA, etc.
+    
+    // Transient fields for display
+    public String customerName;
+    public String customerEmail;
+    public String customerPhone;
 
     public Booking() {}
 
@@ -77,5 +82,36 @@ public class Booking {
 
     public void setPaymentMethod(String paymentMethod) {
         this.paymentMethod = paymentMethod;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
+    }
+
+    public String getCustomerEmail() {
+        return customerEmail;
+    }
+
+    public void setCustomerEmail(String customerEmail) {
+        this.customerEmail = customerEmail;
+    }
+
+    public String getCustomerPhone() {
+        return customerPhone;
+    }
+
+    public void setCustomerPhone(String customerPhone) {
+        this.customerPhone = customerPhone;
+    }
+
+    public String getSelectedRoomsString() {
+        if (selectedRooms == null || selectedRooms.isEmpty()) {
+            return "N/A";
+        }
+        return String.join(", ", selectedRooms);
     }
 }

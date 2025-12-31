@@ -8,9 +8,12 @@ import android.view.View;
 import androidx.appcompat.widget.PopupMenu;
 
 import com.example.shipvoyage.R;
+import com.example.shipvoyage.ui.admin.AdminDashboardActivity;
+import com.example.shipvoyage.ui.admin.CustomerListActivity;
 import com.example.shipvoyage.ui.admin.ManageShipsActivity;
 import com.example.shipvoyage.ui.admin.ManageTourInstancesActivity;
 import com.example.shipvoyage.ui.admin.ManageToursActivity;
+import com.example.shipvoyage.ui.admin.ViewBookingsActivity;
 
 public class AdminNavHelper {
 
@@ -24,12 +27,18 @@ public class AdminNavHelper {
                 int id = item.getItemId();
                 Intent intent = null;
 
-                if (id == R.id.nav_ships) {
+                if (id == R.id.nav_dashboard) {
+                    intent = new Intent(activity, AdminDashboardActivity.class);
+                } else if (id == R.id.nav_ships) {
                     intent = new Intent(activity, ManageShipsActivity.class);
                 } else if (id == R.id.nav_tours) {
                     intent = new Intent(activity, ManageToursActivity.class);
                 } else if (id == R.id.nav_instances) {
                     intent = new Intent(activity, ManageTourInstancesActivity.class);
+                } else if (id == R.id.nav_bookings) {
+                    intent = new Intent(activity, ViewBookingsActivity.class);
+                } else if (id == R.id.nav_customers) {
+                    intent = new Intent(activity, CustomerListActivity.class);
                 }
 
                 if (intent != null) {

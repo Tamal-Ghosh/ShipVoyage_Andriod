@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    
+
+    <item
+        android:id="@+id/nav_dashboard"
+        android:icon="@android:drawable/ic_dialog_info"
+        android:title="Dashboard" />
+
     <item android:title="Manage">
         <menu>
             <item
@@ -17,5 +22,15 @@
                 android:title="Tour Instances" />
         </menu>
     </item>
+
+    <item
+        android:id="@+id/nav_bookings"
+        android:icon="@android:drawable/ic_menu_agenda"
+        android:title="Bookings" />
+
+    <item
+        android:id="@+id/nav_customers"
+        android:icon="@android:drawable/ic_menu_myplaces"
+        android:title="Customers" />
 
 </menu>

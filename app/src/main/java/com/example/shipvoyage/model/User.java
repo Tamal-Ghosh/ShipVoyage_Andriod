@@ -3,17 +3,21 @@ package com.example.shipvoyage.model;
 public class User {
     public String id;
     public String username;
+    public String name;
     public String email;
     public String phone;
     public String role; // ADMIN or PASSENGER
     public long createdAt;
     public String profileImagePath;
+    public String lastInstance;
+    public String paymentStatus;
 
     public User() {}
 
     public User(String id, String username, String email, String phone, String role, long createdAt, String profileImagePath) {
         this.id = id;
         this.username = username;
+        this.name = username;
         this.email = email;
         this.phone = phone;
         this.role = role;
@@ -35,6 +39,14 @@ public class User {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public String getName() {
+        return name != null ? name : username;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmail() {
@@ -75,5 +87,21 @@ public class User {
 
     public void setProfileImagePath(String profileImagePath) {
         this.profileImagePath = profileImagePath;
+    }
+
+    public String getLastInstance() {
+        return lastInstance;
+    }
+
+    public void setLastInstance(String lastInstance) {
+        this.lastInstance = lastInstance;
+    }
+
+    public String getPaymentStatus() {
+        return paymentStatus;
+    }
+
+    public void setPaymentStatus(String paymentStatus) {
+        this.paymentStatus = paymentStatus;
     }
 }
