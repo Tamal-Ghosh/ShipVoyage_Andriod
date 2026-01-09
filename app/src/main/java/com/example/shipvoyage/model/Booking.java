@@ -16,6 +16,12 @@ public class Booking implements Serializable {
     public transient String customerName;
     public transient String customerEmail;
     public transient String customerPhone;
+    
+    public transient String tourName;
+    public transient String fromLocation;
+    public transient String toLocation;
+    public transient String departureDate;
+    public transient String returnDate;
 
     public Booking() {}
 
@@ -122,5 +128,45 @@ public class Booking implements Serializable {
             return "N/A";
         }
         return String.join(", ", selectedRooms);
+    }
+
+    public String getTourName() {
+        return tourName;
+    }
+
+    public void setTourName(String tourName) {
+        this.tourName = tourName;
+    }
+
+    public String getFromLocation() {
+        return fromLocation;
+    }
+
+    public void setFromLocation(String fromLocation) {
+        this.fromLocation = fromLocation;
+    }
+
+    public String getToLocation() {
+        return toLocation;
+    }
+
+    public void setToLocation(String toLocation) {
+        this.toLocation = toLocation;
+    }
+
+    public String getDepartureDate() {
+        return departureDate;
+    }
+
+    public void setDepartureDate(String departureDate) {
+        this.departureDate = departureDate;
+    }
+
+    public String getReturnDate() {
+        return returnDate;
+    }
+
+    public void setReturnDate(String returnDate) {
+        this.returnDate = returnDate;
     }
 }

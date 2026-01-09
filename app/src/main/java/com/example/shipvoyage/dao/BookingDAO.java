@@ -31,6 +31,10 @@ public class BookingDAO {
         return bookingsRef.get();
     }
 
+    public Task<DataSnapshot> getBookingsByUser(String userId) {
+        return bookingsRef.orderByChild("userId").equalTo(userId).get();
+    }
+
     public Task<Void> updateBooking(String id, Map<String, Object> updates) {
         return bookingsRef.child(id).updateChildren(updates);
     }

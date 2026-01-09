@@ -27,6 +27,7 @@ import com.example.shipvoyage.model.Room;
 import com.example.shipvoyage.model.TourInstance;
 import com.example.shipvoyage.util.ThreadPool;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -43,6 +44,7 @@ public class BookingActivity extends AppCompatActivity {
     private RoomDAO roomDAO;
     private BookingDAO bookingDAO;
     private TourInstanceDAO tourInstanceDAO;
+    private FirebaseAuth mAuth;
 
     private LinearLayout roomGrid;
     private TextView totalLabel;
@@ -77,6 +79,7 @@ public class BookingActivity extends AppCompatActivity {
         roomDAO = new RoomDAO();
         bookingDAO = new BookingDAO();
         tourInstanceDAO = new TourInstanceDAO();
+        mAuth = FirebaseAuth.getInstance();
 
         initializeViews();
         loadData();
@@ -304,7 +307,11 @@ public class BookingActivity extends AppCompatActivity {
             return;
         }
 
-        String userId = "guest_user_" + System.currentTimeMillis();
+        if (mAuth.getCurrentUser() == null) {
+            Toast.makeText(this, "Please log in to book", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        String userId = mAuth.getCurrentUser().getUid();
         List<String> roomNumbers = new ArrayList<>();
         for (String roomId : selectedRoomIds) {
             Room r = roomById.get(roomId);
