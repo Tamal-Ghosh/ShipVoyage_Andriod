@@ -11,6 +11,7 @@ import com.example.shipvoyage.R;
 import com.example.shipvoyage.ui.admin.AdminDashboardActivity;
 import com.example.shipvoyage.ui.admin.CustomerListActivity;
 import com.example.shipvoyage.ui.admin.ManageRoomsActivity;
+import com.example.shipvoyage.ui.admin.ManageFeaturedPhotosActivity;
 import com.example.shipvoyage.ui.admin.ManageShipsActivity;
 import com.example.shipvoyage.ui.admin.ManageTourInstancesActivity;
 import com.example.shipvoyage.ui.admin.ManageToursActivity;
@@ -42,6 +43,8 @@ public class AdminNavHelper {
                     intent = new Intent(activity, ViewBookingsActivity.class);
                 } else if (id == R.id.nav_customers) {
                     intent = new Intent(activity, CustomerListActivity.class);
+                } else if (id == R.id.nav_featured_photos) {
+                    intent = new Intent(activity, ManageFeaturedPhotosActivity.class);
                 }
 
                 if (intent != null) {

@@ -58,7 +58,7 @@ public class PassengerHomeActivity extends AppCompatActivity {
     private TextInputEditText dateField;
     private Button searchButton;
     private ImageButton menuBtn;
-    private LinearLayout heroSection, resultsSection, mainContent;
+    private LinearLayout heroSection, resultsSection;
     private RecyclerView searchResultsRecyclerView, featuredRecyclerView, upcomingRecyclerView;
     private TextView viewAllUpcoming;
 
@@ -129,7 +129,6 @@ public class PassengerHomeActivity extends AppCompatActivity {
         menuBtn = findViewById(R.id.menuBtn);
         heroSection = findViewById(R.id.heroSection);
         resultsSection = findViewById(R.id.resultsSection);
-        mainContent = findViewById(R.id.mainContent);
         searchResultsRecyclerView = findViewById(R.id.searchResultsRecyclerView);
         featuredRecyclerView = findViewById(R.id.featuredRecyclerView);
         upcomingRecyclerView = findViewById(R.id.upcomingRecyclerView);
@@ -245,12 +244,21 @@ public class PassengerHomeActivity extends AppCompatActivity {
                     if (count >= 6) break;
                     FeaturedPhoto photo = snapshot.getValue(FeaturedPhoto.class);
                     if (photo != null) {
+                        photo.setId(snapshot.getKey());
                         photos.add(photo);
                         count++;
                     }
                 }
-                runOnUiThread(() -> featuredAdapter.submitList(photos));
+                final int photoCount = photos.size();
+                runOnUiThread(() -> {
+                    if (photoCount == 0) {
+                        Toast.makeText(this, "No photos available yet", Toast.LENGTH_SHORT).show();
+                    }
+                    featuredAdapter.submitList(photos);
+                });
             });
+        }).addOnFailureListener(e -> {
+            runOnUiThread(() -> Toast.makeText(this, "Failed to load photos: " + e.getMessage(), Toast.LENGTH_SHORT).show());
         });
     }
 
@@ -322,7 +330,6 @@ public class PassengerHomeActivity extends AppCompatActivity {
         } else {
             searchResultsAdapter.submitList(results);
             resultsSection.setVisibility(View.VISIBLE);
-            mainContent.setVisibility(View.GONE);
         }
     }
 
@@ -332,7 +339,6 @@ public class PassengerHomeActivity extends AppCompatActivity {
         dateField.setText("");
         selectedDate = null;
         resultsSection.setVisibility(View.GONE);
-        mainContent.setVisibility(View.VISIBLE);
     }
 }
 

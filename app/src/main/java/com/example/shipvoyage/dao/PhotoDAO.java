@@ -14,7 +14,7 @@ public class PhotoDAO {
 
     public PhotoDAO() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        photosRef = database.getReference("featuredPhotos");
+        photosRef = database.getReference("featured_photos");
     }
 
     public Task<Void> addPhoto(FeaturedPhoto photo) {
