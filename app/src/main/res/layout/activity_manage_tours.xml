@@ -230,6 +230,7 @@
                 android:layout_width="100dp"
                 android:layout_height="@dimen/button_height_small"
                 android:text="Save"
+                android:textColor="@color/text_white"
                 style="@style/ButtonStyle.Primary" />
 
         </LinearLayout>

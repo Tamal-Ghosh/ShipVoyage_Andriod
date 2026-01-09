@@ -1,12 +1,10 @@
 package com.example.shipvoyage.ui.passenger;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,7 +14,6 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.shipvoyage.R;
 import com.example.shipvoyage.adapter.MyBookingAdapter;
 import com.example.shipvoyage.dao.BookingDAO;
@@ -29,15 +26,12 @@ import com.example.shipvoyage.util.PassengerNavHelper;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
 import android.util.Log;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 public class MyBookingsActivity extends AppCompatActivity {
-
     private static final String TAG = "MyBookingsActivity";
     private RecyclerView recyclerView;
     private TextView emptyView;
@@ -48,7 +42,6 @@ public class MyBookingsActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private Map<String, Tour> toursMap = new HashMap<>();
     private Map<String, TourInstance> instancesMap = new HashMap<>();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,48 +49,37 @@ public class MyBookingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_my_bookings);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.myBookingsRoot), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, 0);
             return insets;
         });
-
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
         bookingDAO = new BookingDAO();
         tourDAO = new TourDAO();
         tourInstanceDAO = new TourInstanceDAO();
         mAuth = FirebaseAuth.getInstance();
-
-        // If not authenticated, redirect to login/role selection to avoid NPE
         if (mAuth.getCurrentUser() == null) {
             Toast.makeText(this, "Please log in to view your trips", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, com.example.shipvoyage.ui.auth.UserTypeActivity.class));
             finish();
             return;
         }
-
         initViews();
         loadData();
     }
-
     private void initViews() {
         recyclerView = findViewById(R.id.bookingsRecyclerView);
         emptyView = findViewById(R.id.emptyView);
-
-        // Setup bottom navigation
         BottomNavigationView bottomNav = findViewById(R.id.bottomNavigationView);
         PassengerNavHelper.setupBottomNavigation(this, bottomNav);
-
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new MyBookingAdapter(this::showCancelDialog);
         recyclerView.setAdapter(adapter);
-
         ImageButton menuBtn = findViewById(R.id.menuBtn);
         if (menuBtn != null) {
             menuBtn.setOnClickListener(v -> PassengerNavHelper.setupNavigationMenu(this, v));
         }
     }
-
     private void loadData() {
         tourDAO.getAllTours().addOnSuccessListener(snapshot -> {
             for (DataSnapshot tourSnapshot : snapshot.getChildren()) {
@@ -109,7 +91,6 @@ public class MyBookingsActivity extends AppCompatActivity {
             loadInstances();
         });
     }
-
     private void loadInstances() {
         tourInstanceDAO.getAllTourInstances().addOnSuccessListener(snapshot -> {
             for (DataSnapshot instanceSnapshot : snapshot.getChildren()) {
@@ -121,7 +102,6 @@ public class MyBookingsActivity extends AppCompatActivity {
             loadBookings();
         });
     }
-
     private void loadBookings() {
         if (mAuth.getCurrentUser() == null) {
             emptyView.setVisibility(View.VISIBLE);
@@ -130,7 +110,6 @@ public class MyBookingsActivity extends AppCompatActivity {
         }
         String userId = mAuth.getCurrentUser().getUid();
             Log.d(TAG, "Loading bookings for user: " + userId);
-        // Client-side filter to avoid index requirement; still recommended to add .indexOn:["userId"] in Firebase rules
         bookingDAO.getAllBookings().addOnSuccessListener(snapshot -> {
             List<Booking> userBookings = new ArrayList<>();
             Log.d(TAG, "Total bookings in database: " + snapshot.getChildrenCount());
@@ -164,7 +143,6 @@ public class MyBookingsActivity extends AppCompatActivity {
                     userBookings.add(booking);
                 }
             }
-
             Log.d(TAG, "User bookings count: " + userBookings.size());
             if (userBookings.isEmpty()) {
                 emptyView.setVisibility(View.VISIBLE);
@@ -179,7 +157,6 @@ public class MyBookingsActivity extends AppCompatActivity {
             Toast.makeText(this, "Failed to load bookings: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         });
     }
-
     private void showCancelDialog(Booking booking) {
         new AlertDialog.Builder(this)
             .setTitle("Cancel Booking")
@@ -188,7 +165,6 @@ public class MyBookingsActivity extends AppCompatActivity {
             .setNegativeButton("No", null)
             .show();
     }
-
     private void cancelBooking(Booking booking) {
         bookingDAO.deleteBooking(booking.getId())
             .addOnSuccessListener(aVoid -> {

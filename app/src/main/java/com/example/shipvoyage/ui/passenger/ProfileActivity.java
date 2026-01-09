@@ -1,5 +1,4 @@
 package com.example.shipvoyage.ui.passenger;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
@@ -7,14 +6,12 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-
 import com.example.shipvoyage.R;
 import com.example.shipvoyage.dao.BookingDAO;
 import com.example.shipvoyage.dao.UserDAO;
@@ -24,15 +21,12 @@ import com.example.shipvoyage.util.PassengerNavHelper;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DataSnapshot;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
-
 public class ProfileActivity extends AppCompatActivity {
-
     private EditText usernameField;
     private EditText emailField;
     private EditText phoneField;
@@ -50,7 +44,6 @@ public class ProfileActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private String currentUserId;
     private boolean isEditing = false;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,34 +51,26 @@ public class ProfileActivity extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.profileRoot), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, 0);
             return insets;
         });
-
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-        // Setup bottom navigation
         BottomNavigationView bottomNav = findViewById(R.id.bottomNavigationView);
         PassengerNavHelper.setupBottomNavigation(this, bottomNav);
-
         userDAO = new UserDAO();
         bookingDAO = new BookingDAO();
         mAuth = FirebaseAuth.getInstance();
-
-        // If no authenticated user, redirect to login/role selection
         if (mAuth.getCurrentUser() == null) {
             Toast.makeText(this, "Please log in to view your profile", Toast.LENGTH_SHORT).show();
             startActivity(new Intent(this, UserTypeActivity.class));
             finish();
             return;
         }
-
         initViews();
         loadUserProfile();
         loadBookingStats();
     }
-
     private void initViews() {
         usernameField = findViewById(R.id.usernameField);
         emailField = findViewById(R.id.emailField);
@@ -95,21 +80,16 @@ public class ProfileActivity extends AppCompatActivity {
         confirmPasswordField = findViewById(R.id.confirmPasswordField);
         memberSinceLabel = findViewById(R.id.memberSinceLabel);
         totalBookingsLabel = findViewById(R.id.totalBookingsLabel);
-        profileImage = findViewById(R.id.profileImage);
         editButton = findViewById(R.id.editButton);
         logoutButton = findViewById(R.id.logoutButton);
         changePasswordButton = findViewById(R.id.changePasswordButton);
-
         editButton.setOnClickListener(v -> toggleEditMode());
         logoutButton.setOnClickListener(v -> logout());
         changePasswordButton.setOnClickListener(v -> changePassword());
-
         setFieldsEnabled(false);
     }
-
     private void loadUserProfile() {
         if (mAuth.getCurrentUser() == null) {
-            // Not logged in; fields remain empty
             return;
         }
         currentUserId = mAuth.getCurrentUser().getUid();
@@ -119,7 +99,6 @@ public class ProfileActivity extends AppCompatActivity {
                 usernameField.setText(user.getUsername());
                 emailField.setText(user.getEmail());
                 phoneField.setText(user.getPhone());
-
                 if (user.getCreatedAt() > 0) {
                     SimpleDateFormat sdf = new SimpleDateFormat("MMM dd, yyyy", Locale.getDefault());
                     memberSinceLabel.setText(sdf.format(new Date(user.getCreatedAt())));
@@ -131,7 +110,6 @@ public class ProfileActivity extends AppCompatActivity {
             Toast.makeText(this, "Failed to load profile: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         });
     }
-
     private void loadBookingStats() {
         if (mAuth.getCurrentUser() == null) {
             totalBookingsLabel.setText("0");
@@ -151,7 +129,6 @@ public class ProfileActivity extends AppCompatActivity {
             totalBookingsLabel.setText("0");
         });
     }
-
     private void toggleEditMode() {
         if (!isEditing) {
             setFieldsEnabled(true);
@@ -161,20 +138,16 @@ public class ProfileActivity extends AppCompatActivity {
             saveUserProfile();
         }
     }
-
     private void saveUserProfile() {
         String username = usernameField.getText().toString().trim();
         String phone = phoneField.getText().toString().trim();
-
         if (username.isEmpty() || phone.isEmpty()) {
             Toast.makeText(this, "Please fill all required fields", Toast.LENGTH_SHORT).show();
             return;
         }
-
         Map<String, Object> updates = new HashMap<>();
         updates.put("username", username);
         updates.put("phone", phone);
-
         userDAO.updateUser(currentUserId, updates).addOnSuccessListener(aVoid -> {
             Toast.makeText(this, "Profile updated successfully", Toast.LENGTH_SHORT).show();
             setFieldsEnabled(false);
@@ -184,27 +157,22 @@ public class ProfileActivity extends AppCompatActivity {
             Toast.makeText(this, "Failed to update profile: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         });
     }
-
     private void changePassword() {
         String currentPassword = currentPasswordField.getText().toString().trim();
         String newPassword = newPasswordField.getText().toString().trim();
         String confirmPassword = confirmPasswordField.getText().toString().trim();
-
         if (currentPassword.isEmpty() || newPassword.isEmpty() || confirmPassword.isEmpty()) {
             Toast.makeText(this, "Please fill all password fields", Toast.LENGTH_SHORT).show();
             return;
         }
-
         if (!newPassword.equals(confirmPassword)) {
             Toast.makeText(this, "New passwords do not match", Toast.LENGTH_SHORT).show();
             return;
         }
-
         if (newPassword.length() < 6) {
             Toast.makeText(this, "Password must be at least 6 characters", Toast.LENGTH_SHORT).show();
             return;
         }
-
         if (mAuth.getCurrentUser() == null) {
             Toast.makeText(this, "Please log in to change password", Toast.LENGTH_SHORT).show();
             return;
@@ -227,13 +195,11 @@ public class ProfileActivity extends AppCompatActivity {
                 Toast.makeText(this, "Current password is incorrect", Toast.LENGTH_SHORT).show();
             });
     }
-
     private void setFieldsEnabled(boolean enabled) {
         usernameField.setEnabled(enabled);
         phoneField.setEnabled(enabled);
         emailField.setEnabled(false);
     }
-
     private void logout() {
         mAuth.signOut();
         Toast.makeText(this, "Logged out successfully", Toast.LENGTH_SHORT).show();

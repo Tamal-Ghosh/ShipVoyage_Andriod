@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#0B2545">
+    android:background="@color/background">
 
     <!-- Top bar with title -->
     <LinearLayout
@@ -20,7 +20,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Admin Dashboard"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/text_primary"
             android:textSize="20sp"
             android:textStyle="bold" />
     </LinearLayout>
@@ -48,7 +48,7 @@
                 android:layout_column="0"
                 android:layout_columnWeight="1"
                 android:layout_margin="8dp"
-                app:cardBackgroundColor="#0B2545"
+                app:cardBackgroundColor="#1ABC9C"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="4dp">
 
@@ -81,9 +81,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:backgroundTint="#1E4070"
+                        android:backgroundTint="#16A085"
                         android:text="View All Ships"
-                        android:textColor="#FFFFFF"
+                        android:textColor="@color/text_white"
                         android:textSize="12sp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -97,7 +97,7 @@
                 android:layout_column="1"
                 android:layout_columnWeight="1"
                 android:layout_margin="8dp"
-                app:cardBackgroundColor="#0B2545"
+                app:cardBackgroundColor="#3498DB"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="4dp">
 
@@ -130,9 +130,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:backgroundTint="#1E4070"
+                        android:backgroundTint="#2980B9"
                         android:text="View All Tours"
-                        android:textColor="#FFFFFF"
+                        android:textColor="@color/text_white"
                         android:textSize="12sp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -146,7 +146,7 @@
                 android:layout_column="0"
                 android:layout_columnWeight="1"
                 android:layout_margin="8dp"
-                app:cardBackgroundColor="#0B2545"
+                app:cardBackgroundColor="#E67E22"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="4dp">
 
@@ -179,9 +179,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:backgroundTint="#1E4070"
+                        android:backgroundTint="#D35400"
                         android:text="View Instances"
-                        android:textColor="#FFFFFF"
+                        android:textColor="@color/text_white"
                         android:textSize="12sp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -195,7 +195,7 @@
                 android:layout_column="1"
                 android:layout_columnWeight="1"
                 android:layout_margin="8dp"
-                app:cardBackgroundColor="#0B2545"
+                app:cardBackgroundColor="#2563EB"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="4dp">
 
@@ -228,9 +228,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:backgroundTint="#1E4070"
+                        android:backgroundTint="#1E40AF"
                         android:text="View Upcoming"
-                        android:textColor="#FFFFFF"
+                        android:textColor="@color/text_white"
                         android:textSize="12sp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -244,7 +244,7 @@
                 android:layout_column="0"
                 android:layout_columnWeight="1"
                 android:layout_margin="8dp"
-                app:cardBackgroundColor="#0B2545"
+                app:cardBackgroundColor="#10B981"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="4dp">
 
@@ -277,9 +277,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:backgroundTint="#1E4070"
+                        android:backgroundTint="#0F766E"
                         android:text="View Current"
-                        android:textColor="#FFFFFF"
+                        android:textColor="@color/text_white"
                         android:textSize="12sp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -293,7 +293,7 @@
                 android:layout_column="1"
                 android:layout_columnWeight="1"
                 android:layout_margin="8dp"
-                app:cardBackgroundColor="#0B2545"
+                app:cardBackgroundColor="#3B82F6"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="4dp">
 
@@ -326,9 +326,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:backgroundTint="#1E4070"
+                        android:backgroundTint="#1D4ED8"
                         android:text="View Bookings"
-                        android:textColor="#FFFFFF"
+                        android:textColor="@color/text_white"
                         android:textSize="12sp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
@@ -342,7 +342,7 @@
                 android:layout_column="0"
                 android:layout_columnWeight="1"
                 android:layout_margin="8dp"
-                app:cardBackgroundColor="#0B2545"
+                app:cardBackgroundColor="#8B5CF6"
                 app:cardCornerRadius="12dp"
                 app:cardElevation="4dp">
 
@@ -375,9 +375,9 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="8dp"
-                        android:backgroundTint="#1E4070"
+                        android:backgroundTint="#6D28D9"
                         android:text="View Customers"
-                        android:textColor="#FFFFFF"
+                        android:textColor="@color/text_white"
                         android:textSize="12sp" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>

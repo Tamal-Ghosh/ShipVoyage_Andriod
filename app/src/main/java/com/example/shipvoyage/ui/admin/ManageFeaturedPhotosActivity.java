@@ -1,5 +1,4 @@
 package com.example.shipvoyage.ui.admin;
-
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -9,7 +8,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
-
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -18,29 +16,25 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.shipvoyage.R;
 import com.example.shipvoyage.adapter.FeaturedPhotoAdapter;
 import com.example.shipvoyage.dao.FeaturedPhotoDAO;
 import com.example.shipvoyage.model.FeaturedPhoto;
+import com.example.shipvoyage.util.AdminNavHelper;
 import com.example.shipvoyage.util.ThreadPool;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DataSnapshot;
-
 import java.util.ArrayList;
 import java.util.List;
-
 public class ManageFeaturedPhotosActivity extends AppCompatActivity {
-
     private EditText titleField, descriptionField;
     private ImageView preview;
     private Button browseButton, saveButton, resetButton;
     private RecyclerView photosRecyclerView;
     private FeaturedPhotoAdapter adapter;
     private FeaturedPhotoDAO photoDAO;
-
     private String editingPhotoId = null;
     private String selectedImagePath = null;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,15 +42,18 @@ public class ManageFeaturedPhotosActivity extends AppCompatActivity {
         setContentView(R.layout.activity_manage_featured_photos);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.featuredPhotoRoot), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, 0);
             return insets;
         });
-
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationOnClickListener(v -> finish());
-
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        }
+        BottomNavigationView bottomNav = findViewById(R.id.bottomNavigationView);
+        if (bottomNav != null) {
+            AdminNavHelper.setupBottomNavigation(this, bottomNav);
+        }
         titleField = findViewById(R.id.titleField);
         descriptionField = findViewById(R.id.descriptionField);
         preview = findViewById(R.id.preview);
@@ -64,9 +61,7 @@ public class ManageFeaturedPhotosActivity extends AppCompatActivity {
         saveButton = findViewById(R.id.saveButton);
         resetButton = findViewById(R.id.resetButton);
         photosRecyclerView = findViewById(R.id.photosRecyclerView);
-
         photoDAO = new FeaturedPhotoDAO();
-
         photosRecyclerView.setLayoutManager(new GridLayoutManager(this, 1));
         adapter = new FeaturedPhotoAdapter((photo) -> {
             editingPhotoId = photo.getId();
@@ -81,19 +76,15 @@ public class ManageFeaturedPhotosActivity extends AppCompatActivity {
                     Toast.makeText(this, "Failed to delete photo", Toast.LENGTH_SHORT).show());
         });
         photosRecyclerView.setAdapter(adapter);
-
         browseButton.setOnClickListener(v -> openImagePicker());
         saveButton.setOnClickListener(v -> onSave());
         resetButton.setOnClickListener(v -> onReset());
-
         loadPhotos();
     }
-
     private void openImagePicker() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(intent, 100);
     }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -110,23 +101,19 @@ public class ManageFeaturedPhotosActivity extends AppCompatActivity {
             }
         }
     }
-
     private void onSave() {
         String title = titleField.getText().toString().trim();
         String description = descriptionField.getText().toString().trim();
-
         if (title.isEmpty()) {
             Toast.makeText(this, "Title is required", Toast.LENGTH_SHORT).show();
             return;
         }
-
         FeaturedPhoto photo = new FeaturedPhoto(
                 editingPhotoId,
                 title,
                 description,
                 selectedImagePath != null ? selectedImagePath : ""
         );
-
         if (editingPhotoId == null) {
             photoDAO.addPhoto(photo).addOnSuccessListener(unused -> {
                 Toast.makeText(this, "Photo added", Toast.LENGTH_SHORT).show();
@@ -143,7 +130,6 @@ public class ManageFeaturedPhotosActivity extends AppCompatActivity {
                     Toast.makeText(this, "Failed to update photo", Toast.LENGTH_SHORT).show());
         }
     }
-
     private void onReset() {
         titleField.setText("");
         descriptionField.setText("");
@@ -151,7 +137,6 @@ public class ManageFeaturedPhotosActivity extends AppCompatActivity {
         selectedImagePath = null;
         editingPhotoId = null;
     }
-
     private void loadPhotos() {
         ThreadPool.getExecutor().execute(() -> {
             photoDAO.getAllPhotos().addOnSuccessListener(dataSnapshot -> {
@@ -166,4 +151,4 @@ public class ManageFeaturedPhotosActivity extends AppCompatActivity {
             });
         });
     }
-}
+}

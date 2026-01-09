@@ -1,25 +1,20 @@
 package com.example.shipvoyage.ui.auth;
-
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-
 import com.example.shipvoyage.R;
 import com.example.shipvoyage.dao.UserDAO;
 import com.example.shipvoyage.model.User;
 import com.google.firebase.auth.FirebaseAuth;
-
 public class SignupActivity extends AppCompatActivity {
-
     private EditText usernameField;
     private EditText emailField;
     private EditText phoneField;
@@ -30,18 +25,14 @@ public class SignupActivity extends AppCompatActivity {
     private String selectedRole = "passenger";
     private UserDAO userDAO;
     private FirebaseAuth mAuth;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_signup);
-
-
         selectedRole = getIntent().getStringExtra("role") != null ? getIntent().getStringExtra("role") : "passenger";
         userDAO = new UserDAO();
         mAuth = FirebaseAuth.getInstance();
-
         usernameField = findViewById(R.id.usernameField);
         emailField = findViewById(R.id.emailField);
         phoneField = findViewById(R.id.phoneField);
@@ -49,18 +40,15 @@ public class SignupActivity extends AppCompatActivity {
         confirmPasswordField = findViewById(R.id.confirmPasswordField);
         signupBtn = findViewById(R.id.signupBtn);
         loginLink = findViewById(R.id.loginLink);
-
         signupBtn.setOnClickListener(v -> attemptSignup());
         loginLink.setOnClickListener(v -> finish());
     }
-
     private void attemptSignup() {
         String username = usernameField.getText().toString().trim();
         String email = emailField.getText().toString().trim();
         String phone = phoneField.getText().toString().trim();
         String password = passwordField.getText().toString();
         String confirm = confirmPasswordField.getText().toString();
-
         if (TextUtils.isEmpty(username) || TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
             Toast.makeText(this, "Username, email, and password are required", Toast.LENGTH_SHORT).show();
             return;
@@ -73,7 +61,6 @@ public class SignupActivity extends AppCompatActivity {
             Toast.makeText(this, "Password must be at least 6 characters", Toast.LENGTH_SHORT).show();
             return;
         }
-
         mAuth.createUserWithEmailAndPassword(email, password)
             .addOnSuccessListener(authResult -> {
                 String uid = authResult.getUser().getUid();
@@ -94,4 +81,4 @@ public class SignupActivity extends AppCompatActivity {
                 Toast.makeText(this, message + ": " + e.getMessage(), Toast.LENGTH_SHORT).show();
             });
     }
-}
+}

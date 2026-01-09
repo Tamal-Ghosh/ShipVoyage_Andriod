@@ -1,5 +1,4 @@
 package com.example.shipvoyage.adapter;
-
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -11,60 +10,47 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import java.net.HttpURLConnection;
 import java.net.URL;
-
 import com.example.shipvoyage.util.ThreadPool;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.shipvoyage.R;
 import com.example.shipvoyage.model.FeaturedPhoto;
-
 public class FeaturedPhotoAdapter extends ListAdapter<FeaturedPhoto, FeaturedPhotoAdapter.ViewHolder> {
-
     @FunctionalInterface
     public interface OnEditClickListener {
         void onEdit(FeaturedPhoto photo);
     }
-
     @FunctionalInterface
     public interface OnDeleteClickListener {
         void onDelete(FeaturedPhoto photo);
     }
-
     private final OnEditClickListener editListener;
     private final OnDeleteClickListener deleteListener;
-
     public FeaturedPhotoAdapter(OnEditClickListener editListener, OnDeleteClickListener deleteListener) {
         super(new FeaturedPhotoDiffCallback());
         this.editListener = editListener;
         this.deleteListener = deleteListener;
     }
-
     public FeaturedPhotoAdapter() {
         super(new FeaturedPhotoDiffCallback());
         this.editListener = null;
         this.deleteListener = null;
     }
-
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_featured_photo, parent, false);
         return new ViewHolder(view, editListener, deleteListener);
     }
-
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         FeaturedPhoto photo = getItem(position);
         holder.bind(photo);
     }
-
     static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView photoImage;
         TextView photoTitle, photoDescription;
@@ -72,7 +58,6 @@ public class FeaturedPhotoAdapter extends ListAdapter<FeaturedPhoto, FeaturedPho
         private FeaturedPhoto currentPhoto;
         private final boolean showEdit;
         private final boolean showDelete;
-
         ViewHolder(View itemView, OnEditClickListener editListener, OnDeleteClickListener deleteListener) {
             super(itemView);
             photoImage = itemView.findViewById(R.id.photoImage);
@@ -82,7 +67,6 @@ public class FeaturedPhotoAdapter extends ListAdapter<FeaturedPhoto, FeaturedPho
             deleteButton = itemView.findViewById(R.id.deleteButton);
             showEdit = editListener != null && editButton != null;
             showDelete = deleteListener != null && deleteButton != null;
-
             if (showEdit) {
                 editButton.setOnClickListener(v -> {
                     if (currentPhoto != null) {
@@ -92,7 +76,6 @@ public class FeaturedPhotoAdapter extends ListAdapter<FeaturedPhoto, FeaturedPho
             } else if (editButton != null) {
                 editButton.setVisibility(View.GONE);
             }
-
             if (showDelete) {
                 deleteButton.setOnClickListener(v -> {
                     if (currentPhoto != null) {
@@ -103,12 +86,10 @@ public class FeaturedPhotoAdapter extends ListAdapter<FeaturedPhoto, FeaturedPho
                 deleteButton.setVisibility(View.GONE);
             }
         }
-
         void bind(FeaturedPhoto photo) {
             this.currentPhoto = photo;
             photoTitle.setText(photo.getTitle() != null ? photo.getTitle() : "Featured Destination");
             photoDescription.setText(photo.getDescription() != null ? photo.getDescription() : "");
-
             if (photoImage != null) {
                 if (photo.getImagePath() != null && !photo.getImagePath().isEmpty()) {
                     loadImage(photo.getImagePath());
@@ -117,7 +98,6 @@ public class FeaturedPhotoAdapter extends ListAdapter<FeaturedPhoto, FeaturedPho
                 }
             }
         }
-
         private void loadImage(String path) {
             try {
                 Uri uri = Uri.parse(path);
@@ -138,7 +118,6 @@ public class FeaturedPhotoAdapter extends ListAdapter<FeaturedPhoto, FeaturedPho
                 photoImage.setImageResource(android.R.color.darker_gray);
             }
         }
-
         private Bitmap fetchBitmap(String urlString) {
             HttpURLConnection connection = null;
             try {
@@ -158,17 +137,15 @@ public class FeaturedPhotoAdapter extends ListAdapter<FeaturedPhoto, FeaturedPho
             }
         }
     }
-
     static class FeaturedPhotoDiffCallback extends DiffUtil.ItemCallback<FeaturedPhoto> {
         @Override
         public boolean areItemsTheSame(@NonNull FeaturedPhoto oldItem, @NonNull FeaturedPhoto newItem) {
             return oldItem.getId() != null && oldItem.getId().equals(newItem.getId());
         }
-
         @Override
         public boolean areContentsTheSame(@NonNull FeaturedPhoto oldItem, @NonNull FeaturedPhoto newItem) {
             return (oldItem.getTitle() != null ? oldItem.getTitle().equals(newItem.getTitle()) : newItem.getTitle() == null) &&
                    (oldItem.getDescription() != null ? oldItem.getDescription().equals(newItem.getDescription()) : newItem.getDescription() == null);
         }
     }
-}
+}

@@ -1,5 +1,4 @@
 package com.example.shipvoyage.ui.admin;
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -7,7 +6,6 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.Toast;
-
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -16,7 +14,6 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.shipvoyage.R;
 import com.example.shipvoyage.adapter.BookingAdapter;
 import com.example.shipvoyage.dao.BookingDAO;
@@ -30,17 +27,13 @@ import com.example.shipvoyage.model.User;
 import com.example.shipvoyage.util.AdminNavHelper;
 import com.example.shipvoyage.util.ThreadPool;
 import com.google.firebase.database.DataSnapshot;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 public class ViewBookingsActivity extends AppCompatActivity {
-
     private RecyclerView bookingsRecyclerView;
     private Spinner tourInstanceSpinner;
-
     private BookingDAO bookingDAO;
     private TourDAO tourDAO;
     private TourInstanceDAO tourInstanceDAO;
@@ -50,7 +43,6 @@ public class ViewBookingsActivity extends AppCompatActivity {
     private List<TourInstance> instancesList;
     private Map<String, User> usersMap;
     private BookingAdapter bookingAdapter;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,19 +50,16 @@ public class ViewBookingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_bookings);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.viewBookingsRoot), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, 0);
             return insets;
         });
-
         Toolbar toolbar = findViewById(R.id.toolbar);
         if (toolbar != null) {
             setSupportActionBar(toolbar);
-            // No back button on admin pages
             if (getSupportActionBar() != null) {
                 getSupportActionBar().setDisplayHomeAsUpEnabled(false);
             }
         }
-
         bookingDAO = new BookingDAO();
         tourDAO = new TourDAO();
         tourInstanceDAO = new TourInstanceDAO();
@@ -79,28 +68,22 @@ public class ViewBookingsActivity extends AppCompatActivity {
         toursList = new ArrayList<>();
         instancesList = new ArrayList<>();
         usersMap = new HashMap<>();
-
         initViews();
         loadUsers();
         loadTours();
         loadBookings();
     }
-
     private void initViews() {
         bookingsRecyclerView = findViewById(R.id.bookingsRecyclerView);
         tourInstanceSpinner = findViewById(R.id.tourInstanceSpinner);
-
         ImageButton menuBtn = findViewById(R.id.menuBtn);
         menuBtn.setOnClickListener(v -> AdminNavHelper.setupNavigationMenu(this, v));
-
         bookingsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
         bookingAdapter = new BookingAdapter(new BookingAdapter.OnBookingClickListener() {
             @Override
             public void onViewClick(Booking booking) {
                 Toast.makeText(ViewBookingsActivity.this, "Booking details: " + booking.getId(), Toast.LENGTH_SHORT).show();
             }
-
             @Override
             public void onDeleteClick(Booking booking) {
                 bookingDAO.deleteBooking(booking.getId()).addOnSuccessListener(unused -> {
@@ -111,16 +94,12 @@ public class ViewBookingsActivity extends AppCompatActivity {
                 });
             }
         });
-
         bookingsRecyclerView.setAdapter(bookingAdapter);
-
-        // Setup bottom navigation
         com.google.android.material.bottomnavigation.BottomNavigationView bottomNav = findViewById(R.id.bottomNavigationView);
         if (bottomNav != null) {
             AdminNavHelper.setupBottomNavigation(this, bottomNav);
         }
     }
-
     private void loadUsers() {
         userDAO.getAllUsers().addOnSuccessListener(dataSnapshot -> {
             ThreadPool.getExecutor().execute(() -> {
@@ -142,7 +121,6 @@ public class ViewBookingsActivity extends AppCompatActivity {
             });
         });
     }
-
     private void loadTours() {
         tourDAO.getAllTours().addOnSuccessListener(dataSnapshot -> {
             ThreadPool.getExecutor().execute(() -> {
@@ -165,14 +143,12 @@ public class ViewBookingsActivity extends AppCompatActivity {
             });
         });
     }
-
     private void loadInstances() {
         tourInstanceDAO.getAllTourInstances().addOnSuccessListener(dataSnapshot -> {
             ThreadPool.getExecutor().execute(() -> {
                 List<TourInstance> newInstances = new ArrayList<>();
                 List<String> instanceNames = new ArrayList<>();
                 instanceNames.add("All Tour Instances");
-
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     TourInstance instance = snapshot.getValue(TourInstance.class);
                     if (instance != null) {
@@ -186,21 +162,17 @@ public class ViewBookingsActivity extends AppCompatActivity {
                         instanceNames.add(instance.getTourName() + " - " + instance.getStartDate());
                     }
                 }
-
                 runOnUiThread(() -> {
                     instancesList.clear();
                     instancesList.addAll(newInstances);
-
                     ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, instanceNames);
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     tourInstanceSpinner.setAdapter(adapter);
-
                     tourInstanceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                             filterBookings();
                         }
-
                         @Override
                         public void onNothingSelected(AdapterView<?> parent) {
                         }
@@ -213,7 +185,6 @@ public class ViewBookingsActivity extends AppCompatActivity {
             });
         });
     }
-
     private void loadBookings() {
         bookingDAO.getAllBookings().addOnSuccessListener(dataSnapshot -> {
             ThreadPool.getExecutor().execute(() -> {
@@ -221,7 +192,6 @@ public class ViewBookingsActivity extends AppCompatActivity {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Booking booking = snapshot.getValue(Booking.class);
                     if (booking != null) {
-
                         User user = usersMap.get(booking.getUserId());
                         if (user != null) {
                             booking.setCustomerName(user.getName());
@@ -238,37 +208,28 @@ public class ViewBookingsActivity extends AppCompatActivity {
                 });
             });
         }).addOnFailureListener(e -> {
-
             runOnUiThread(() -> {
                 Toast.makeText(this, "Failed to load bookings", Toast.LENGTH_SHORT).show();
             });
         });
     }
-
     private void filterBookings() {
         int selectedPosition = tourInstanceSpinner.getSelectedItemPosition();
-        
         if (instancesList == null || instancesList.isEmpty()) {
             bookingAdapter.submitList(new ArrayList<>(bookingsList));
             return;
         }
-        
         if (selectedPosition == 0) {
             bookingAdapter.submitList(new ArrayList<>(bookingsList));
         } else if (selectedPosition - 1 < instancesList.size()) {
             TourInstance selectedInstance = instancesList.get(selectedPosition - 1);
             List<Booking> filteredList = new ArrayList<>();
-            
             for (Booking booking : bookingsList) {
                 if (booking.getTourInstanceId().equals(selectedInstance.getId())) {
                     filteredList.add(booking);
                 }
             }
-            
             bookingAdapter.submitList(filteredList);
         }
     }
-
-    // No back button
-}
-
+}

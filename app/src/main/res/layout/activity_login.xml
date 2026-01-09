@@ -2,59 +2,52 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/loginRoot"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="24dp"
-    android:id="@+id/loginRoot"
     android:background="@color/background"
+    android:padding="24dp"
     tools:context=".ui.auth.LoginActivity">
 
     <LinearLayout
         android:id="@+id/loginContainer"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:gravity="center_horizontal"
-        app:layout_constraintVertical_bias="0.4"
-        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.4"
         app:layout_constraintWidth_max="400dp">
 
         <!-- Brand / Header -->
-        <ImageView
-            android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:src="@android:drawable/ic_menu_compass"
-            app:tint="@color/primary"
-            android:layout_marginBottom="16dp" 
-            android:contentDescription="Logo" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:text="Welcome Back"
             android:textAppearance="@style/TextAppearance.ShipVoyage.HeadlineSmall"
             android:textColor="@color/primary"
-            android:textStyle="bold"
-            android:layout_marginBottom="8dp" />
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="32dp"
             android:text="Sign in to continue your voyage"
             android:textAppearance="@style/TextAppearance.ShipVoyage.BodyMedium"
-            android:textColor="@color/text_secondary"
-            android:layout_marginBottom="32dp" />
+            android:textColor="@color/text_secondary" />
 
         <!-- Form -->
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.ShipVoyage.TextInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Email Address"
             android:layout_marginBottom="16dp"
-            style="@style/Widget.ShipVoyage.TextInputLayout">
+            android:hint="Email Address">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/emailField"
@@ -64,12 +57,12 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            style="@style/Widget.ShipVoyage.TextInputLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Password"
             android:layout_marginBottom="24dp"
-            app:endIconMode="password_toggle"
-            style="@style/Widget.ShipVoyage.TextInputLayout">
+            android:hint="Password"
+            app:endIconMode="password_toggle">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/passwordField"
@@ -80,11 +73,11 @@
 
         <Button
             android:id="@+id/loginBtn"
+            style="@style/Widget.ShipVoyage.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Log In"
-            style="@style/Widget.ShipVoyage.Button"
-            android:layout_marginBottom="24dp" />
+            android:layout_marginBottom="24dp"
+            android:text="Log In" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -101,11 +94,11 @@
                 android:id="@+id/signupLink"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:clickable="true"
+                android:focusable="true"
                 android:text="Sign up"
                 android:textColor="@color/primary"
-                android:textStyle="bold"
-                android:clickable="true"
-                android:focusable="true"/>
+                android:textStyle="bold" />
         </LinearLayout>
 
     </LinearLayout>

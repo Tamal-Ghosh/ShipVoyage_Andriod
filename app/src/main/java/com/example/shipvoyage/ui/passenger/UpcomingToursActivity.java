@@ -1,8 +1,6 @@
 package com.example.shipvoyage.ui.passenger;
-
 import android.content.Intent;
 import android.os.Bundle;
-
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -12,7 +10,6 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.widget.Toast;
-
 import com.example.shipvoyage.R;
 import com.example.shipvoyage.adapter.TourSearchResultAdapter;
 import com.example.shipvoyage.dao.TourDAO;
@@ -25,22 +22,17 @@ import com.example.shipvoyage.util.ThreadPool;
 import com.example.shipvoyage.util.PassengerNavHelper;
 import com.google.firebase.database.DataSnapshot;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
 public class UpcomingToursActivity extends AppCompatActivity {
-    
     private RecyclerView recyclerView;
     private TourSearchResultAdapter adapter;
     private TourInstanceDAO tourInstanceDAO;
     private TourDAO tourDAO;
     private ShipDAO shipDAO;
-    
     private List<Tour> tours = new ArrayList<>();
     private List<Ship> ships = new ArrayList<>();
-    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,34 +40,26 @@ public class UpcomingToursActivity extends AppCompatActivity {
         setContentView(R.layout.activity_upcoming_tours);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.upcommingTourRoot), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, 0);
             return insets;
         });
-        
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        
-        // Setup bottom navigation
         BottomNavigationView bottomNav = findViewById(R.id.bottomNavigationView);
         PassengerNavHelper.setupBottomNavigation(this, bottomNav);
-        
         recyclerView = findViewById(R.id.upcomingToursRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        
         adapter = new TourSearchResultAdapter(instance -> {
             Intent intent = new Intent(this, BookingActivity.class);
             intent.putExtra("tourInstanceId", instance.getId());
             startActivity(intent);
         });
         recyclerView.setAdapter(adapter);
-        
         tourInstanceDAO = new TourInstanceDAO();
         tourDAO = new TourDAO();
         shipDAO = new ShipDAO();
-        
         loadData();
     }
-    
     private void loadData() {
         ThreadPool.getExecutor().execute(() -> {
             tourDAO.getAllTours().addOnSuccessListener(dataSnapshot -> {
@@ -92,7 +76,6 @@ public class UpcomingToursActivity extends AppCompatActivity {
             });
         });
     }
-    
     private void loadShips() {
         ThreadPool.getExecutor().execute(() -> {
             shipDAO.getAllShips().addOnSuccessListener(dataSnapshot -> {
@@ -109,13 +92,11 @@ public class UpcomingToursActivity extends AppCompatActivity {
             });
         });
     }
-    
     private void loadUpcomingTours() {
         ThreadPool.getExecutor().execute(() -> {
             tourInstanceDAO.getAllTourInstances().addOnSuccessListener(dataSnapshot -> {
                 List<TourInstance> upcomingInstances = new ArrayList<>();
                 LocalDate today = LocalDate.now();
-                
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     TourInstance instance = snapshot.getValue(TourInstance.class);
                     if (instance != null && instance.getStartDate() != null) {
@@ -140,7 +121,6 @@ public class UpcomingToursActivity extends AppCompatActivity {
                         }
                     }
                 }
-                
                 runOnUiThread(() -> {
                     adapter.submitList(upcomingInstances);
                     if (upcomingInstances.isEmpty()) {
@@ -152,4 +132,4 @@ public class UpcomingToursActivity extends AppCompatActivity {
             });
         });
     }
-}
+}

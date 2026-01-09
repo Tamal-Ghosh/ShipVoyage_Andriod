@@ -1,5 +1,4 @@
 package com.example.shipvoyage.ui.passenger;
-
 import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,7 +12,6 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -23,7 +21,6 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.shipvoyage.R;
 import com.example.shipvoyage.adapter.FeaturedPhotoAdapter;
 import com.example.shipvoyage.adapter.TourSearchResultAdapter;
@@ -43,7 +40,6 @@ import com.example.shipvoyage.util.ThreadPool;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DataSnapshot;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -54,9 +50,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
-
 public class PassengerHomeActivity extends AppCompatActivity {
-
     private AutoCompleteTextView fromField, toField;
     private TextInputEditText dateField;
     private Button searchButton;
@@ -64,24 +58,20 @@ public class PassengerHomeActivity extends AppCompatActivity {
     private RecyclerView searchResultsRecyclerView, featuredRecyclerView, upcomingRecyclerView;
     private TextView viewAllUpcoming;
     private TextView welcomeText;
-
     private TourSearchResultAdapter searchResultsAdapter;
     private FeaturedPhotoAdapter featuredAdapter;
     private UpcomingTripAdapter upcomingAdapter;
-
     private TourDAO tourDAO;
     private TourInstanceDAO tourInstanceDAO;
     private ShipDAO shipDAO;
     private PhotoDAO photoDAO;
     private UserDAO userDAO;
-
     private List<TourInstance> allInstances = new ArrayList<>();
     private Map<String, Tour> toursMap = new HashMap<>();
     private Map<String, Ship> shipsMap = new HashMap<>();
     private Set<String> fromLocations = new HashSet<>();
     private Set<String> toLocations = new HashSet<>();
     private String selectedDate = null;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,38 +82,31 @@ public class PassengerHomeActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, 0);
             return insets;
         });
-
         tourDAO = new TourDAO();
         tourInstanceDAO = new TourInstanceDAO();
         shipDAO = new ShipDAO();
         photoDAO = new PhotoDAO();
         userDAO = new UserDAO();
-
         initViews();
         loadData();
         loadUserProfile();
     }
-
     private void setupAutoComplete() {
         ArrayAdapter<String> fromAdapter = new ArrayAdapter<>(
             this,
             android.R.layout.simple_dropdown_item_1line,
             new ArrayList<>(fromLocations)
         );
-        
         ArrayAdapter<String> toAdapter = new ArrayAdapter<>(
             this,
             android.R.layout.simple_dropdown_item_1line,
             new ArrayList<>(toLocations)
         );
-        
         fromField.setAdapter(fromAdapter);
         fromField.setThreshold(1);
-        
         toField.setAdapter(toAdapter);
         toField.setThreshold(1);
     }
-
     private void initViews() {
         fromField = findViewById(R.id.fromField);
         toField = findViewById(R.id.toField);
@@ -135,15 +118,11 @@ public class PassengerHomeActivity extends AppCompatActivity {
         upcomingRecyclerView = findViewById(R.id.upcomingRecyclerView);
         viewAllUpcoming = findViewById(R.id.viewAllUpcoming);
         welcomeText = findViewById(R.id.welcomeText);
-
         dateField.setOnClickListener(v -> showDatePicker());
         searchButton.setOnClickListener(v -> searchTours());
         viewAllUpcoming.setOnClickListener(v -> startActivity(new Intent(this, UpcomingToursActivity.class)));
-
-        // Setup bottom navigation
         BottomNavigationView bottomNav = findViewById(R.id.bottomNavigationView);
         PassengerNavHelper.setupBottomNavigation(this, bottomNav);
-
         searchResultsAdapter = new TourSearchResultAdapter(instance -> {
             Intent intent = new Intent(this, BookingActivity.class);
             intent.putExtra("tourInstanceId", instance.getId());
@@ -151,23 +130,18 @@ public class PassengerHomeActivity extends AppCompatActivity {
         });
         searchResultsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         searchResultsRecyclerView.setAdapter(searchResultsAdapter);
-
         featuredAdapter = new FeaturedPhotoAdapter();
         featuredRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         featuredRecyclerView.setAdapter(featuredAdapter);
-
         upcomingAdapter = new UpcomingTripAdapter();
         upcomingRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         upcomingRecyclerView.setAdapter(upcomingAdapter);
     }
-    
     private void loadUserProfile() {
         com.google.firebase.auth.FirebaseUser currentUser = com.google.firebase.auth.FirebaseAuth.getInstance().getCurrentUser();
         if (currentUser == null) {
-            // User not logged in, keep default greeting
             return;
         }
-        
         String userId = currentUser.getUid();
         userDAO.getUser(userId).addOnSuccessListener(snapshot -> {
             User user = snapshot.getValue(User.class);
@@ -175,10 +149,8 @@ public class PassengerHomeActivity extends AppCompatActivity {
                 welcomeText.setText("Ahoy, " + user.getUsername() + "!");
             }
         }).addOnFailureListener(e -> {
-            // Keep default text if fetch fails
         });
     }
-
     private void loadData() {
         loadTours();
         loadShips();
@@ -186,8 +158,6 @@ public class PassengerHomeActivity extends AppCompatActivity {
         loadFeaturedPhotos();
         loadUpcomingTrips();
     }
-    // ... rest of file
-
     private void loadTours() {
         tourDAO.getAllTours().addOnSuccessListener(dataSnapshot -> {
             ThreadPool.getExecutor().execute(() -> {
@@ -214,7 +184,6 @@ public class PassengerHomeActivity extends AppCompatActivity {
             });
         });
     }
-
     private void loadShips() {
         shipDAO.getAllShips().addOnSuccessListener(dataSnapshot -> {
             ThreadPool.getExecutor().execute(() -> {
@@ -232,7 +201,6 @@ public class PassengerHomeActivity extends AppCompatActivity {
             });
         });
     }
-
     private void loadInstances() {
         tourInstanceDAO.getAllTourInstances().addOnSuccessListener(dataSnapshot -> {
             ThreadPool.getExecutor().execute(() -> {
@@ -258,7 +226,6 @@ public class PassengerHomeActivity extends AppCompatActivity {
             });
         });
     }
-
     private void loadFeaturedPhotos() {
         photoDAO.getAllPhotos().addOnSuccessListener(dataSnapshot -> {
             ThreadPool.getExecutor().execute(() -> {
@@ -285,7 +252,6 @@ public class PassengerHomeActivity extends AppCompatActivity {
             runOnUiThread(() -> Toast.makeText(this, "Failed to load photos: " + e.getMessage(), Toast.LENGTH_SHORT).show());
         });
     }
-
     private void loadUpcomingTrips() {
         tourInstanceDAO.getAllTourInstances().addOnSuccessListener(dataSnapshot -> {
             ThreadPool.getExecutor().execute(() -> {
@@ -313,7 +279,6 @@ public class PassengerHomeActivity extends AppCompatActivity {
             });
         });
     }
-
     private void showDatePicker() {
         Calendar calendar = Calendar.getInstance();
         DatePickerDialog datePickerDialog = new DatePickerDialog(this,
@@ -328,16 +293,13 @@ public class PassengerHomeActivity extends AppCompatActivity {
                 calendar.get(Calendar.DAY_OF_MONTH));
         datePickerDialog.show();
     }
-
     private void searchTours() {
         String from = fromField.getText() != null ? fromField.getText().toString().trim() : "";
         String to = toField.getText() != null ? toField.getText().toString().trim() : "";
-
         if (from.isEmpty() || to.isEmpty() || selectedDate == null) {
             Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
             return;
         }
-
         List<TourInstance> results = new ArrayList<>();
         for (TourInstance instance : allInstances) {
             Tour tour = toursMap.get(instance.getTourId());
@@ -348,7 +310,6 @@ public class PassengerHomeActivity extends AppCompatActivity {
                 results.add(instance);
             }
         }
-
         if (results.isEmpty()) {
             Toast.makeText(this, "No tours found", Toast.LENGTH_SHORT).show();
         } else {
@@ -356,7 +317,6 @@ public class PassengerHomeActivity extends AppCompatActivity {
             resultsSection.setVisibility(View.VISIBLE);
         }
     }
-
     private void showHome() {
         fromField.setText("");
         toField.setText("");
@@ -364,5 +324,8 @@ public class PassengerHomeActivity extends AppCompatActivity {
         selectedDate = null;
         resultsSection.setVisibility(View.GONE);
     }
-}
-
+    @Override
+    public void onBackPressed() {
+        finishAffinity();
+    }
+}

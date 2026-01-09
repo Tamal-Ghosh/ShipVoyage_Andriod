@@ -1,8 +1,6 @@
 package com.example.shipvoyage.model;
-
 import java.io.Serializable;
 import java.util.List;
-
 public class Booking implements Serializable {
     public String id;
     public String tourInstanceId;
@@ -12,19 +10,15 @@ public class Booking implements Serializable {
     public String status;
     public String paymentMethod;
     public String bookingDate;
-    
     public transient String customerName;
     public transient String customerEmail;
     public transient String customerPhone;
-    
     public transient String tourName;
     public transient String fromLocation;
     public transient String toLocation;
     public transient String departureDate;
     public transient String returnDate;
-
     public Booking() {}
-
     public Booking(String id, String tourInstanceId, String userId, List<String> selectedRooms, double price, String status, String paymentMethod) {
         this.id = id;
         this.tourInstanceId = tourInstanceId;
@@ -34,139 +28,106 @@ public class Booking implements Serializable {
         this.status = status;
         this.paymentMethod = paymentMethod;
     }
-
     public String getId() {
         return id;
     }
-
     public void setId(String id) {
         this.id = id;
     }
-
     public String getTourInstanceId() {
         return tourInstanceId;
     }
-
     public void setTourInstanceId(String tourInstanceId) {
         this.tourInstanceId = tourInstanceId;
     }
-
     public String getUserId() {
         return userId;
     }
-
     public void setUserId(String userId) {
         this.userId = userId;
     }
-
     public List<String> getSelectedRooms() {
         return selectedRooms;
     }
-
     public void setSelectedRooms(List<String> selectedRooms) {
         this.selectedRooms = selectedRooms;
     }
-
     public double getPrice() {
         return price;
     }
-
     public void setPrice(double price) {
         this.price = price;
     }
-
     public String getStatus() {
         return status;
     }
-
     public void setStatus(String status) {
         this.status = status;
     }
-
     public String getPaymentMethod() {
         return paymentMethod;
     }
-
     public void setPaymentMethod(String paymentMethod) {
         this.paymentMethod = paymentMethod;
     }
-
     public String getBookingDate() {
         return bookingDate;
     }
-
     public void setBookingDate(String bookingDate) {
         this.bookingDate = bookingDate;
     }
-
     public String getCustomerName() {
         return customerName;
     }
-
     public void setCustomerName(String customerName) {
         this.customerName = customerName;
     }
-
     public String getCustomerEmail() {
         return customerEmail;
     }
-
     public void setCustomerEmail(String customerEmail) {
         this.customerEmail = customerEmail;
     }
-
     public String getCustomerPhone() {
         return customerPhone;
     }
-
     public void setCustomerPhone(String customerPhone) {
         this.customerPhone = customerPhone;
     }
-
     public String getSelectedRoomsString() {
         if (selectedRooms == null || selectedRooms.isEmpty()) {
             return "N/A";
         }
         return String.join(", ", selectedRooms);
     }
-
     public String getTourName() {
         return tourName;
     }
-
     public void setTourName(String tourName) {
         this.tourName = tourName;
     }
-
     public String getFromLocation() {
         return fromLocation;
     }
-
     public void setFromLocation(String fromLocation) {
         this.fromLocation = fromLocation;
     }
-
     public String getToLocation() {
         return toLocation;
     }
-
     public void setToLocation(String toLocation) {
         this.toLocation = toLocation;
     }
-
     public String getDepartureDate() {
         return departureDate;
     }
-
     public void setDepartureDate(String departureDate) {
         this.departureDate = departureDate;
     }
-
     public String getReturnDate() {
         return returnDate;
     }
-
     public void setReturnDate(String returnDate) {
         this.returnDate = returnDate;
     }
-}
+}
