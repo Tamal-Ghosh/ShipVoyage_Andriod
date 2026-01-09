@@ -1,79 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/padding_small"
-    app:cardCornerRadius="@dimen/corner_radius_medium"
-    app:cardElevation="@dimen/elevation_small"
-    app:cardBackgroundColor="@color/card_bg">
+    android:layout_marginHorizontal="16dp"
+    android:layout_marginVertical="8dp"
+    style="@style/Widget.ShipVoyage.CardView">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:padding="@dimen/padding_large">
+        android:padding="16dp">
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/tourName"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
+            android:text="Caribbean Delight"
+            android:textAppearance="@style/TextAppearance.ShipVoyage.TitleMedium"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/editBtn" />
 
-            <TextView
-                android:id="@+id/tourName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Tour Name"
-                style="@style/TextAppearance.Title"
-                android:layout_marginBottom="@dimen/padding_xsmall" />
+        <TextView
+            android:id="@+id/tourRoute"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Miami → Nassau"
+            android:textAppearance="@style/TextAppearance.ShipVoyage.BodyMedium"
+            android:layout_marginTop="4dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/editBtn"
+            app:layout_constraintTop_toBottomOf="@+id/tourName" />
 
-            <TextView
-                android:id="@+id/tourRoute"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="From → To"
-                style="@style/TextAppearance.Body"
-                android:textColor="@color/text_secondary"
-                android:layout_marginBottom="@dimen/padding_xsmall" />
+        <TextView
+            android:id="@+id/tourDescription"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="A wonderful journey through the crystal clear waters..."
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:textAppearance="@style/TextAppearance.ShipVoyage.LabelSmall"
+            android:textColor="@color/text_tertiary"
+            android:layout_marginTop="8dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tourRoute"
+            app:layout_constraintBottom_toBottomOf="parent" />
 
-            <TextView
-                android:id="@+id/tourDescription"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Description"
-                style="@style/TextAppearance.BodySmall"
-                android:textColor="@color/text_tertiary"
-                android:maxLines="2"
-                android:ellipsize="end" />
-
-        </LinearLayout>
-
-        <LinearLayout
+        <!-- Actions -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/editBtn"
+            style="@style/Widget.Material3.Button.IconButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical">
+            app:icon="@android:drawable/ic_menu_edit"
+            app:iconTint="@color/secondary"
+            app:layout_constraintEnd_toStartOf="@+id/deleteBtn"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageButton
-                android:id="@+id/editBtn"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@android:drawable/ic_menu_edit"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="Edit"
-                android:layout_marginEnd="@dimen/padding_small" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/deleteBtn"
+            style="@style/Widget.Material3.Button.IconButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:icon="@android:drawable/ic_menu_delete"
+            app:iconTint="@color/error"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageButton
-                android:id="@+id/deleteBtn"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@android:drawable/ic_menu_delete"
-                android:background="?attr/selectableItemBackgroundBorderless"
-                android:contentDescription="Delete" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </LinearLayout>
-
-    </LinearLayout>
-
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

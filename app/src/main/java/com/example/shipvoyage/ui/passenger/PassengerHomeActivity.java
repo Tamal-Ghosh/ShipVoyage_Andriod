@@ -32,13 +32,16 @@ import com.example.shipvoyage.dao.PhotoDAO;
 import com.example.shipvoyage.dao.ShipDAO;
 import com.example.shipvoyage.dao.TourDAO;
 import com.example.shipvoyage.dao.TourInstanceDAO;
+import com.example.shipvoyage.dao.UserDAO;
 import com.example.shipvoyage.model.FeaturedPhoto;
 import com.example.shipvoyage.model.Ship;
 import com.example.shipvoyage.model.Tour;
 import com.example.shipvoyage.model.TourInstance;
+import com.example.shipvoyage.model.User;
 import com.example.shipvoyage.util.PassengerNavHelper;
 import com.example.shipvoyage.util.ThreadPool;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DataSnapshot;
 
 import java.text.SimpleDateFormat;
@@ -57,10 +60,10 @@ public class PassengerHomeActivity extends AppCompatActivity {
     private AutoCompleteTextView fromField, toField;
     private TextInputEditText dateField;
     private Button searchButton;
-    private ImageButton menuBtn;
-    private LinearLayout heroSection, resultsSection;
+    private LinearLayout resultsSection;
     private RecyclerView searchResultsRecyclerView, featuredRecyclerView, upcomingRecyclerView;
     private TextView viewAllUpcoming;
+    private TextView welcomeText;
 
     private TourSearchResultAdapter searchResultsAdapter;
     private FeaturedPhotoAdapter featuredAdapter;
@@ -70,6 +73,7 @@ public class PassengerHomeActivity extends AppCompatActivity {
     private TourInstanceDAO tourInstanceDAO;
     private ShipDAO shipDAO;
     private PhotoDAO photoDAO;
+    private UserDAO userDAO;
 
     private List<TourInstance> allInstances = new ArrayList<>();
     private Map<String, Tour> toursMap = new HashMap<>();
@@ -85,20 +89,19 @@ public class PassengerHomeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_passenger_home);
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.passengerHomeRoot), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, 0);
             return insets;
         });
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
 
         tourDAO = new TourDAO();
         tourInstanceDAO = new TourInstanceDAO();
         shipDAO = new ShipDAO();
         photoDAO = new PhotoDAO();
+        userDAO = new UserDAO();
 
         initViews();
         loadData();
+        loadUserProfile();
     }
 
     private void setupAutoComplete() {
@@ -126,18 +129,20 @@ public class PassengerHomeActivity extends AppCompatActivity {
         toField = findViewById(R.id.toField);
         dateField = findViewById(R.id.dateField);
         searchButton = findViewById(R.id.searchButton);
-        menuBtn = findViewById(R.id.menuBtn);
-        heroSection = findViewById(R.id.heroSection);
         resultsSection = findViewById(R.id.resultsSection);
         searchResultsRecyclerView = findViewById(R.id.searchResultsRecyclerView);
         featuredRecyclerView = findViewById(R.id.featuredRecyclerView);
         upcomingRecyclerView = findViewById(R.id.upcomingRecyclerView);
         viewAllUpcoming = findViewById(R.id.viewAllUpcoming);
+        welcomeText = findViewById(R.id.welcomeText);
 
         dateField.setOnClickListener(v -> showDatePicker());
         searchButton.setOnClickListener(v -> searchTours());
-        menuBtn.setOnClickListener(v -> PassengerNavHelper.setupNavigationMenu(this, v));
         viewAllUpcoming.setOnClickListener(v -> startActivity(new Intent(this, UpcomingToursActivity.class)));
+
+        // Setup bottom navigation
+        BottomNavigationView bottomNav = findViewById(R.id.bottomNavigationView);
+        PassengerNavHelper.setupBottomNavigation(this, bottomNav);
 
         searchResultsAdapter = new TourSearchResultAdapter(instance -> {
             Intent intent = new Intent(this, BookingActivity.class);
@@ -155,6 +160,24 @@ public class PassengerHomeActivity extends AppCompatActivity {
         upcomingRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         upcomingRecyclerView.setAdapter(upcomingAdapter);
     }
+    
+    private void loadUserProfile() {
+        com.google.firebase.auth.FirebaseUser currentUser = com.google.firebase.auth.FirebaseAuth.getInstance().getCurrentUser();
+        if (currentUser == null) {
+            // User not logged in, keep default greeting
+            return;
+        }
+        
+        String userId = currentUser.getUid();
+        userDAO.getUser(userId).addOnSuccessListener(snapshot -> {
+            User user = snapshot.getValue(User.class);
+            if (user != null && user.getUsername() != null) {
+                welcomeText.setText("Ahoy, " + user.getUsername() + "!");
+            }
+        }).addOnFailureListener(e -> {
+            // Keep default text if fetch fails
+        });
+    }
 
     private void loadData() {
         loadTours();
@@ -163,6 +186,7 @@ public class PassengerHomeActivity extends AppCompatActivity {
         loadFeaturedPhotos();
         loadUpcomingTrips();
     }
+    // ... rest of file
 
     private void loadTours() {
         tourDAO.getAllTours().addOnSuccessListener(dataSnapshot -> {

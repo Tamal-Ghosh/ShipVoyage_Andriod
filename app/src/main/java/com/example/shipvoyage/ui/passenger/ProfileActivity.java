@@ -20,7 +20,9 @@ import com.example.shipvoyage.dao.BookingDAO;
 import com.example.shipvoyage.dao.UserDAO;
 import com.example.shipvoyage.model.User;
 import com.example.shipvoyage.ui.auth.UserTypeActivity;
+import com.example.shipvoyage.util.PassengerNavHelper;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DataSnapshot;
 
 import java.text.SimpleDateFormat;
@@ -62,13 +64,22 @@ public class ProfileActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
+
+        // Setup bottom navigation
+        BottomNavigationView bottomNav = findViewById(R.id.bottomNavigationView);
+        PassengerNavHelper.setupBottomNavigation(this, bottomNav);
 
         userDAO = new UserDAO();
         bookingDAO = new BookingDAO();
         mAuth = FirebaseAuth.getInstance();
+
+        // If no authenticated user, redirect to login/role selection
+        if (mAuth.getCurrentUser() == null) {
+            Toast.makeText(this, "Please log in to view your profile", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(this, UserTypeActivity.class));
+            finish();
+            return;
+        }
 
         initViews();
         loadUserProfile();
@@ -97,6 +108,10 @@ public class ProfileActivity extends AppCompatActivity {
     }
 
     private void loadUserProfile() {
+        if (mAuth.getCurrentUser() == null) {
+            // Not logged in; fields remain empty
+            return;
+        }
         currentUserId = mAuth.getCurrentUser().getUid();
         userDAO.getUser(currentUserId).addOnSuccessListener(snapshot -> {
             User user = snapshot.getValue(User.class);
@@ -190,6 +205,10 @@ public class ProfileActivity extends AppCompatActivity {
             return;
         }
 
+        if (mAuth.getCurrentUser() == null) {
+            Toast.makeText(this, "Please log in to change password", Toast.LENGTH_SHORT).show();
+            return;
+        }
         String email = mAuth.getCurrentUser().getEmail();
         mAuth.signInWithEmailAndPassword(email, currentPassword)
             .addOnSuccessListener(authResult -> {

@@ -22,7 +22,9 @@ import com.example.shipvoyage.model.Tour;
 import com.example.shipvoyage.model.Ship;
 import com.example.shipvoyage.model.TourInstance;
 import com.example.shipvoyage.util.ThreadPool;
+import com.example.shipvoyage.util.PassengerNavHelper;
 import com.google.firebase.database.DataSnapshot;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -52,8 +54,10 @@ public class UpcomingToursActivity extends AppCompatActivity {
         
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        toolbar.setNavigationOnClickListener(v -> finish());
+        
+        // Setup bottom navigation
+        BottomNavigationView bottomNav = findViewById(R.id.bottomNavigationView);
+        PassengerNavHelper.setupBottomNavigation(this, bottomNav);
         
         recyclerView = findViewById(R.id.upcomingToursRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

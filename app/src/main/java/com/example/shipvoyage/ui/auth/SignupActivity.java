@@ -7,7 +7,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import com.example.shipvoyage.R;
 import com.example.shipvoyage.dao.UserDAO;
@@ -30,7 +34,9 @@ public class SignupActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_signup);
+
 
         selectedRole = getIntent().getStringExtra("role") != null ? getIntent().getStringExtra("role") : "passenger";
         userDAO = new UserDAO();

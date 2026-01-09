@@ -1,8 +1,39 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
     <style name="Base.Theme.ShipVoyage" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <!-- Brand Colors -->
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryContainer">@color/primary_light</item>
+        <item name="colorOnPrimary">@color/white</item>
+        
+        <item name="colorSecondary">@color/secondary</item>
+        <item name="colorSecondaryContainer">@color/secondary_light</item>
+        <item name="colorOnSecondary">@color/white</item>
+        
+        <item name="colorTertiary">@color/accent</item>
+        <item name="colorOnTertiary">@color/white</item>
+
+        <!-- Backgrounds & Surfaces -->
+        <item name="android:colorBackground">@color/background</item>
+        <item name="colorSurface">@color/surface</item>
+        <item name="colorSurfaceVariant">@color/surface_variant</item>
+        <item name="colorOnSurface">@color/text_primary</item>
+        <item name="colorOnSurfaceVariant">@color/text_secondary</item>
+        <item name="colorOutline">@color/border</item>
+        
+        <!-- Typography -->
+        <item name="textAppearanceHeadlineSmall">@style/TextAppearance.ShipVoyage.HeadlineSmall</item>
+        <item name="textAppearanceTitleMedium">@style/TextAppearance.ShipVoyage.TitleMedium</item>
+        <item name="textAppearanceBodyMedium">@style/TextAppearance.ShipVoyage.BodyMedium</item>
+
+        <!-- Component Styles -->
+        <item name="buttonStyle">@style/Widget.ShipVoyage.Button</item>
+        <item name="textInputStyle">@style/Widget.ShipVoyage.TextInputLayout</item>
+        <item name="materialCardViewStyle">@style/Widget.ShipVoyage.CardView</item>
+
+        <!-- Status Bar -->
+        <item name="android:statusBarColor">@color/primary</item>
+        <item name="android:windowLightStatusBar">false</item>
     </style>
 
     <style name="Theme.ShipVoyage" parent="Base.Theme.ShipVoyage" />

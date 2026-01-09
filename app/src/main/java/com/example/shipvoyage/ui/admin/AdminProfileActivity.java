@@ -56,9 +56,12 @@ public class AdminProfileActivity extends AppCompatActivity {
         });
 
         Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (toolbar != null) {
+            setSupportActionBar(toolbar);
+            // No back button on admin pages
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            }
         }
 
         userDAO = new UserDAO();
@@ -85,10 +88,20 @@ public class AdminProfileActivity extends AppCompatActivity {
         logoutButton.setOnClickListener(v -> logout());
         changePasswordButton.setOnClickListener(v -> changePassword());
 
+        // Setup bottom navigation
+        com.google.android.material.bottomnavigation.BottomNavigationView bottomNav = findViewById(R.id.bottomNavigationView);
+        if (bottomNav != null) {
+            com.example.shipvoyage.util.AdminNavHelper.setupBottomNavigation(this, bottomNav);
+        }
+
         setFieldsEnabled(false);
     }
 
     private void loadUserProfile() {
+        if (mAuth.getCurrentUser() == null) {
+            Toast.makeText(this, "Authentication required", Toast.LENGTH_SHORT).show();
+            return;
+        }
         currentUserId = mAuth.getCurrentUser().getUid();
         userDAO.getUser(currentUserId).addOnSuccessListener(snapshot -> {
             User user = snapshot.getValue(User.class);

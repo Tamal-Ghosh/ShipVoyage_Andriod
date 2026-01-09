@@ -13,7 +13,8 @@
         android:theme="@style/Theme.ShipVoyage">
         <activity
             android:name=".MainActivity"
-            android:exported="true" />
+            android:exported="true" >
+        </activity>
 
         <!-- Auth Activities -->
         <activity android:name=".ui.auth.LoginActivity" android:exported="false" />
@@ -28,15 +29,15 @@
         </activity>
 
         <!-- Admin Activities -->
-        <activity android:name=".ui.admin.AdminDashboardActivity" android:exported="false" />
-        <activity android:name=".ui.admin.ManageShipsActivity" android:exported="false" />
-        <activity android:name=".ui.admin.ManageRoomsActivity" android:exported="false" />
-        <activity android:name=".ui.admin.ManageToursActivity" android:exported="false" />
-        <activity android:name=".ui.admin.ManageTourInstancesActivity" android:exported="false" />
-        <activity android:name=".ui.admin.ManageFeaturedPhotosActivity" android:exported="false" />
-        <activity android:name=".ui.admin.ViewBookingsActivity" android:exported="false" />
-        <activity android:name=".ui.admin.CustomerListActivity" android:exported="false" />
-        <activity android:name=".ui.admin.AdminProfileActivity" android:exported="false" />
+        <activity android:name=".ui.admin.AdminDashboardActivity" android:exported="false" android:hardwareAccelerated="false" />
+        <activity android:name=".ui.admin.ManageShipsActivity" android:exported="false" android:hardwareAccelerated="false" />
+        <activity android:name=".ui.admin.ManageRoomsActivity" android:exported="false" android:hardwareAccelerated="false" />
+        <activity android:name=".ui.admin.ManageToursActivity" android:exported="false" android:hardwareAccelerated="false" />
+        <activity android:name=".ui.admin.ManageTourInstancesActivity" android:exported="false" android:hardwareAccelerated="false" />
+        <activity android:name=".ui.admin.ManageFeaturedPhotosActivity" android:exported="false" android:hardwareAccelerated="false" />
+        <activity android:name=".ui.admin.ViewBookingsActivity" android:exported="false" android:hardwareAccelerated="false" />
+        <activity android:name=".ui.admin.CustomerListActivity" android:exported="false" android:hardwareAccelerated="false" />
+        <activity android:name=".ui.admin.AdminProfileActivity" android:exported="false" android:hardwareAccelerated="false" />
 
         <!-- Passenger Activities -->
         <activity android:name=".ui.passenger.PassengerHomeActivity" android:exported="false" />

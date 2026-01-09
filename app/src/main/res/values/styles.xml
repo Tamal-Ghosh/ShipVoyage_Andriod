@@ -1,115 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <style name="AppTheme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/primary</item>
-        <item name="colorPrimaryVariant">@color/primary_dark</item>
-        <item name="colorSecondary">@color/secondary</item>
-        <item name="colorSecondaryVariant">@color/secondary_dark</item>
-        <item name="android:colorBackground">@color/background</item>
-        <item name="android:colorForeground">@color/text_primary</item>
-    </style>
-
-    <!-- Text Styles -->
-    <style name="TextAppearance" parent="android:TextAppearance" />
-
-    <style name="TextAppearance.SectionTitle" parent="android:TextAppearance">
-        <item name="android:textSize">@dimen/text_size_section_title</item>
+    <!-- Typography -->
+    <style name="TextAppearance.ShipVoyage.HeadlineSmall" parent="TextAppearance.Material3.HeadlineSmall">
+        <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:textColor">@color/text_primary</item>
-        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">24sp</item>
     </style>
 
-    <style name="TextAppearance.Heading" parent="android:TextAppearance">
-        <item name="android:textSize">@dimen/text_size_heading</item>
+    <style name="TextAppearance.ShipVoyage.TitleMedium" parent="TextAppearance.Material3.TitleMedium">
+        <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:textColor">@color/text_primary</item>
-        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
-    <style name="TextAppearance.Title" parent="android:TextAppearance">
-        <item name="android:textSize">@dimen/text_size_title</item>
-        <item name="android:textColor">@color/text_primary</item>
-        <item name="android:textStyle">bold</item>
-    </style>
-
-    <style name="TextAppearance.Subtitle" parent="android:TextAppearance">
-        <item name="android:textSize">@dimen/text_size_subtitle</item>
+    <style name="TextAppearance.ShipVoyage.BodyMedium" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:fontFamily">sans-serif</item>
         <item name="android:textColor">@color/text_secondary</item>
+        <item name="android:textSize">14sp</item>
     </style>
-
-    <style name="TextAppearance.Body" parent="android:TextAppearance">
-        <item name="android:textSize">@dimen/text_size_body</item>
-        <item name="android:textColor">@color/text_primary</item>
-    </style>
-
-    <style name="TextAppearance.BodySmall" parent="android:TextAppearance">
-        <item name="android:textSize">@dimen/text_size_small</item>
+    
+    <style name="TextAppearance.ShipVoyage.LabelSmall" parent="TextAppearance.Material3.LabelSmall">
+        <item name="android:fontFamily">sans-serif-medium</item>
         <item name="android:textColor">@color/text_tertiary</item>
+        <item name="android:textSize">11sp</item>
+        <item name="android:letterSpacing">0.05</item>
     </style>
 
-    <!-- Button Styles -->
-    <style name="ButtonStyle.Primary" parent="Widget.AppCompat.Button.Colored">
-        <item name="android:textColor">@color/text_white</item>
+    <!-- Buttons -->
+    <style name="Widget.ShipVoyage.Button" parent="Widget.Material3.Button">
         <item name="backgroundTint">@color/primary</item>
-        <item name="cornerRadius">@dimen/corner_radius_medium</item>
-        <item name="android:textSize">@dimen/text_size_subtitle</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="cornerRadius">8dp</item>
+        <item name="android:paddingVertical">12dp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
     </style>
 
-    <style name="ButtonStyle.Secondary" parent="Widget.AppCompat.Button.Colored">
-        <item name="android:textColor">@color/text_white</item>
-        <item name="backgroundTint">@color/secondary</item>
-        <item name="cornerRadius">@dimen/corner_radius_medium</item>
-        <item name="android:textSize">@dimen/text_size_subtitle</item>
+    <style name="Widget.ShipVoyage.Button.Outlined" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="android:textColor">@color/primary</item>
+        <item name="strokeColor">@color/primary</item>
+        <item name="cornerRadius">8dp</item>
     </style>
-
-    <style name="ButtonStyle.Accent" parent="Widget.AppCompat.Button.Colored">
-        <item name="android:textColor">@color/text_white</item>
-        <item name="backgroundTint">@color/accent</item>
-        <item name="cornerRadius">@dimen/corner_radius_medium</item>
-        <item name="android:textSize">@dimen/text_size_subtitle</item>
-    </style>
-
-    <style name="ButtonStyle.Ghost" parent="Widget.AppCompat.Button.Borderless">
-        <item name="android:textColor">@color/text_secondary</item>
-        <item name="cornerRadius">@dimen/corner_radius_medium</item>
-        <item name="strokeColor">@color/border</item>
-    </style>
-
-    <!-- Card Styles -->
-    <style name="CardStyle" />
     
-    <style name="CardStyle.Default">
-        <item name="android:background">@color/card_bg</item>
-        <item name="android:elevation">@dimen/elevation_medium</item>
+    <style name="Widget.ShipVoyage.Button.Text" parent="Widget.Material3.Button.TextButton">
+        <item name="android:textColor">@color/primary</item>
     </style>
 
-    <!-- Input Field Styles -->
-    <style name="EditTextStyle" />
-    
-    <style name="EditTextStyle.Outline">
-        <item name="android:textColor">@color/text_primary</item>
+    <!-- Text Fields -->
+    <style name="Widget.ShipVoyage.TextInputLayout" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/primary</item>
+        <item name="boxCornerRadiusTopStart">8dp</item>
+        <item name="boxCornerRadiusTopEnd">8dp</item>
+        <item name="boxCornerRadiusBottomStart">8dp</item>
+        <item name="boxCornerRadiusBottomEnd">8dp</item>
         <item name="android:textColorHint">@color/text_tertiary</item>
-        <item name="android:paddingStart">@dimen/input_padding</item>
-        <item name="android:paddingEnd">@dimen/input_padding</item>
-        <item name="android:paddingTop">@dimen/input_padding</item>
-        <item name="android:paddingBottom">@dimen/input_padding</item>
     </style>
 
-    <!-- Status Badge Styles -->
-    <style name="Badge" parent="Widget.AppCompat.Button.Colored">
-        <item name="android:textSize">@dimen/text_size_small</item>
-        <item name="android:paddingStart">@dimen/padding_small</item>
-        <item name="android:paddingEnd">@dimen/padding_small</item>
-        <item name="android:paddingTop">@dimen/padding_xsmall</item>
-        <item name="android:paddingBottom">@dimen/padding_xsmall</item>
+    <!-- Cards -->
+    <style name="Widget.ShipVoyage.CardView" parent="Widget.Material3.CardView.Elevated">
+        <item name="cardBackgroundColor">@color/surface</item>
+        <item name="cardCornerRadius">12dp</item>
+        <item name="cardElevation">2dp</item>
+        <item name="strokeColor">@color/transparent</item>
     </style>
 
+    <!-- Legacy / Helper Styles -->
+    <style name="Badge" parent="Widget.AppCompat.TextView">
+        <item name="android:textSize">12sp</item>
+        <item name="android:paddingHorizontal">8dp</item>
+        <item name="android:paddingVertical">4dp</item>
+        <item name="android:background">@drawable/bg_badge</item> <!-- Assumes shape drawable exists or needs creation, falling back to simple View usage if complex -->
+        <item name="android:textColor">@color/white</item>
+    </style>
+    
+    <!-- Redefine styles used in layouts to map to new system -->
+    <style name="TextAppearance.Title" parent="TextAppearance.ShipVoyage.TitleMedium"/>
+    <style name="TextAppearance.Body" parent="TextAppearance.ShipVoyage.BodyMedium"/>
+    <style name="TextAppearance.BodySmall" parent="TextAppearance.ShipVoyage.LabelSmall"/>
+
+    <!-- Legacy / Compatibility Styles (Do not remove until all screens are refactored) -->
+    <style name="ButtonStyle.Primary" parent="Widget.ShipVoyage.Button"/>
+    
+    <style name="ButtonStyle.Ghost" parent="Widget.ShipVoyage.Button.Text">
+        <item name="android:textColor">@color/text_secondary</item>
+    </style>
+
+    <style name="ButtonStyle.Accent" parent="Widget.ShipVoyage.Button">
+        <item name="android:backgroundTint">@color/accent</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="EditTextStyle" parent="Widget.AppCompat.EditText">
+        <item name="android:background">@drawable/bg_badge</item> <!-- Temporary placeholder or use standard input bg -->
+        <item name="android:padding">12dp</item>
+        <item name="android:textColor">@color/text_primary</item>
+    </style>
+    
+    <!-- If existing layouts use EditTextStyle on TextInputLayout, we map it there too, 
+         but usually it's on EditText. Let's provide a safe default. -->
+    <style name="EditTextStyle.Outline" parent="Widget.ShipVoyage.TextInputLayout"/>
+
+    <!-- Card Style -->
+    <style name="CardStyle" parent="Widget.ShipVoyage.CardView">
+        <item name="cardCornerRadius">12dp</item>
+        <item name="cardElevation">2dp</item>
+    </style>
+
+    <!-- Badge Styles -->
     <style name="Badge.Confirmed" parent="Badge">
+        <item name="android:background">@color/status_confirmed</item>
         <item name="android:textColor">@color/status_confirmed_text</item>
-        <item name="backgroundTint">@color/status_confirmed</item>
     </style>
 
     <style name="Badge.Pending" parent="Badge">
+        <item name="android:background">@color/status_pending</item>
         <item name="android:textColor">@color/status_pending_text</item>
-        <item name="backgroundTint">@color/status_pending</item>
-        <item name="android:textSize">@dimen/text_size_small</item>
     </style>
+
 </resources>

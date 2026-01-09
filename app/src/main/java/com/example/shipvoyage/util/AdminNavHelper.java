@@ -9,6 +9,7 @@ import androidx.appcompat.widget.PopupMenu;
 
 import com.example.shipvoyage.R;
 import com.example.shipvoyage.ui.admin.AdminDashboardActivity;
+import com.example.shipvoyage.ui.admin.AdminDashboardActivity;
 import com.example.shipvoyage.ui.admin.AdminProfileActivity;
 import com.example.shipvoyage.ui.admin.CustomerListActivity;
 import com.example.shipvoyage.ui.admin.ManageRoomsActivity;
@@ -17,8 +18,78 @@ import com.example.shipvoyage.ui.admin.ManageShipsActivity;
 import com.example.shipvoyage.ui.admin.ManageTourInstancesActivity;
 import com.example.shipvoyage.ui.admin.ManageToursActivity;
 import com.example.shipvoyage.ui.admin.ViewBookingsActivity;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class AdminNavHelper {
+
+    public static void setupBottomNavigation(Activity activity, BottomNavigationView bottomNav) {
+        bottomNav.setOnItemSelectedListener(item -> {
+            int id = item.getItemId();
+            Intent intent = null;
+
+            if (id == R.id.nav_dashboard) {
+                // Don't navigate if already on dashboard
+                if (!(activity instanceof AdminDashboardActivity)) {
+                    intent = new Intent(activity, AdminDashboardActivity.class);
+                }
+            } else if (id == R.id.nav_manage) {
+                // Show manage popup menu anchored to the bottom nav
+                showManagePopup(activity, bottomNav);
+                return true;
+            } else if (id == R.id.nav_ships) {
+                intent = new Intent(activity, ManageShipsActivity.class);
+            } else if (id == R.id.nav_tours) {
+                intent = new Intent(activity, ManageToursActivity.class);
+            } else if (id == R.id.nav_instances) {
+                intent = new Intent(activity, ManageTourInstancesActivity.class);
+            } else if (id == R.id.nav_rooms) {
+                intent = new Intent(activity, ManageRoomsActivity.class);
+            } else if (id == R.id.nav_bookings) {
+                intent = new Intent(activity, ViewBookingsActivity.class);
+            } else if (id == R.id.nav_customers) {
+                intent = new Intent(activity, CustomerListActivity.class);
+            } else if (id == R.id.nav_featured_photos) {
+                intent = new Intent(activity, ManageFeaturedPhotosActivity.class);
+            } else if (id == R.id.nav_profile) {
+                intent = new Intent(activity, AdminProfileActivity.class);
+            }
+
+            if (intent != null) {
+                activity.startActivity(intent);
+                return true;
+            }
+            return false;
+        });
+    }
+
+    public static void showManagePopup(Activity activity, View anchorView) {
+        PopupMenu popupMenu = new PopupMenu(activity, anchorView);
+        popupMenu.getMenuInflater().inflate(R.menu.admin_manage_menu, popupMenu.getMenu());
+
+        popupMenu.setOnMenuItemClickListener(item -> {
+            int id = item.getItemId();
+            Intent intent = null;
+
+            if (id == R.id.nav_ships) {
+                intent = new Intent(activity, ManageShipsActivity.class);
+            } else if (id == R.id.nav_tours) {
+                intent = new Intent(activity, ManageToursActivity.class);
+            } else if (id == R.id.nav_instances) {
+                intent = new Intent(activity, ManageTourInstancesActivity.class);
+            } else if (id == R.id.nav_rooms) {
+                intent = new Intent(activity, ManageRoomsActivity.class);
+            } else if (id == R.id.nav_featured_photos) {
+                intent = new Intent(activity, ManageFeaturedPhotosActivity.class);
+            }
+
+            if (intent != null) {
+                activity.startActivity(intent);
+            }
+            return true;
+        });
+
+        popupMenu.show();
+    }
 
     public static void setupNavigationMenu(Activity activity, View anchorView) {
         PopupMenu popupMenu = new PopupMenu(activity, anchorView);

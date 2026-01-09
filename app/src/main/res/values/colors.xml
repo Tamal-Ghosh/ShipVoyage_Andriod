@@ -1,35 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary">#1E4A8A</color>
-    <color name="primary_dark">#1E3A8A</color>
-    <color name="primary_light">#2563B5</color>
-    <color name="secondary">#10B981</color>
-    <color name="secondary_dark">#059669</color>
-    <color name="accent">#EA580C</color>
-    <color name="accent_light">#F59E0B</color>
+    <!-- Base Colors -->
+    <color name="primary">#0B2545</color> <!-- Deep Navy -->
+    <color name="primary_dark">#06152A</color>
+    <color name="primary_light">#1E4070</color>
+    
+    <color name="secondary">#E0A82E</color> <!-- Gold/Amber -->
+    <color name="secondary_dark">#B38218</color>
+    <color name="secondary_light">#F5C564</color>
+    
+    <color name="accent">#E0522E</color> <!-- Burnt Orange -->
+    
+    <!-- Neutrals -->
+    <color name="background">#F8FAFC</color> <!-- Off-white/Slate-50 -->
+    <color name="surface">#FFFFFF</color>
+    <color name="surface_variant">#F1F5F9</color> <!-- Slate-100 -->
+    
+    <!-- Text -->
+    <color name="text_primary">#0F172A</color> <!-- Slate-900 -->
+    <color name="text_secondary">#475569</color> <!-- Slate-600 -->
+    <color name="text_tertiary">#94A3B8</color> <!-- Slate-400 -->
+    <color name="text_white">#FFFFFF</color>
+    <color name="text_dark">#0F172A</color>
+    <color name="text_hint">#94A3B8</color>
+
+    <!-- UI Elements -->
+    <color name="border">#E2E8F0</color> <!-- Slate-200 -->
+    <color name="divider">#E2E8F0</color>
     <color name="white">#FFFFFF</color>
     <color name="black">#000000</color>
-    <color name="background">#F5F7FA</color>
-    <color name="surface">#F9FAFB</color>
+    <color name="transparent">#00000000</color>
     <color name="card_bg">#FFFFFF</color>
-    <color name="text_primary">#1F2937</color>
-    <color name="text_secondary">#6B7280</color>
-    <color name="text_tertiary">#9CA3AF</color>
-    <color name="text_light">#E5E7EB</color>
-    <color name="text_white">#FFFFFF</color>
-    <color name="border">#D1D5DB</color>
-    <color name="border_light">#E5E7EB</color>
-    <color name="divider">#F3F4F6</color>
-    <color name="status_confirmed">#D1FAE5</color>
-    <color name="status_confirmed_text">#065F46</color>
-    <color name="status_pending">#FEF3C7</color>
-    <color name="status_pending_text">#92400E</color>
-    <color name="star_color">#F59E0B</color>
-    <color name="gradient_start">#1E4A8A</color>
-    <color name="gradient_end">#2563B5</color>
+
+    <!-- Semantic Status Colors -->
+    <color name="error">#EF4444</color>
+    <color name="error_container">#FEE2E2</color>
+    <color name="success">#10B981</color>
+    <color name="success_container">#D1FAE5</color>
+    <color name="warning">#F59E0B</color>
+    <color name="info">#3B82F6</color>
+
+    <!-- Status Specific (Legacy Support) -->
+    <color name="status_confirmed">#DCFCE7</color> <!-- Green 100 -->
+    <color name="status_confirmed_text">#166534</color> <!-- Green 800 -->
+    <color name="status_pending">#FEF3C7</color> <!-- Amber 100 -->
+    <color name="status_pending_text">#92400E</color> <!-- Amber 800 -->
+
+    <!-- Additional Colors -->
     <color name="light_gray">#E5E7EB</color>
-    <color name="text_dark">#374151</color>
     <color name="text_gray">#6B7280</color>
     <color name="primary_blue">#1E4A8A</color>
     <color name="secondary_green">#10B981</color>
+    <color name="border_light">#E5E7EB</color>
+
+    <!-- Gradients -->
+    <color name="gradient_start">#0B2545</color>
+    <color name="gradient_end">#1E4070</color>
+
 </resources>

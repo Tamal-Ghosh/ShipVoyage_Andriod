@@ -3,7 +3,6 @@ package com.example.shipvoyage.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -13,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shipvoyage.R;
 import com.example.shipvoyage.model.Tour;
+import com.google.android.material.button.MaterialButton;
 
 public class TourAdapter extends ListAdapter<Tour, TourAdapter.TourViewHolder> {
 
@@ -40,8 +40,8 @@ public class TourAdapter extends ListAdapter<Tour, TourAdapter.TourViewHolder> {
         private TextView tourName;
         private TextView tourRoute;
         private TextView tourDescription;
-        private ImageButton editBtn;
-        private ImageButton deleteBtn;
+        private MaterialButton editBtn;
+        private MaterialButton deleteBtn;
 
         public TourViewHolder(@NonNull View itemView) {
             super(itemView);

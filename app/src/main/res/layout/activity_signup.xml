@@ -6,11 +6,15 @@
     android:layout_height="match_parent"
     android:padding="24dp"
     android:background="@color/background"
+    android:id="@+id/signupRoot"
     tools:context=".ui.auth.SignupActivity">
 
     <ScrollView
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:scrollbars="none"
+        app:layout_constraintHeight_max="600dp"
+        app:layout_constraintWidth_max="400dp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,31 +24,39 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp"
-            android:background="@color/surface"
-            android:elevation="2dp">
+            android:gravity="center_horizontal">
+
+            <ImageView
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:src="@android:drawable/ic_menu_compass"
+                app:tint="@color/primary"
+                android:layout_marginBottom="16dp"
+                android:contentDescription="Logo" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Create Account"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-                android:textColor="@color/text_primary"
+                android:textAppearance="@style/TextAppearance.ShipVoyage.HeadlineSmall"
+                android:textColor="@color/primary"
+                android:textStyle="bold"
                 android:layout_marginBottom="8dp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Fill in your details to continue"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                android:text="Join the voyage today"
+                android:textAppearance="@style/TextAppearance.ShipVoyage.BodyMedium"
                 android:textColor="@color/text_secondary"
-                android:layout_marginBottom="16dp" />
+                android:layout_marginBottom="32dp" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Username"
-                android:layout_marginBottom="12dp">
+                android:layout_marginBottom="16dp"
+                style="@style/Widget.ShipVoyage.TextInputLayout">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/usernameField"
@@ -56,8 +68,9 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Email"
-                android:layout_marginBottom="12dp">
+                android:hint="Email Address"
+                android:layout_marginBottom="16dp"
+                style="@style/Widget.ShipVoyage.TextInputLayout">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/emailField"
@@ -69,8 +82,9 @@
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Mobile"
-                android:layout_marginBottom="12dp">
+                android:hint="Mobile Number"
+                android:layout_marginBottom="16dp"
+                style="@style/Widget.ShipVoyage.TextInputLayout">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/phoneField"
@@ -83,7 +97,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Password"
-                android:layout_marginBottom="12dp">
+                android:layout_marginBottom="16dp"
+                app:endIconMode="password_toggle"
+                style="@style/Widget.ShipVoyage.TextInputLayout">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/passwordField"
@@ -96,7 +112,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Confirm Password"
-                android:layout_marginBottom="20dp">
+                android:layout_marginBottom="24dp"
+                app:endIconMode="password_toggle"
+                style="@style/Widget.ShipVoyage.TextInputLayout">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/confirmPasswordField"
@@ -110,18 +128,30 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Sign Up"
-                android:backgroundTint="@color/primary"
-                android:textColor="@color/text_white"
-                android:layout_marginBottom="12dp" />
+                style="@style/Widget.ShipVoyage.Button"
+                android:layout_marginBottom="24dp" />
 
-            <TextView
-                android:id="@+id/loginLink"
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Already have an account? Login"
-                android:textColor="@color/primary"
-                android:textStyle="bold"
-                android:layout_gravity="center_horizontal" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Already have an account? "
+                    android:textColor="@color/text_secondary" />
+
+                <TextView
+                    android:id="@+id/loginLink"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Login"
+                    android:textColor="@color/primary"
+                    android:textStyle="bold"
+                    android:clickable="true"
+                    android:focusable="true" />
+            </LinearLayout>
 
         </LinearLayout>
     </ScrollView>

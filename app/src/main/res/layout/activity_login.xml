@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="24dp"
+    android:id="@+id/loginRoot"
     android:background="@color/background"
     tools:context=".ui.auth.LoginActivity">
 
@@ -13,35 +14,47 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp"
-        android:background="@color/surface"
-        android:elevation="2dp"
+        android:gravity="center_horizontal"
+        app:layout_constraintVertical_bias="0.4"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_max="400dp">
+
+        <!-- Brand / Header -->
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@android:drawable/ic_menu_compass"
+            app:tint="@color/primary"
+            android:layout_marginBottom="16dp" 
+            android:contentDescription="Logo" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Login"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
-            android:textColor="@color/text_primary"
+            android:text="Welcome Back"
+            android:textAppearance="@style/TextAppearance.ShipVoyage.HeadlineSmall"
+            android:textColor="@color/primary"
+            android:textStyle="bold"
             android:layout_marginBottom="8dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Enter your credentials"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:text="Sign in to continue your voyage"
+            android:textAppearance="@style/TextAppearance.ShipVoyage.BodyMedium"
             android:textColor="@color/text_secondary"
-            android:layout_marginBottom="16dp" />
+            android:layout_marginBottom="32dp" />
 
+        <!-- Form -->
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Email"
-            android:layout_marginBottom="12dp">
+            android:hint="Email Address"
+            android:layout_marginBottom="16dp"
+            style="@style/Widget.ShipVoyage.TextInputLayout">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/emailField"
@@ -54,7 +67,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Password"
-            android:layout_marginBottom="20dp">
+            android:layout_marginBottom="24dp"
+            app:endIconMode="password_toggle"
+            style="@style/Widget.ShipVoyage.TextInputLayout">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/passwordField"
@@ -67,19 +82,31 @@
             android:id="@+id/loginBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Login"
-            android:backgroundTint="@color/primary"
-            android:textColor="@color/text_white"
-            android:layout_marginBottom="12dp" />
+            android:text="Log In"
+            style="@style/Widget.ShipVoyage.Button"
+            android:layout_marginBottom="24dp" />
 
-        <TextView
-            android:id="@+id/signupLink"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Create an account"
-            android:textColor="@color/primary"
-            android:textStyle="bold"
-            android:layout_gravity="center_horizontal" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Don't have an account? "
+                android:textColor="@color/text_secondary" />
+
+            <TextView
+                android:id="@+id/signupLink"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sign up"
+                android:textColor="@color/primary"
+                android:textStyle="bold"
+                android:clickable="true"
+                android:focusable="true"/>
+        </LinearLayout>
 
     </LinearLayout>
 

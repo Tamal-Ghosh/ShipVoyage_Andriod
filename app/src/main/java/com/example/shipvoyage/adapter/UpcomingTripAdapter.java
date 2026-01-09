@@ -58,13 +58,19 @@ public class UpcomingTripAdapter extends ListAdapter<TourInstance, UpcomingTripA
     static class TourInstanceDiffCallback extends DiffUtil.ItemCallback<TourInstance> {
         @Override
         public boolean areItemsTheSame(@NonNull TourInstance oldItem, @NonNull TourInstance newItem) {
-            return oldItem.getId().equals(newItem.getId());
+            return oldItem.getId() != null && oldItem.getId().equals(newItem.getId());
         }
 
         @Override
         public boolean areContentsTheSame(@NonNull TourInstance oldItem, @NonNull TourInstance newItem) {
-            return oldItem.getStartDate().equals(newItem.getStartDate()) &&
-                   oldItem.getEndDate().equals(newItem.getEndDate());
+            return safeEquals(oldItem.getStartDate(), newItem.getStartDate()) &&
+                   safeEquals(oldItem.getEndDate(), newItem.getEndDate());
+        }
+        
+        private boolean safeEquals(String s1, String s2) {
+            if (s1 == null && s2 == null) return true;
+            if (s1 == null || s2 == null) return false;
+            return s1.equals(s2);
         }
     }
 }

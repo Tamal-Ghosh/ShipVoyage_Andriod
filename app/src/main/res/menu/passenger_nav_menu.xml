@@ -3,27 +3,27 @@
 
     <item
         android:id="@+id/nav_home"
-        android:icon="@android:drawable/ic_menu_compass"
+        android:icon="@drawable/baseline_home_24"
         android:title="Home" />
 
     <item
         android:id="@+id/nav_my_bookings"
-        android:icon="@android:drawable/ic_menu_agenda"
-        android:title="My Bookings" />
+        android:icon="@drawable/trips"
+        android:title="Trips" />
 
     <item
         android:id="@+id/nav_upcoming_tours"
-        android:icon="@android:drawable/ic_menu_today"
+        android:icon="@drawable/upcoming"
         android:title="Upcoming Tours" />
 
     <item
         android:id="@+id/nav_support"
-        android:icon="@android:drawable/ic_menu_help"
+        android:icon="@drawable/support"
         android:title="Support" />
 
     <item
         android:id="@+id/nav_profile"
-        android:icon="@android:drawable/ic_menu_myplaces"
+        android:icon="@drawable/profile"
         android:title="Profile" />
 
 </menu>

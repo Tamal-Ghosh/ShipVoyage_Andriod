@@ -3,12 +3,10 @@ package com.example.shipvoyage.ui.admin;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -21,6 +19,8 @@ import com.example.shipvoyage.dao.TourInstanceDAO;
 import com.example.shipvoyage.dao.UserDAO;
 import com.example.shipvoyage.model.TourInstance;
 import com.example.shipvoyage.util.AdminNavHelper;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 
 import java.text.ParseException;
@@ -29,6 +29,8 @@ import java.util.Date;
 import java.util.Locale;
 
 public class AdminDashboardActivity extends AppCompatActivity {
+
+    private FirebaseAuth mAuth;
 
     private TextView lblTotalShips, lblTotalTours, lblTourInstances, lblUpcomingTours, lblCurrentTours, lblTotalBookings, lblTotalCustomers;
     private ShipDAO shipDAO;
@@ -48,17 +50,12 @@ public class AdminDashboardActivity extends AppCompatActivity {
             return insets;
         });
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
-
         shipDAO = new ShipDAO();
         tourDAO = new TourDAO();
         tourInstanceDAO = new TourInstanceDAO();
         bookingDAO = new BookingDAO();
         userDAO = new UserDAO();
+        mAuth = FirebaseAuth.getInstance();
 
         initViews();
         loadDashboardData();
@@ -73,8 +70,8 @@ public class AdminDashboardActivity extends AppCompatActivity {
         lblTotalBookings = findViewById(R.id.lblTotalBookings);
         lblTotalCustomers = findViewById(R.id.lblTotalCustomers);
 
-        ImageButton menuBtn = findViewById(R.id.menuBtn);
-        menuBtn.setOnClickListener(v -> AdminNavHelper.setupNavigationMenu(this, v));
+        BottomNavigationView bottomNav = findViewById(R.id.bottomNavigationView);
+        AdminNavHelper.setupBottomNavigation(this, bottomNav);
 
         Button btnViewShips = findViewById(R.id.btnViewShips);
         btnViewShips.setOnClickListener(v -> startActivity(new Intent(this, ManageShipsActivity.class)));
@@ -136,12 +133,10 @@ public class AdminDashboardActivity extends AppCompatActivity {
                     try {
                         Date startDate = sdf.parse(instance.getStartDate());
                         Date endDate = sdf.parse(instance.getEndDate());
-                        
                         if (startDate != null && endDate != null) {
                             if (startDate.after(today)) {
                                 upcomingCount++;
-                            } else if (endDate.before(today)) {
-                            } else {
+                            } else if (!endDate.before(today)) {
                                 currentCount++;
                             }
                         }

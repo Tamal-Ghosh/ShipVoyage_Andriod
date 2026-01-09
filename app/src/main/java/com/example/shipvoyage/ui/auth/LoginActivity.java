@@ -8,7 +8,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.graphics.Insets;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 
 import com.example.shipvoyage.R;
 import com.example.shipvoyage.dao.UserDAO;
@@ -16,7 +20,6 @@ import com.example.shipvoyage.model.User;
 import com.example.shipvoyage.ui.admin.AdminDashboardActivity;
 import com.example.shipvoyage.ui.passenger.PassengerHomeActivity;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -24,16 +27,24 @@ public class LoginActivity extends AppCompatActivity {
     private EditText passwordField;
     private Button loginBtn;
     private TextView signupLink;
-    private String selectedRole = "passenger";
+    private String selectedRole = null;
     private UserDAO userDAO;
     private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_login);
 
-        selectedRole = getIntent().getStringExtra("role") != null ? getIntent().getStringExtra("role") : "passenger";
+
+        selectedRole = getIntent().getStringExtra("role");
+        if (selectedRole == null) {
+            Toast.makeText(this, "Please select user type first", Toast.LENGTH_SHORT).show();
+            finish();
+            return;
+        }
+        
         userDAO = new UserDAO();
         mAuth = FirebaseAuth.getInstance();
 
@@ -93,8 +104,12 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void navigateToHome(String role) {
+        // Prefer the chosen role from the entry point if the stored role is missing
+        String effectiveRole = role != null ? role.trim() : "";
+        String selected = selectedRole != null ? selectedRole.trim() : "";
+
         Intent intent;
-        if (role != null && role.equalsIgnoreCase("admin")) {
+        if (effectiveRole.equalsIgnoreCase("admin") || selected.equalsIgnoreCase("admin")) {
             intent = new Intent(this, AdminDashboardActivity.class);
         } else {
             intent = new Intent(this, PassengerHomeActivity.class);

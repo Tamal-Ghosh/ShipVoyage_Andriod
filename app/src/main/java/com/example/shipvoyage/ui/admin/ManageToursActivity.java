@@ -56,9 +56,12 @@ public class ManageToursActivity extends AppCompatActivity {
         });
 
         Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (toolbar != null) {
+            setSupportActionBar(toolbar);
+            // No back button on admin pages
+            if (getSupportActionBar() != null) {
+                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+            }
         }
 
         tourDAO = new TourDAO();
@@ -107,6 +110,12 @@ public class ManageToursActivity extends AppCompatActivity {
         });
 
         toursRecyclerView.setAdapter(tourAdapter);
+
+        // Setup bottom navigation
+        com.google.android.material.bottomnavigation.BottomNavigationView bottomNav = findViewById(R.id.bottomNavigationView);
+        if (bottomNav != null) {
+            AdminNavHelper.setupBottomNavigation(this, bottomNav);
+        }
     }
 
     private void setupListeners() {
@@ -218,10 +227,6 @@ public class ManageToursActivity extends AppCompatActivity {
         tourAdapter.submitList(new ArrayList<>(toursList));
     }
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        finish();
-        return true;
-    }
+    // No back button
 }
 

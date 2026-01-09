@@ -1,5 +1,6 @@
 package com.example.shipvoyage.ui.passenger;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
@@ -27,6 +28,7 @@ import com.example.shipvoyage.model.TourInstance;
 import com.example.shipvoyage.util.PassengerNavHelper;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import android.util.Log;
 import java.util.ArrayList;
@@ -60,14 +62,19 @@ public class MyBookingsActivity extends AppCompatActivity {
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
 
         bookingDAO = new BookingDAO();
         tourDAO = new TourDAO();
         tourInstanceDAO = new TourInstanceDAO();
         mAuth = FirebaseAuth.getInstance();
+
+        // If not authenticated, redirect to login/role selection to avoid NPE
+        if (mAuth.getCurrentUser() == null) {
+            Toast.makeText(this, "Please log in to view your trips", Toast.LENGTH_SHORT).show();
+            startActivity(new Intent(this, com.example.shipvoyage.ui.auth.UserTypeActivity.class));
+            finish();
+            return;
+        }
 
         initViews();
         loadData();
@@ -76,6 +83,10 @@ public class MyBookingsActivity extends AppCompatActivity {
     private void initViews() {
         recyclerView = findViewById(R.id.bookingsRecyclerView);
         emptyView = findViewById(R.id.emptyView);
+
+        // Setup bottom navigation
+        BottomNavigationView bottomNav = findViewById(R.id.bottomNavigationView);
+        PassengerNavHelper.setupBottomNavigation(this, bottomNav);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new MyBookingAdapter(this::showCancelDialog);
@@ -112,6 +123,11 @@ public class MyBookingsActivity extends AppCompatActivity {
     }
 
     private void loadBookings() {
+        if (mAuth.getCurrentUser() == null) {
+            emptyView.setVisibility(View.VISIBLE);
+            recyclerView.setVisibility(View.GONE);
+            return;
+        }
         String userId = mAuth.getCurrentUser().getUid();
             Log.d(TAG, "Loading bookings for user: " + userId);
         // Client-side filter to avoid index requirement; still recommended to add .indexOn:["userId"] in Firebase rules
