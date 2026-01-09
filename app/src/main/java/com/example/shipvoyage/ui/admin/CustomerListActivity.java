@@ -152,7 +152,6 @@ public class CustomerListActivity extends AppCompatActivity {
             for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                 TourInstance instance = snapshot.getValue(TourInstance.class);
                 if (instance != null) {
-                    // Set tour name
                     for (Tour tour : toursList) {
                         if (tour.getId().equals(instance.getTourId())) {
                             instance.setTourName(tour.getName());

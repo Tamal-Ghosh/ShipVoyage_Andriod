@@ -57,7 +57,6 @@ public class TourSearchResultAdapter extends ListAdapter<TourInstance, TourSearc
 
         void bind(TourInstance instance, OnTourClickListener listener) {
             tourName.setText(instance.getTourName() != null ? instance.getTourName() : "Tour");
-            // Show route if available; otherwise fall back to tour name
             String routeText = instance.getTourName() != null ? instance.getTourName() : "Tour";
             if (instance.getShipName() != null) {
                 routeText = routeText + " · " + instance.getShipName();

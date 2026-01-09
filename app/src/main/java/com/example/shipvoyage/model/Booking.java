@@ -9,11 +9,10 @@ public class Booking implements Serializable {
     public String userId;
     public List<String> selectedRooms;
     public double price;
-    public String status; // PENDING, CONFIRMED, CANCELLED
-    public String paymentMethod; // BKASH, VISA, etc.
+    public String status;
+    public String paymentMethod;
     public String bookingDate;
     
-    // Transient fields for display
     public transient String customerName;
     public transient String customerEmail;
     public transient String customerPhone;

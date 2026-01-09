@@ -141,7 +141,6 @@ public class AdminDashboardActivity extends AppCompatActivity {
                             if (startDate.after(today)) {
                                 upcomingCount++;
                             } else if (endDate.before(today)) {
-                                // Past tour - do nothing
                             } else {
                                 currentCount++;
                             }

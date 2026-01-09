@@ -33,7 +33,6 @@ public class PaymentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment);
         
-        // Get data from intent
         booking = (Booking) getIntent().getSerializableExtra("booking");
         paymentMethod = getIntent().getStringExtra("paymentMethod");
         totalAmount = getIntent().getDoubleExtra("totalAmount", 0);
@@ -59,17 +58,14 @@ public class PaymentActivity extends AppCompatActivity {
         visaCard = findViewById(R.id.visaCard);
         bkashCard = findViewById(R.id.bkashCard);
         
-        // Visa fields
         cardNumberField = findViewById(R.id.cardNumberField);
         expiryField = findViewById(R.id.expiryField);
         cvvField = findViewById(R.id.cvvField);
         cardHolderField = findViewById(R.id.cardHolderField);
         
-        // bKash fields
         mobileNumberField = findViewById(R.id.mobileNumberField);
         bkashPinField = findViewById(R.id.bkashPinField);
         
-        // Pay button
         payNowButton = findViewById(R.id.payNowButton);
         payNowButton.setOnClickListener(v -> processPayment());
     }
@@ -77,7 +73,6 @@ public class PaymentActivity extends AppCompatActivity {
     private void setupPaymentForm() {
         totalAmountText.setText(String.format("Amount: ৳%.0f", totalAmount));
         
-        // Show appropriate payment form
         if ("Visa".equals(paymentMethod)) {
             visaCard.setVisibility(View.VISIBLE);
             bkashCard.setVisibility(View.GONE);
@@ -88,7 +83,6 @@ public class PaymentActivity extends AppCompatActivity {
     }
     
     private void processPayment() {
-        // Validate inputs based on payment method
         if ("Visa".equals(paymentMethod)) {
             if (!validateCardPayment()) {
                 return;
@@ -99,7 +93,6 @@ public class PaymentActivity extends AppCompatActivity {
             }
         }
         
-        // Save/update booking in Firebase
         String bookingId = booking.getId();
         if (bookingId == null) {
             bookingId = bookingDAO.bookingsRef.push().getKey();
@@ -112,7 +105,6 @@ public class PaymentActivity extends AppCompatActivity {
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(this, "Payment successful! Your booking is confirmed.", Toast.LENGTH_LONG).show();
 
-                    // Navigate to PassengerHome
                     Intent intent = new Intent(this, PassengerHomeActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);

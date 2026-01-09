@@ -238,7 +238,6 @@ public class ManageTourInstancesActivity extends AppCompatActivity {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     TourInstance tourInstance = snapshot.getValue(TourInstance.class);
                     if (tourInstance != null) {
-                        // Set tour and ship names
                         for (Tour tour : toursList) {
                             if (tour.getId().equals(tourInstance.getTourId())) {
                                 tourInstance.setTourName(tour.getName());

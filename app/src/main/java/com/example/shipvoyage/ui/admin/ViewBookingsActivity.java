@@ -239,17 +239,14 @@ public class ViewBookingsActivity extends AppCompatActivity {
     private void filterBookings() {
         int selectedPosition = tourInstanceSpinner.getSelectedItemPosition();
         
-        // Guard against empty instances list
         if (instancesList == null || instancesList.isEmpty()) {
             bookingAdapter.submitList(new ArrayList<>(bookingsList));
             return;
         }
         
         if (selectedPosition == 0) {
-            // Show all bookings
             bookingAdapter.submitList(new ArrayList<>(bookingsList));
         } else if (selectedPosition - 1 < instancesList.size()) {
-            // Filter by selected instance
             TourInstance selectedInstance = instancesList.get(selectedPosition - 1);
             List<Booking> filteredList = new ArrayList<>();
             

@@ -47,9 +47,6 @@ public class FeaturedPhotoAdapter extends ListAdapter<FeaturedPhoto, FeaturedPho
         void bind(FeaturedPhoto photo) {
             photoTitle.setText(photo.getTitle() != null ? photo.getTitle() : "Featured Destination");
             photoDescription.setText(photo.getDescription() != null ? photo.getDescription() : "");
-            
-            // TODO: Load image with Glide or Picasso if imagePath is available
-            // For now, just show placeholder background
         }
     }
 
