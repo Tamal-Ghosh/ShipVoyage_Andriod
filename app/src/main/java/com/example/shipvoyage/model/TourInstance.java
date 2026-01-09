@@ -7,7 +7,7 @@ public class TourInstance {
     public String startDate;
     public String endDate;
     
-    // Transient fields for display purposes
+
     public String tourName;
     public String shipName;
 

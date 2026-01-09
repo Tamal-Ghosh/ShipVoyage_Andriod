@@ -22,6 +22,7 @@ import com.example.shipvoyage.adapter.TourAdapter;
 import com.example.shipvoyage.dao.TourDAO;
 import com.example.shipvoyage.model.Tour;
 import com.example.shipvoyage.util.AdminNavHelper;
+import com.example.shipvoyage.util.ThreadPool;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -131,16 +132,24 @@ public class ManageToursActivity extends AppCompatActivity {
 
     private void loadTours() {
         tourDAO.getAllTours().addOnSuccessListener(dataSnapshot -> {
-            toursList.clear();
-            for (com.google.firebase.database.DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                Tour tour = snapshot.getValue(Tour.class);
-                if (tour != null) {
-                    toursList.add(tour);
+            ThreadPool.getExecutor().execute(() -> {
+                List<Tour> newTours = new ArrayList<>();
+                for (com.google.firebase.database.DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Tour tour = snapshot.getValue(Tour.class);
+                    if (tour != null) {
+                        newTours.add(tour);
+                    }
                 }
-            }
-            updateRecyclerView();
+                runOnUiThread(() -> {
+                    toursList.clear();
+                    toursList.addAll(newTours);
+                    updateRecyclerView();
+                });
+            });
         }).addOnFailureListener(e -> {
-            Toast.makeText(this, "Failed to load tours", Toast.LENGTH_SHORT).show();
+            runOnUiThread(() -> {
+                Toast.makeText(this, "Failed to load tours", Toast.LENGTH_SHORT).show();
+            });
         });
     }
 

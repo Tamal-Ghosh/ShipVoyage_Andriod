@@ -12,8 +12,6 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shipvoyage.R;
-import com.example.shipvoyage.model.Ship;
-import com.example.shipvoyage.model.Tour;
 import com.example.shipvoyage.model.TourInstance;
 
 public class TourSearchResultAdapter extends ListAdapter<TourInstance, TourSearchResultAdapter.ViewHolder> {
@@ -43,7 +41,7 @@ public class TourSearchResultAdapter extends ListAdapter<TourInstance, TourSearc
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tourName, tourRoute, departDate, returnDate, duration, shipName, price;
+        TextView tourName, tourRoute, departDate, returnDate, duration, shipName;
         Button bookButton;
 
         ViewHolder(View itemView) {
@@ -54,20 +52,21 @@ public class TourSearchResultAdapter extends ListAdapter<TourInstance, TourSearc
             returnDate = itemView.findViewById(R.id.returnDate);
             duration = itemView.findViewById(R.id.duration);
             shipName = itemView.findViewById(R.id.shipName);
-            price = itemView.findViewById(R.id.price);
             bookButton = itemView.findViewById(R.id.bookButton);
         }
 
         void bind(TourInstance instance, OnTourClickListener listener) {
             tourName.setText(instance.getTourName() != null ? instance.getTourName() : "Tour");
-            tourRoute.setText((instance.getTourName() != null ? instance.getTourName() : "Tour"));
+            // Show route if available; otherwise fall back to tour name
+            String routeText = instance.getTourName() != null ? instance.getTourName() : "Tour";
+            if (instance.getShipName() != null) {
+                routeText = routeText + " · " + instance.getShipName();
+            }
+            tourRoute.setText(routeText);
             departDate.setText("Depart: " + instance.getStartDate());
             returnDate.setText("Return: " + instance.getEndDate());
-            duration.setText("Duration: " + calculateDuration(instance.getStartDate(), instance.getEndDate()) + " days");
+            duration.setText("Duration: " + safeDuration(instance.getStartDate(), instance.getEndDate()) + " days");
             shipName.setText("Ship: " + (instance.getShipName() != null ? instance.getShipName() : "N/A"));
-            
-            int durationDays = calculateDuration(instance.getStartDate(), instance.getEndDate());
-            price.setText("৳" + (durationDays * 100));
 
             bookButton.setOnClickListener(v -> {
                 if (listener != null) {
@@ -76,32 +75,33 @@ public class TourSearchResultAdapter extends ListAdapter<TourInstance, TourSearc
             });
         }
 
-        private int calculateDuration(String startDate, String endDate) {
+        private int safeDuration(String startDate, String endDate) {
             try {
-                java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd", java.util.Locale.getDefault());
-                java.util.Date start = sdf.parse(startDate);
-                java.util.Date end = sdf.parse(endDate);
-                if (start != null && end != null) {
-                    long diff = end.getTime() - start.getTime();
-                    return (int) (diff / (1000 * 60 * 60 * 24));
-                }
+                java.time.LocalDate start = java.time.LocalDate.parse(startDate);
+                java.time.LocalDate end = java.time.LocalDate.parse(endDate);
+                return (int) java.time.temporal.ChronoUnit.DAYS.between(start, end);
             } catch (Exception e) {
-                e.printStackTrace();
+                return 0;
             }
-            return 0;
         }
     }
 
     static class TourInstanceDiffCallback extends DiffUtil.ItemCallback<TourInstance> {
         @Override
         public boolean areItemsTheSame(@NonNull TourInstance oldItem, @NonNull TourInstance newItem) {
-            return oldItem.getId().equals(newItem.getId());
+            return oldItem.getId() != null && oldItem.getId().equals(newItem.getId());
         }
 
         @Override
         public boolean areContentsTheSame(@NonNull TourInstance oldItem, @NonNull TourInstance newItem) {
-            return oldItem.getStartDate().equals(newItem.getStartDate()) &&
-                   oldItem.getEndDate().equals(newItem.getEndDate());
+            return safeEq(oldItem.getStartDate(), newItem.getStartDate()) &&
+                   safeEq(oldItem.getEndDate(), newItem.getEndDate()) &&
+                   safeEq(oldItem.getTourName(), newItem.getTourName()) &&
+                   safeEq(oldItem.getShipName(), newItem.getShipName());
+        }
+
+        private boolean safeEq(String a, String b) {
+            return a == null ? b == null : a.equals(b);
         }
     }
 }

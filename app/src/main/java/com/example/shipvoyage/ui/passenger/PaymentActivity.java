@@ -99,26 +99,28 @@ public class PaymentActivity extends AppCompatActivity {
             }
         }
         
-        // Save booking to Firebase (simple simulation - no real payment processing)
-        String bookingId = bookingDAO.bookingsRef.push().getKey();
-        if (bookingId != null) {
+        // Save/update booking in Firebase
+        String bookingId = booking.getId();
+        if (bookingId == null) {
+            bookingId = bookingDAO.bookingsRef.push().getKey();
             booking.setId(bookingId);
-            booking.setStatus("Confirmed");
-            
-            bookingDAO.bookingsRef.child(bookingId).setValue(booking)
-                    .addOnSuccessListener(aVoid -> {
-                        Toast.makeText(this, "Payment successful! Your booking is confirmed.", Toast.LENGTH_LONG).show();
-                        
-                        // Navigate to PassengerHome
-                        Intent intent = new Intent(this, PassengerHomeActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
-                        startActivity(intent);
-                        finish();
-                    })
-                    .addOnFailureListener(e -> {
-                        Toast.makeText(this, "Payment failed. Please try again!", Toast.LENGTH_SHORT).show();
-                    });
         }
+
+        booking.setStatus("Confirmed");
+
+        bookingDAO.bookingsRef.child(bookingId).setValue(booking)
+                .addOnSuccessListener(aVoid -> {
+                    Toast.makeText(this, "Payment successful! Your booking is confirmed.", Toast.LENGTH_LONG).show();
+
+                    // Navigate to PassengerHome
+                    Intent intent = new Intent(this, PassengerHomeActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                    startActivity(intent);
+                    finish();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(this, "Payment failed. Please try again!", Toast.LENGTH_SHORT).show();
+                });
     }
     
     private boolean validateCardPayment() {

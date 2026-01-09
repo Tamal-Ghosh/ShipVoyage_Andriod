@@ -2,6 +2,7 @@ package com.example.shipvoyage.dao;
 
 import com.example.shipvoyage.model.Room;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.DataSnapshot;
@@ -35,7 +36,7 @@ public class RoomDAO {
     }
 
     public Task<DataSnapshot> getRoomsByShip(String shipId) {
-        return roomsRef.orderByChild("shipId").equalTo(shipId).get();
+        return roomsRef.get();
     }
 
     public Task<Void> updateRoom(String id, Map<String, Object> updates) {
@@ -46,4 +47,3 @@ public class RoomDAO {
         return roomsRef.child(id).removeValue();
     }
 }
-

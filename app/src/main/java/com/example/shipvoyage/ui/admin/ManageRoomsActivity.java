@@ -21,6 +21,7 @@ import com.example.shipvoyage.dao.ShipDAO;
 import com.example.shipvoyage.model.Room;
 import com.example.shipvoyage.model.Ship;
 import com.google.android.material.textfield.TextInputEditText;
+import com.example.shipvoyage.util.ThreadPool;
 import com.google.firebase.database.DataSnapshot;
 
 import java.util.ArrayList;
@@ -81,7 +82,6 @@ public class ManageRoomsActivity extends AppCompatActivity implements RoomAdapte
         saveButton.setOnClickListener(v -> onSaveRoom());
         clearButton.setOnClickListener(v -> onClearRoom());
         
-        // Setup room type dropdown
         ArrayAdapter<String> typeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, roomTypes);
         roomTypeField.setAdapter(typeAdapter);
     }
@@ -98,27 +98,26 @@ public class ManageRoomsActivity extends AppCompatActivity implements RoomAdapte
     
     private void loadShips() {
         shipDAO.getAllShips().addOnSuccessListener(dataSnapshot -> {
-            shipsList.clear();
-            
-            List<String> shipNames = new ArrayList<>();
-            
-            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                Ship ship = snapshot.getValue(Ship.class);
-                if (ship != null) {
-                    shipsList.add(ship);
-                    shipNames.add(ship.getName());
+            ThreadPool.getExecutor().execute(() -> {
+                List<Ship> newShips = new ArrayList<>();
+                List<String> shipNames = new ArrayList<>();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Ship ship = snapshot.getValue(Ship.class);
+                    if (ship != null) {
+                        newShips.add(ship);
+                        shipNames.add(ship.getName());
+                    }
                 }
-            }
-            
-            // Setup ship field autocomplete
-            ArrayAdapter<String> shipAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, shipNames);
-            shipField.setAdapter(shipAdapter);
-            
-            // Handle ship selection
-            shipField.setOnItemClickListener((parent, view, position, id) -> {
-                String selectedShipName = shipNames.get(position);
-                selectedShipId = shipsList.get(position).getId();
-                filterRoomsByShip();
+                runOnUiThread(() -> {
+                    shipsList.clear();
+                    shipsList.addAll(newShips);
+                    ArrayAdapter<String> shipAdapter = new ArrayAdapter<>(this, android.R.layout.simple_dropdown_item_1line, shipNames);
+                    shipField.setAdapter(shipAdapter);
+                    shipField.setOnItemClickListener((parent, view, position, id) -> {
+                        selectedShipId = shipsList.get(position).getId();
+                        filterRoomsByShip();
+                    });
+                });
             });
         }).addOnFailureListener(e -> {
             Toast.makeText(this, "Failed to load ships", Toast.LENGTH_SHORT).show();
@@ -127,17 +126,20 @@ public class ManageRoomsActivity extends AppCompatActivity implements RoomAdapte
     
     private void loadRooms() {
         roomDAO.getAllRooms().addOnSuccessListener(dataSnapshot -> {
-            roomsList.clear();
-            
-            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                Room room = snapshot.getValue(Room.class);
-                if (room != null) {
-                    roomsList.add(room);
+            ThreadPool.getExecutor().execute(() -> {
+                List<Room> newRooms = new ArrayList<>();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Room room = snapshot.getValue(Room.class);
+                    if (room != null) {
+                        newRooms.add(room);
+                    }
                 }
-            }
-            
-            // Filter by selected ship if one is selected
-            filterRoomsByShip();
+                runOnUiThread(() -> {
+                    roomsList.clear();
+                    roomsList.addAll(newRooms);
+                    filterRoomsByShip();
+                });
+            });
         }).addOnFailureListener(e -> {
             Toast.makeText(this, "Failed to load rooms", Toast.LENGTH_SHORT).show();
         });
@@ -192,7 +194,6 @@ public class ManageRoomsActivity extends AppCompatActivity implements RoomAdapte
         room.setAvailability(true);
         
         if (editingRoomId != null) {
-            // Update existing room
             room.setId(editingRoomId);
             roomDAO.updateRoom(editingRoomId, room.toMap()).addOnSuccessListener(aVoid -> {
                 Toast.makeText(this, "Room updated successfully", Toast.LENGTH_SHORT).show();
@@ -202,7 +203,6 @@ public class ManageRoomsActivity extends AppCompatActivity implements RoomAdapte
                 Toast.makeText(this, "Failed to update room", Toast.LENGTH_SHORT).show();
             });
         } else {
-            // Add new room
             roomDAO.addRoom(room).addOnSuccessListener(aVoid -> {
                 Toast.makeText(this, "Room added successfully", Toast.LENGTH_SHORT).show();
                 onClearRoom();
@@ -227,7 +227,6 @@ public class ManageRoomsActivity extends AppCompatActivity implements RoomAdapte
     public void onEdit(Room room) {
         editingRoomId = room.getId();
         
-        // Find ship and set in field
         for (Ship ship : shipsList) {
             if (ship.getId().equals(room.getShipId())) {
                 shipField.setText(ship.getName(), false);

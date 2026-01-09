@@ -28,6 +28,7 @@ import com.example.shipvoyage.model.Tour;
 import com.example.shipvoyage.model.TourInstance;
 import com.example.shipvoyage.model.User;
 import com.example.shipvoyage.util.AdminNavHelper;
+import com.example.shipvoyage.util.ThreadPool;
 import com.google.firebase.database.DataSnapshot;
 
 import java.util.ArrayList;
@@ -113,92 +114,125 @@ public class ViewBookingsActivity extends AppCompatActivity {
 
     private void loadUsers() {
         userDAO.getAllUsers().addOnSuccessListener(dataSnapshot -> {
-            usersMap.clear();
-            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                User user = snapshot.getValue(User.class);
-                if (user != null) {
-                    usersMap.put(user.getId(), user);
+            ThreadPool.getExecutor().execute(() -> {
+                Map<String, User> newUsersMap = new HashMap<>();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    User user = snapshot.getValue(User.class);
+                    if (user != null) {
+                        newUsersMap.put(user.getId(), user);
+                    }
                 }
-            }
+                runOnUiThread(() -> {
+                    usersMap.clear();
+                    usersMap.putAll(newUsersMap);
+                });
+            });
         }).addOnFailureListener(e -> {
-            Toast.makeText(this, "Failed to load users", Toast.LENGTH_SHORT).show();
+            runOnUiThread(() -> {
+                Toast.makeText(this, "Failed to load users", Toast.LENGTH_SHORT).show();
+            });
         });
     }
 
     private void loadTours() {
         tourDAO.getAllTours().addOnSuccessListener(dataSnapshot -> {
-            toursList.clear();
-            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                Tour tour = snapshot.getValue(Tour.class);
-                if (tour != null) {
-                    toursList.add(tour);
+            ThreadPool.getExecutor().execute(() -> {
+                List<Tour> newTours = new ArrayList<>();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Tour tour = snapshot.getValue(Tour.class);
+                    if (tour != null) {
+                        newTours.add(tour);
+                    }
                 }
-            }
-            loadInstances();
+                runOnUiThread(() -> {
+                    toursList.clear();
+                    toursList.addAll(newTours);
+                    loadInstances();
+                });
+            });
         }).addOnFailureListener(e -> {
-            Toast.makeText(this, "Failed to load tours", Toast.LENGTH_SHORT).show();
+            runOnUiThread(() -> {
+                Toast.makeText(this, "Failed to load tours", Toast.LENGTH_SHORT).show();
+            });
         });
     }
 
     private void loadInstances() {
         tourInstanceDAO.getAllTourInstances().addOnSuccessListener(dataSnapshot -> {
-            instancesList.clear();
-            List<String> instanceNames = new ArrayList<>();
-            instanceNames.add("All Tour Instances");
+            ThreadPool.getExecutor().execute(() -> {
+                List<TourInstance> newInstances = new ArrayList<>();
+                List<String> instanceNames = new ArrayList<>();
+                instanceNames.add("All Tour Instances");
 
-            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                TourInstance instance = snapshot.getValue(TourInstance.class);
-                if (instance != null) {
-                    // Set tour name
-                    for (Tour tour : toursList) {
-                        if (tour.getId().equals(instance.getTourId())) {
-                            instance.setTourName(tour.getName());
-                            break;
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    TourInstance instance = snapshot.getValue(TourInstance.class);
+                    if (instance != null) {
+                        for (Tour tour : toursList) {
+                            if (tour.getId().equals(instance.getTourId())) {
+                                instance.setTourName(tour.getName());
+                                break;
+                            }
                         }
+                        newInstances.add(instance);
+                        instanceNames.add(instance.getTourName() + " - " + instance.getStartDate());
                     }
-                    instancesList.add(instance);
-                    instanceNames.add(instance.getTourName() + " - " + instance.getStartDate());
-                }
-            }
-
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, instanceNames);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            tourInstanceSpinner.setAdapter(adapter);
-
-            tourInstanceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                    filterBookings();
                 }
 
-                @Override
-                public void onNothingSelected(AdapterView<?> parent) {
-                }
+                runOnUiThread(() -> {
+                    instancesList.clear();
+                    instancesList.addAll(newInstances);
+
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, instanceNames);
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    tourInstanceSpinner.setAdapter(adapter);
+
+                    tourInstanceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            filterBookings();
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+                        }
+                    });
+                });
             });
         }).addOnFailureListener(e -> {
-            Toast.makeText(this, "Failed to load instances", Toast.LENGTH_SHORT).show();
+            runOnUiThread(() -> {
+                Toast.makeText(this, "Failed to load instances", Toast.LENGTH_SHORT).show();
+            });
         });
     }
 
     private void loadBookings() {
         bookingDAO.getAllBookings().addOnSuccessListener(dataSnapshot -> {
-            bookingsList.clear();
-            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                Booking booking = snapshot.getValue(Booking.class);
-                if (booking != null) {
-                    // Set customer info
-                    User user = usersMap.get(booking.getUserId());
-                    if (user != null) {
-                        booking.setCustomerName(user.getName());
-                        booking.setCustomerEmail(user.getEmail());
-                        booking.setCustomerPhone(user.getPhone());
+            ThreadPool.getExecutor().execute(() -> {
+                List<Booking> newBookings = new ArrayList<>();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Booking booking = snapshot.getValue(Booking.class);
+                    if (booking != null) {
+
+                        User user = usersMap.get(booking.getUserId());
+                        if (user != null) {
+                            booking.setCustomerName(user.getName());
+                            booking.setCustomerEmail(user.getEmail());
+                            booking.setCustomerPhone(user.getPhone());
+                        }
+                        newBookings.add(booking);
                     }
-                    bookingsList.add(booking);
                 }
-            }
-            filterBookings();
+                runOnUiThread(() -> {
+                    bookingsList.clear();
+                    bookingsList.addAll(newBookings);
+                    filterBookings();
+                });
+            });
         }).addOnFailureListener(e -> {
-            Toast.makeText(this, "Failed to load bookings", Toast.LENGTH_SHORT).show();
+
+            runOnUiThread(() -> {
+                Toast.makeText(this, "Failed to load bookings", Toast.LENGTH_SHORT).show();
+            });
         });
     }
 

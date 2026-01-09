@@ -29,6 +29,7 @@ import com.example.shipvoyage.model.Ship;
 import com.example.shipvoyage.model.Tour;
 import com.example.shipvoyage.model.TourInstance;
 import com.example.shipvoyage.util.AdminNavHelper;
+import com.example.shipvoyage.util.ThreadPool;
 import com.google.firebase.database.DataSnapshot;
 
 import java.text.ParseException;
@@ -186,59 +187,83 @@ public class ManageTourInstancesActivity extends AppCompatActivity {
 
     private void loadTours() {
         tourDAO.getAllTours().addOnSuccessListener(dataSnapshot -> {
-            toursList.clear();
-            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                Tour tour = snapshot.getValue(Tour.class);
-                if (tour != null) {
-                    toursList.add(tour);
+            ThreadPool.getExecutor().execute(() -> {
+                List<Tour> newTours = new ArrayList<>();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Tour tour = snapshot.getValue(Tour.class);
+                    if (tour != null) {
+                        newTours.add(tour);
+                    }
                 }
-            }
-            updateTourSpinner();
+                runOnUiThread(() -> {
+                    toursList.clear();
+                    toursList.addAll(newTours);
+                    updateTourSpinner();
+                });
+            });
         }).addOnFailureListener(e -> {
-            Toast.makeText(this, "Failed to load tours", Toast.LENGTH_SHORT).show();
+            runOnUiThread(() -> {
+                Toast.makeText(this, "Failed to load tours", Toast.LENGTH_SHORT).show();
+            });
         });
     }
 
     private void loadShips() {
         shipDAO.getAllShips().addOnSuccessListener(dataSnapshot -> {
-            shipsList.clear();
-            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                Ship ship = snapshot.getValue(Ship.class);
-                if (ship != null) {
-                    shipsList.add(ship);
+            ThreadPool.getExecutor().execute(() -> {
+                List<Ship> newShips = new ArrayList<>();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Ship ship = snapshot.getValue(Ship.class);
+                    if (ship != null) {
+                        newShips.add(ship);
+                    }
                 }
-            }
-            updateShipSpinner();
+                runOnUiThread(() -> {
+                    shipsList.clear();
+                    shipsList.addAll(newShips);
+                    updateShipSpinner();
+                });
+            });
         }).addOnFailureListener(e -> {
-            Toast.makeText(this, "Failed to load ships", Toast.LENGTH_SHORT).show();
+            runOnUiThread(() -> {
+                Toast.makeText(this, "Failed to load ships", Toast.LENGTH_SHORT).show();
+            });
         });
     }
 
     private void loadTourInstances() {
         tourInstanceDAO.getAllTourInstances().addOnSuccessListener(dataSnapshot -> {
-            instancesList.clear();
-            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                TourInstance tourInstance = snapshot.getValue(TourInstance.class);
-                if (tourInstance != null) {
-                    // Set tour and ship names
-                    for (Tour tour : toursList) {
-                        if (tour.getId().equals(tourInstance.getTourId())) {
-                            tourInstance.setTourName(tour.getName());
-                            break;
+            ThreadPool.getExecutor().execute(() -> {
+                List<TourInstance> newInstances = new ArrayList<>();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    TourInstance tourInstance = snapshot.getValue(TourInstance.class);
+                    if (tourInstance != null) {
+                        // Set tour and ship names
+                        for (Tour tour : toursList) {
+                            if (tour.getId().equals(tourInstance.getTourId())) {
+                                tourInstance.setTourName(tour.getName());
+                                break;
+                            }
                         }
-                    }
-                    for (Ship ship : shipsList) {
-                        if (ship.getId().equals(tourInstance.getShipId())) {
-                            tourInstance.setShipName(ship.getName());
-                            break;
+                        for (Ship ship : shipsList) {
+                            if (ship.getId().equals(tourInstance.getShipId())) {
+                                tourInstance.setShipName(ship.getName());
+                                break;
+                            }
                         }
+                        newInstances.add(tourInstance);
                     }
-                    instancesList.add(tourInstance);
                 }
-            }
-            updateRecyclerView();
+                runOnUiThread(() -> {
+                    instancesList.clear();
+                    instancesList.addAll(newInstances);
+                    updateRecyclerView();
+                });
+            });
         }).addOnFailureListener(e -> {
-            Toast.makeText(this, "Failed to load tour instances", Toast.LENGTH_SHORT).show();
+            runOnUiThread(() -> {
+                Toast.makeText(this, "Failed to load tour instances", Toast.LENGTH_SHORT).show();
+            });
         });
     }
 

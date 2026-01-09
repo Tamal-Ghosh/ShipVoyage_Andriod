@@ -37,6 +37,7 @@ import com.example.shipvoyage.model.Ship;
 import com.example.shipvoyage.model.Tour;
 import com.example.shipvoyage.model.TourInstance;
 import com.example.shipvoyage.util.PassengerNavHelper;
+import com.example.shipvoyage.util.ThreadPool;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.database.DataSnapshot;
 
@@ -166,95 +167,118 @@ public class PassengerHomeActivity extends AppCompatActivity {
 
     private void loadTours() {
         tourDAO.getAllTours().addOnSuccessListener(dataSnapshot -> {
-            toursMap.clear();
-            fromLocations.clear();
-            toLocations.clear();
-            
-            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                Tour tour = snapshot.getValue(Tour.class);
-                if (tour != null) {
-                    toursMap.put(tour.getId(), tour);
-                    fromLocations.add(tour.getFrom());
-                    toLocations.add(tour.getTo());
+            ThreadPool.getExecutor().execute(() -> {
+                Map<String, Tour> newTours = new HashMap<>();
+                Set<String> newFrom = new HashSet<>();
+                Set<String> newTo = new HashSet<>();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Tour tour = snapshot.getValue(Tour.class);
+                    if (tour != null) {
+                        newTours.put(tour.getId(), tour);
+                        newFrom.add(tour.getFrom());
+                        newTo.add(tour.getTo());
+                    }
                 }
-            }
-            
-            setupAutoComplete();
+                runOnUiThread(() -> {
+                    toursMap.clear();
+                    toursMap.putAll(newTours);
+                    fromLocations.clear();
+                    fromLocations.addAll(newFrom);
+                    toLocations.clear();
+                    toLocations.addAll(newTo);
+                    setupAutoComplete();
+                });
+            });
         });
     }
 
     private void loadShips() {
         shipDAO.getAllShips().addOnSuccessListener(dataSnapshot -> {
-            shipsMap.clear();
-            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                Ship ship = snapshot.getValue(Ship.class);
-                if (ship != null) {
-                    shipsMap.put(ship.getId(), ship);
+            ThreadPool.getExecutor().execute(() -> {
+                Map<String, Ship> newShips = new HashMap<>();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    Ship ship = snapshot.getValue(Ship.class);
+                    if (ship != null) {
+                        newShips.put(ship.getId(), ship);
+                    }
                 }
-            }
+                runOnUiThread(() -> {
+                    shipsMap.clear();
+                    shipsMap.putAll(newShips);
+                });
+            });
         });
     }
 
     private void loadInstances() {
         tourInstanceDAO.getAllTourInstances().addOnSuccessListener(dataSnapshot -> {
-            allInstances.clear();
-            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                TourInstance instance = snapshot.getValue(TourInstance.class);
-                if (instance != null) {
-                    Tour tour = toursMap.get(instance.getTourId());
-                    Ship ship = shipsMap.get(instance.getShipId());
-                    if (tour != null) {
-                        instance.setTourName(tour.getName());
+            ThreadPool.getExecutor().execute(() -> {
+                List<TourInstance> newInstances = new ArrayList<>();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    TourInstance instance = snapshot.getValue(TourInstance.class);
+                    if (instance != null) {
+                        Tour tour = toursMap.get(instance.getTourId());
+                        Ship ship = shipsMap.get(instance.getShipId());
+                        if (tour != null) {
+                            instance.setTourName(tour.getName());
+                        }
+                        if (ship != null) {
+                            instance.setShipName(ship.getName());
+                        }
+                        newInstances.add(instance);
                     }
-                    if (ship != null) {
-                        instance.setShipName(ship.getName());
-                    }
-                    allInstances.add(instance);
                 }
-            }
+                runOnUiThread(() -> {
+                    allInstances.clear();
+                    allInstances.addAll(newInstances);
+                });
+            });
         });
     }
 
     private void loadFeaturedPhotos() {
         photoDAO.getAllPhotos().addOnSuccessListener(dataSnapshot -> {
-            List<FeaturedPhoto> photos = new ArrayList<>();
-            int count = 0;
-            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                if (count >= 6) break;
-                FeaturedPhoto photo = snapshot.getValue(FeaturedPhoto.class);
-                if (photo != null) {
-                    photos.add(photo);
-                    count++;
+            ThreadPool.getExecutor().execute(() -> {
+                List<FeaturedPhoto> photos = new ArrayList<>();
+                int count = 0;
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    if (count >= 6) break;
+                    FeaturedPhoto photo = snapshot.getValue(FeaturedPhoto.class);
+                    if (photo != null) {
+                        photos.add(photo);
+                        count++;
+                    }
                 }
-            }
-            featuredAdapter.submitList(photos);
+                runOnUiThread(() -> featuredAdapter.submitList(photos));
+            });
         });
     }
 
     private void loadUpcomingTrips() {
         tourInstanceDAO.getAllTourInstances().addOnSuccessListener(dataSnapshot -> {
-            List<TourInstance> upcoming = new ArrayList<>();
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
-            String today = sdf.format(new Date());
-            
-            int count = 0;
-            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                if (count >= 2) break;
-                TourInstance instance = snapshot.getValue(TourInstance.class);
-                if (instance != null && instance.getStartDate().compareTo(today) >= 0) {
-                    Tour tour = toursMap.get(instance.getTourId());
-                    Ship ship = shipsMap.get(instance.getShipId());
-                    if (tour != null) {
-                        instance.setTourName(tour.getName());
+            ThreadPool.getExecutor().execute(() -> {
+                List<TourInstance> upcoming = new ArrayList<>();
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                String today = sdf.format(new Date());
+                int count = 0;
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    if (count >= 2) break;
+                    TourInstance instance = snapshot.getValue(TourInstance.class);
+                    if (instance != null && instance.getStartDate().compareTo(today) >= 0) {
+                        Tour tour = toursMap.get(instance.getTourId());
+                        Ship ship = shipsMap.get(instance.getShipId());
+                        if (tour != null) {
+                            instance.setTourName(tour.getName());
+                        }
+                        if (ship != null) {
+                            instance.setShipName(ship.getName());
+                        }
+                        upcoming.add(instance);
+                        count++;
                     }
-                    if (ship != null) {
-                        instance.setShipName(ship.getName());
-                    }
-                    upcoming.add(instance);
-                    count++;
                 }
-            }
-            upcomingAdapter.submitList(upcoming);
+                runOnUiThread(() -> upcomingAdapter.submitList(upcoming));
+            });
         });
     }
 
