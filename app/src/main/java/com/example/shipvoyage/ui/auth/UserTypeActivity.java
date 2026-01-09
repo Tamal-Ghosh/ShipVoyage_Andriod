@@ -21,7 +21,7 @@ public class UserTypeActivity extends AppCompatActivity {
     }
 
     private void openLogin(String role) {
-        var intent = new android.content.Intent(this, LoginActivity.class);
+        android.content.Intent intent = new android.content.Intent(this, LoginActivity.class);
         intent.putExtra("role", role);
         startActivity(intent);
     }

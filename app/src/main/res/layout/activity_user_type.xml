@@ -2,9 +2,61 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="24dp"
+    android:background="@color/background"
     tools:context=".ui.auth.UserTypeActivity">
+
+    <LinearLayout
+        android:id="@+id/container"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:padding="16dp"
+        android:background="@color/surface"
+        android:elevation="2dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Welcome to Ship Voyage"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"
+            android:textColor="@color/text_primary"
+            android:layout_marginBottom="4dp" />
+
+        <TextView
+            android:id="@+id/subtitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Choose your login type"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+            android:textColor="@color/text_secondary"
+            android:layout_marginBottom="24dp" />
+
+        <Button
+            android:id="@+id/adminLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Admin Login"
+            android:backgroundTint="@color/primary"
+            android:textColor="@color/text_white"
+            android:layout_marginBottom="12dp" />
+
+        <Button
+            android:id="@+id/passengerLogin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Passenger Login"
+            android:backgroundTint="@color/accent"
+            android:textColor="@color/text_white" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

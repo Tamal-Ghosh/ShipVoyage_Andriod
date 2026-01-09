@@ -6,7 +6,7 @@ public class User {
     public String name;
     public String email;
     public String phone;
-    public String role; // ADMIN or PASSENGER
+    public String role;
     public long createdAt;
     public String profileImagePath;
     public String lastInstance;
@@ -23,6 +23,16 @@ public class User {
         this.role = role;
         this.createdAt = createdAt;
         this.profileImagePath = profileImagePath;
+    }
+
+    public User(String id, String username, String email, String phone, String role) {
+        this.id = id;
+        this.username = username;
+        this.name = username;
+        this.email = email;
+        this.phone = phone;
+        this.role = role;
+        this.createdAt = System.currentTimeMillis();
     }
 
     public String getId() {

@@ -18,7 +18,8 @@ public class UserDAO {
     }
 
     public Task<Void> addUser(User user) {
-        return usersRef.child(user.getId()).setValue(user);
+        String id = user.getId();
+        return usersRef.child(id).setValue(user);
     }
 
     public Task<DataSnapshot> getUser(String id) {
