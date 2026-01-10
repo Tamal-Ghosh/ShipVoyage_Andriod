@@ -57,4 +57,16 @@ public class TourInstance {
     public void setShipName(String shipName) {
         this.shipName = shipName;
     }
-}
+
+    @Override
+    public String toString() {
+        String tourPart = tourName != null && !tourName.isEmpty() ? tourName : "";
+        String datePart = startDate != null && !startDate.isEmpty() ? startDate : "";
+        if (!tourPart.isEmpty() && !datePart.isEmpty()) {
+            return tourPart + " - " + datePart;
+        }
+        if (!tourPart.isEmpty()) return tourPart;
+        if (!datePart.isEmpty()) return datePart;
+        return id != null ? id : "";
+    }
+}

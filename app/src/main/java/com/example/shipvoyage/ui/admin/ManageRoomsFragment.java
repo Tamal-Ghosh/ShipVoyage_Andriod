@@ -76,6 +76,14 @@ public class ManageRoomsFragment extends Fragment {
                 roomNumberField.setText(room.getRoomNumber());
                 typeField.setText(room.getType());
                 priceField.setText(String.valueOf(room.getPrice()));
+                
+                // Set ship spinner selection
+                for (int i = 0; i < shipsList.size(); i++) {
+                    if (shipsList.get(i).getId().equals(room.getShipId())) {
+                        shipSpinner.setSelection(i);
+                        break;
+                    }
+                }
             }
 
             @Override
@@ -121,10 +129,26 @@ public class ManageRoomsFragment extends Fragment {
                     getActivity().runOnUiThread(() -> {
                         shipsList.clear();
                         shipsList.addAll(newShips);
+                        updateShipSpinner();
                     });
                 }
             });
         });
+    }
+
+    private void updateShipSpinner() {
+        android.widget.ArrayAdapter<Ship> adapter = new android.widget.ArrayAdapter<Ship>(
+                requireContext(),
+                android.R.layout.simple_spinner_item,
+                shipsList
+        ) {
+
+            public String toString(Ship ship) {
+                return ship.getName();
+            }
+        };
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        shipSpinner.setAdapter(adapter);
     }
 
     private void loadRooms() {

@@ -25,13 +25,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class AdminProfileFragment extends Fragment {
-    private TextView usernameField, emailField, phoneField, nameField;
+    private EditText usernameField, emailField, phoneField, nameField;
     private EditText currentPasswordField, newPasswordField, confirmPasswordField;
-    private Button logoutButton, changePasswordButton, changePasswordToggleButton;
+    private Button logoutButton, changePasswordButton, changePasswordToggleButton, editButton;
     private LinearLayout changePasswordSection;
     private UserDAO userDAO;
     private FirebaseAuth mAuth;
     private String currentUserId;
+    private boolean isEditing = false;
+    private User userBackup;
 
     @Nullable
     @Override
@@ -61,11 +63,61 @@ public class AdminProfileFragment extends Fragment {
         logoutButton = view.findViewById(R.id.logoutButton);
         changePasswordButton = view.findViewById(R.id.changePasswordButton);
         changePasswordToggleButton = view.findViewById(R.id.changePasswordToggleButton);
+        editButton = view.findViewById(R.id.editButton);
         changePasswordSection = view.findViewById(R.id.changePasswordSection);
 
         logoutButton.setOnClickListener(v -> logout());
         changePasswordButton.setOnClickListener(v -> changePassword());
         changePasswordToggleButton.setOnClickListener(v -> toggleChangePasswordSection());
+        editButton.setOnClickListener(v -> toggleEditMode());
+    }
+
+    private void toggleEditMode() {
+        if (!isEditing) {
+            isEditing = true;
+            userBackup = new User();
+            userBackup.setName(nameField.getText().toString());
+            userBackup.setEmail(emailField.getText().toString());
+            userBackup.setPhone(phoneField.getText().toString());
+            
+            nameField.setEnabled(true);
+            emailField.setEnabled(true);
+            phoneField.setEnabled(true);
+            editButton.setText("Save");
+            editButton.setTag("save");
+        } else {
+            saveUserProfile();
+        }
+    }
+
+    private void saveUserProfile() {
+        String name = nameField.getText().toString().trim();
+        String email = emailField.getText().toString().trim();
+        String phone = phoneField.getText().toString().trim();
+        
+        if (name.isEmpty() || email.isEmpty()) {
+            Toast.makeText(requireContext(), "Name and email are required", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        
+        Map<String, Object> updates = new HashMap<>();
+        updates.put("name", name);
+        updates.put("email", email);
+        updates.put("phone", phone);
+        
+        userDAO.usersRef.child(currentUserId).updateChildren(updates)
+            .addOnSuccessListener(aVoid -> {
+                isEditing = false;
+                nameField.setEnabled(false);
+                emailField.setEnabled(false);
+                phoneField.setEnabled(false);
+                editButton.setText("Edit Profile");
+                editButton.setTag("edit");
+                Toast.makeText(requireContext(), "Profile updated successfully", Toast.LENGTH_SHORT).show();
+            })
+            .addOnFailureListener(e -> {
+                Toast.makeText(requireContext(), "Failed to update profile: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            });
     }
 
     private void toggleChangePasswordSection() {

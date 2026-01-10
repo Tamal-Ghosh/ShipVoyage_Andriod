@@ -1,5 +1,6 @@
 package com.example.shipvoyage.ui.admin;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -27,8 +28,11 @@ import com.example.shipvoyage.model.TourInstance;
 import com.example.shipvoyage.model.Ship;
 import com.example.shipvoyage.util.ThreadPool;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 public class ManageTourInstancesFragment extends Fragment {
     private RecyclerView instancesRecyclerView;
@@ -43,6 +47,9 @@ public class ManageTourInstancesFragment extends Fragment {
     private List<Ship> shipsList = new ArrayList<>();
     private TourInstanceAdapter adapter;
     private String editingInstanceId = null;
+    private static final int START_DATE = 1;
+    private static final int END_DATE = 2;
+    private int currentDateFieldType = 0;
 
     @Nullable
     @Override
@@ -81,6 +88,20 @@ public class ManageTourInstancesFragment extends Fragment {
                 editingInstanceId = instance.getId();
                 startDateField.setText(instance.getStartDate());
                 endDateField.setText(instance.getEndDate());
+                
+                // Set spinner selections
+                for (int i = 0; i < toursList.size(); i++) {
+                    if (toursList.get(i).getId().equals(instance.getTourId())) {
+                        tourSpinner.setSelection(i);
+                        break;
+                    }
+                }
+                for (int i = 0; i < shipsList.size(); i++) {
+                    if (shipsList.get(i).getId().equals(instance.getShipId())) {
+                        shipSpinner.setSelection(i);
+                        break;
+                    }
+                }
             }
 
             @Override
@@ -97,6 +118,14 @@ public class ManageTourInstancesFragment extends Fragment {
     }
 
     private void setupListeners() {
+        startDateField.setOnClickListener(v -> {
+            currentDateFieldType = START_DATE;
+            showDatePicker();
+        });
+        endDateField.setOnClickListener(v -> {
+            currentDateFieldType = END_DATE;
+            showDatePicker();
+        });
         saveBtn.setOnClickListener(v -> saveInstance());
         cancelBtn.setOnClickListener(v -> clearForm());
         searchBtn.setOnClickListener(v -> performSearch());
@@ -126,6 +155,7 @@ public class ManageTourInstancesFragment extends Fragment {
                     getActivity().runOnUiThread(() -> {
                         toursList.clear();
                         toursList.addAll(newTours);
+                        updateTourSpinner();
                     });
                 }
             });
@@ -146,10 +176,41 @@ public class ManageTourInstancesFragment extends Fragment {
                     getActivity().runOnUiThread(() -> {
                         shipsList.clear();
                         shipsList.addAll(newShips);
+                        updateShipSpinner();
                     });
                 }
             });
         });
+    }
+
+    private void updateTourSpinner() {
+        android.widget.ArrayAdapter<Tour> adapter = new android.widget.ArrayAdapter<Tour>(
+                requireContext(),
+                android.R.layout.simple_spinner_item,
+                toursList
+        ) {
+
+            public String toString(Tour tour) {
+                return tour.getName();
+            }
+        };
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        tourSpinner.setAdapter(adapter);
+    }
+
+    private void updateShipSpinner() {
+        android.widget.ArrayAdapter<Ship> adapter = new android.widget.ArrayAdapter<Ship>(
+                requireContext(),
+                android.R.layout.simple_spinner_item,
+                shipsList
+        ) {
+           
+            public String toString(Ship ship) {
+                return ship.getName();
+            }
+        };
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        shipSpinner.setAdapter(adapter);
     }
 
     private void loadInstances() {
@@ -232,5 +293,40 @@ public class ManageTourInstancesFragment extends Fragment {
 
     private void updateRecyclerView() {
         adapter.submitList(new ArrayList<>(instancesList));
+    }
+
+    private void showDatePicker() {
+        Calendar calendar = Calendar.getInstance();
+        
+        // If editing and field already has a date, use that date
+        String currentDate = currentDateFieldType == START_DATE ? 
+                startDateField.getText().toString() : 
+                endDateField.getText().toString();
+        
+        if (!currentDate.isEmpty()) {
+            try {
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                calendar.setTime(sdf.parse(currentDate));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        
+        DatePickerDialog datePickerDialog = new DatePickerDialog(requireContext(),
+                (view, year, month, dayOfMonth) -> {
+                    calendar.set(year, month, dayOfMonth);
+                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+                    String selectedDate = sdf.format(calendar.getTime());
+                    
+                    if (currentDateFieldType == START_DATE) {
+                        startDateField.setText(selectedDate);
+                    } else {
+                        endDateField.setText(selectedDate);
+                    }
+                },
+                calendar.get(Calendar.YEAR),
+                calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH));
+        datePickerDialog.show();
     }
 }
