@@ -28,7 +28,11 @@
             </intent-filter>
         </activity>
 
-        <!-- Admin Activities -->
+        <!-- Main Activities for Single Activity Architecture -->
+        <activity android:name=".ui.admin.AdminMainActivity" android:exported="false" />
+        <activity android:name=".ui.passenger.PassengerMainActivity" android:exported="false" />
+
+        <!-- Admin Activities (Legacy - kept for reference) -->
         <activity android:name=".ui.admin.AdminDashboardActivity" android:exported="false" android:hardwareAccelerated="false" />
         <activity android:name=".ui.admin.ManageShipsActivity" android:exported="false" android:hardwareAccelerated="false" />
         <activity android:name=".ui.admin.ManageRoomsActivity" android:exported="false" android:hardwareAccelerated="false" />
@@ -40,15 +44,8 @@
         <activity android:name=".ui.admin.AdminProfileActivity" android:exported="false" android:hardwareAccelerated="false" />
 
         <!-- Passenger Activities -->
-        <activity android:name=".ui.passenger.PassengerHomeActivity" android:exported="false" />
-        <activity android:name=".ui.passenger.UpcomingToursActivity" android:exported="false" />
-        <activity android:name=".ui.passenger.SearchResultsActivity" android:exported="false" />
-        <activity android:name=".ui.passenger.TourDetailsActivity" android:exported="false" />
         <activity android:name=".ui.passenger.BookingActivity" android:exported="false" />
         <activity android:name=".ui.passenger.PaymentActivity" android:exported="false" />
-        <activity android:name=".ui.passenger.ProfileActivity" android:exported="false" />
-        <activity android:name=".ui.passenger.MyBookingsActivity" android:exported="false" />
-        <activity android:name=".ui.passenger.SupportActivity" android:exported="false" />
     </application>
 
 </manifest>

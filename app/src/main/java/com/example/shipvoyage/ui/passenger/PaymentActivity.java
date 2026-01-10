@@ -5,6 +5,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import com.example.shipvoyage.R;
@@ -25,6 +27,7 @@ public class PaymentActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_payment);
         booking = (Booking) getIntent().getSerializableExtra("booking");
         paymentMethod = getIntent().getStringExtra("paymentMethod");
@@ -83,7 +86,7 @@ public class PaymentActivity extends AppCompatActivity {
         bookingDAO.bookingsRef.child(bookingId).setValue(booking)
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(this, "Payment successful! Your booking is confirmed.", Toast.LENGTH_LONG).show();
-                    Intent intent = new Intent(this, PassengerHomeActivity.class);
+                    Intent intent = new Intent(this, PassengerMainActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                     finish();
@@ -124,4 +127,4 @@ public class PaymentActivity extends AppCompatActivity {
         }
         return true;
     }
-}
+}

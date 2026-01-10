@@ -1,18 +1,21 @@
 package com.example.shipvoyage;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
+import android.widget.LinearLayout;
+
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
-import com.example.shipvoyage.ui.admin.AdminDashboardActivity;
-import com.example.shipvoyage.ui.admin.ManageShipsActivity;
-import com.example.shipvoyage.ui.admin.ManageTourInstancesActivity;
-import com.example.shipvoyage.ui.admin.ManageToursActivity;
-import com.example.shipvoyage.ui.passenger.PassengerHomeActivity;
+
+import com.example.shipvoyage.ui.admin.AdminMainActivity;
+import com.example.shipvoyage.ui.passenger.PassengerMainActivity;
+
 public class MainActivity extends AppCompatActivity {
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,29 +26,28 @@ public class MainActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, 0);
             return insets;
         });
+
         Button adminDashboardButton = findViewById(R.id.adminDashboardButton);
         adminDashboardButton.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, AdminDashboardActivity.class);
+            Intent intent = new Intent(MainActivity.this, AdminMainActivity.class);
             startActivity(intent);
         });
-        Button manageShipsButton = findViewById(R.id.manageShipsButton);
-        manageShipsButton.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, ManageShipsActivity.class);
-            startActivity(intent);
+
+        Button manageButton = findViewById(R.id.manageButton);
+        LinearLayout manageSubmenu = findViewById(R.id.manageSubmenu);
+        manageButton.setOnClickListener(v -> {
+            if (manageSubmenu.getVisibility() == android.view.View.GONE) {
+                manageSubmenu.setVisibility(android.view.View.VISIBLE);
+                manageButton.setText("Manage \u25b2");
+            } else {
+                manageSubmenu.setVisibility(android.view.View.GONE);
+                manageButton.setText("Manage \u25bc");
+            }
         });
-        Button manageToursButton = findViewById(R.id.manageToursButton);
-        manageToursButton.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, ManageToursActivity.class);
-            startActivity(intent);
-        });
-        Button manageInstancesButton = findViewById(R.id.manageInstancesButton);
-        manageInstancesButton.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, ManageTourInstancesActivity.class);
-            startActivity(intent);
-        });
+
         Button passengerHomeButton = findViewById(R.id.passengerHomeButton);
         passengerHomeButton.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, PassengerHomeActivity.class);
+            Intent intent = new Intent(MainActivity.this, PassengerMainActivity.class);
             startActivity(intent);
         });
     }

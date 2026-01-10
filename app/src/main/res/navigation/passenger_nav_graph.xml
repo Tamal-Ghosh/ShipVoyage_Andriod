@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/passenger_nav_graph"
+    app:startDestination="@id/passengerHomeFragment">
+
+    <fragment
+        android:id="@+id/passengerHomeFragment"
+        android:name="com.example.shipvoyage.ui.passenger.PassengerHomeFragment"
+        android:label="Home" />
+
+    <fragment
+        android:id="@+id/upcomingToursFragment"
+        android:name="com.example.shipvoyage.ui.passenger.UpcomingToursFragment"
+        android:label="Upcoming Tours" />
+
+    <fragment
+        android:id="@+id/myBookingsFragment"
+        android:name="com.example.shipvoyage.ui.passenger.MyBookingsFragment"
+        android:label="My Bookings" />
+
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.example.shipvoyage.ui.passenger.ProfileFragment"
+        android:label="Profile" />
+
+    <fragment
+        android:id="@+id/supportFragment"
+        android:name="com.example.shipvoyage.ui.passenger.SupportFragment"
+        android:label="Support" />
+
+</navigation>

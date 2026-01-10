@@ -6,7 +6,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.DataSnapshot;
 import java.util.Map;
 public class TourInstanceDAO {
-    private DatabaseReference tourInstancesRef;
+    public DatabaseReference tourInstancesRef;
     public TourInstanceDAO() {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         tourInstancesRef = database.getReference("tourInstances");
@@ -28,4 +28,4 @@ public class TourInstanceDAO {
     public Task<Void> deleteTourInstance(String id) {
         return tourInstancesRef.child(id).removeValue();
     }
-}
+}

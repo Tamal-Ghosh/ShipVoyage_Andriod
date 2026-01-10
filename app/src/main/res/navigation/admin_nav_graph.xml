@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/admin_nav_graph"
+    app:startDestination="@id/adminDashboardFragment">
+
+    <fragment
+        android:id="@+id/adminDashboardFragment"
+        android:name="com.example.shipvoyage.ui.admin.AdminDashboardFragment"
+        android:label="Admin Dashboard">
+        <action
+            android:id="@+id/action_adminDashboardFragment_to_manageShipsFragment"
+            app:destination="@id/manageShipsFragment" />
+        <action
+            android:id="@+id/action_adminDashboardFragment_to_manageToursFragment"
+            app:destination="@id/manageToursFragment" />
+        <action
+            android:id="@+id/action_adminDashboardFragment_to_manageTourInstancesFragment"
+            app:destination="@id/manageTourInstancesFragment" />
+        <action
+            android:id="@+id/action_adminDashboardFragment_to_viewBookingsFragment"
+            app:destination="@id/viewBookingsFragment" />
+        <action
+            android:id="@+id/action_adminDashboardFragment_to_customerListFragment"
+            app:destination="@id/customerListFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/manageMenuFragment"
+        android:name="com.example.shipvoyage.ui.admin.ManageMenuFragment"
+        android:label="Manage" />
+
+    <fragment
+        android:id="@+id/manageShipsFragment"
+        android:name="com.example.shipvoyage.ui.admin.ManageShipsFragment"
+        android:label="Manage Ships" />
+
+    <fragment
+        android:id="@+id/manageToursFragment"
+        android:name="com.example.shipvoyage.ui.admin.ManageToursFragment"
+        android:label="Manage Tours" />
+
+    <fragment
+        android:id="@+id/manageTourInstancesFragment"
+        android:name="com.example.shipvoyage.ui.admin.ManageTourInstancesFragment"
+        android:label="Manage Tour Instances" />
+
+    <fragment
+        android:id="@+id/manageRoomsFragment"
+        android:name="com.example.shipvoyage.ui.admin.ManageRoomsFragment"
+        android:label="Manage Rooms" />
+
+    <fragment
+        android:id="@+id/manageFeaturedPhotosFragment"
+        android:name="com.example.shipvoyage.ui.admin.ManageFeaturedPhotosFragment"
+        android:label="Manage Featured Photos" />
+
+    <fragment
+        android:id="@+id/viewBookingsFragment"
+        android:name="com.example.shipvoyage.ui.admin.ViewBookingsFragment"
+        android:label="View Bookings" />
+
+    <fragment
+        android:id="@+id/customerListFragment"
+        android:name="com.example.shipvoyage.ui.admin.CustomerListFragment"
+        android:label="Customers" />
+
+    <fragment
+        android:id="@+id/adminProfileFragment"
+        android:name="com.example.shipvoyage.ui.admin.AdminProfileFragment"
+        android:label="Admin Profile" />
+
+</navigation>

@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/adminDashboardFragmentRoot"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/adminDashboardTitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Admin Dashboard"
+            android:textColor="@color/text_primary"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:paddingVertical="12dp" />
+
+        <GridLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:columnCount="2"
+            android:rowCount="4"
+            android:padding="16dp"
+            android:alignmentMode="alignBounds"
+            android:columnOrderPreserved="false">
+
+            <!-- Total Ships Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardShips"
+                android:layout_width="0dp"
+                android:layout_height="160dp"
+                android:layout_row="0"
+                android:layout_column="0"
+                android:layout_columnWeight="1"
+                android:layout_margin="8dp"
+                app:cardBackgroundColor="#1ABC9C"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Total Ships"
+                        android:textColor="@color/text_white"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/lblTotalShips"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="0"
+                        android:textColor="@color/text_white"
+                        android:textSize="32sp"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/btnViewShips"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:backgroundTint="#16A085"
+                        android:text="Manage"
+                        android:textColor="@color/text_white"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Total Tours Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardTours"
+                android:layout_width="0dp"
+                android:layout_height="160dp"
+                android:layout_row="0"
+                android:layout_column="1"
+                android:layout_columnWeight="1"
+                android:layout_margin="8dp"
+                app:cardBackgroundColor="#3498DB"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Total Tours"
+                        android:textColor="@color/text_white"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/lblTotalTours"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="0"
+                        android:textColor="@color/text_white"
+                        android:textSize="32sp"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/btnViewTours"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:backgroundTint="#2980B9"
+                        android:text="Manage"
+                        android:textColor="@color/text_white"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Tour Instances Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardInstances"
+                android:layout_width="0dp"
+                android:layout_height="160dp"
+                android:layout_row="1"
+                android:layout_column="0"
+                android:layout_columnWeight="1"
+                android:layout_margin="8dp"
+                app:cardBackgroundColor="#E67E22"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Tour Instances"
+                        android:textColor="@color/text_white"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/lblTourInstances"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="0"
+                        android:textColor="@color/text_white"
+                        android:textSize="32sp"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/btnViewInstances"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:backgroundTint="#D35400"
+                        android:text="Manage"
+                        android:textColor="@color/text_white"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Upcoming Tours Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardUpcoming"
+                android:layout_width="0dp"
+                android:layout_height="160dp"
+                android:layout_row="1"
+                android:layout_column="1"
+                android:layout_columnWeight="1"
+                android:layout_margin="8dp"
+                app:cardBackgroundColor="#2563EB"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Upcoming Tours"
+                        android:textColor="@color/text_white"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/lblUpcomingTours"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="0"
+                        android:textColor="@color/text_white"
+                        android:textSize="32sp"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/btnViewUpcoming"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:backgroundTint="#1E40AF"
+                        android:text="View Upcoming"
+                        android:textColor="@color/text_white"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Current Tours Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardCurrent"
+                android:layout_width="0dp"
+                android:layout_height="160dp"
+                android:layout_row="2"
+                android:layout_column="0"
+                android:layout_columnWeight="1"
+                android:layout_margin="8dp"
+                app:cardBackgroundColor="#10B981"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Current Tours"
+                        android:textColor="@color/text_white"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/lblCurrentTours"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="0"
+                        android:textColor="@color/text_white"
+                        android:textSize="32sp"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/btnViewCurrent"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:backgroundTint="#0F766E"
+                        android:text="View Current"
+                        android:textColor="@color/text_white"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Total Bookings Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardBookings"
+                android:layout_width="0dp"
+                android:layout_height="160dp"
+                android:layout_row="2"
+                android:layout_column="1"
+                android:layout_columnWeight="1"
+                android:layout_margin="8dp"
+                app:cardBackgroundColor="#3B82F6"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Total Bookings"
+                        android:textColor="@color/text_white"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/lblTotalBookings"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="0"
+                        android:textColor="@color/text_white"
+                        android:textSize="32sp"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/btnViewBookings"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:backgroundTint="#1D4ED8"
+                        android:text="View Bookings"
+                        android:textColor="@color/text_white"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Total Customers Card -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardCustomers"
+                android:layout_width="0dp"
+                android:layout_height="160dp"
+                android:layout_row="3"
+                android:layout_column="0"
+                android:layout_columnWeight="1"
+                android:layout_margin="8dp"
+                app:cardBackgroundColor="#8B5CF6"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="4dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:padding="16dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Total Customers"
+                        android:textColor="@color/text_white"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/lblTotalCustomers"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="0"
+                        android:textColor="@color/text_white"
+                        android:textSize="32sp"
+                        android:textStyle="bold" />
+
+                    <Button
+                        android:id="@+id/btnViewCustomers"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:backgroundTint="#6D28D9"
+                        android:text="View Customers"
+                        android:textColor="@color/text_white"
+                        android:textSize="12sp" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+        </GridLayout>
+    </LinearLayout>
+</ScrollView>

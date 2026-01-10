@@ -14,8 +14,8 @@ import androidx.core.view.WindowInsetsCompat;
 import com.example.shipvoyage.R;
 import com.example.shipvoyage.dao.UserDAO;
 import com.example.shipvoyage.model.User;
-import com.example.shipvoyage.ui.admin.AdminDashboardActivity;
-import com.example.shipvoyage.ui.passenger.PassengerHomeActivity;
+import com.example.shipvoyage.ui.admin.AdminMainActivity;
+import com.example.shipvoyage.ui.passenger.PassengerMainActivity;
 import com.google.firebase.auth.FirebaseAuth;
 public class LoginActivity extends AppCompatActivity {
     private EditText emailField;
@@ -91,9 +91,9 @@ public class LoginActivity extends AppCompatActivity {
         String selected = selectedRole != null ? selectedRole.trim() : "";
         Intent intent;
         if (effectiveRole.equalsIgnoreCase("admin") || selected.equalsIgnoreCase("admin")) {
-            intent = new Intent(this, AdminDashboardActivity.class);
+            intent = new Intent(this, AdminMainActivity.class);
         } else {
-            intent = new Intent(this, PassengerHomeActivity.class);
+            intent = new Intent(this, PassengerMainActivity.class);
         }
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
@@ -104,4 +104,4 @@ public class LoginActivity extends AppCompatActivity {
         intent.putExtra("role", selectedRole);
         startActivity(intent);
     }
-}
+}

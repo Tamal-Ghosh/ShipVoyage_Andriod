@@ -62,32 +62,74 @@
             android:textColor="@android:color/white"
             style="@style/ButtonStyle.Primary" />
 
+        <!-- Manage Button (Collapsible) -->
         <Button
-            android:id="@+id/manageShipsButton"
+            android:id="@+id/manageButton"
             android:layout_width="240dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:text="Manage Ships"
+            android:text="Manage ▼"
             android:textColor="@android:color/white"
             style="@style/ButtonStyle.Primary" />
 
-        <Button
-            android:id="@+id/manageToursButton"
+        <!-- Manage Submenu (Hidden by default) -->
+        <LinearLayout
+            android:id="@+id/manageSubmenu"
             android:layout_width="240dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Manage Tours"
-            android:textColor="@android:color/white"
-            style="@style/ButtonStyle.Primary" />
+            android:orientation="vertical"
+            android:visibility="gone"
+            android:layout_marginTop="4dp">
 
-        <Button
-            android:id="@+id/manageInstancesButton"
-            android:layout_width="240dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Tour Instances"
-            android:textColor="@android:color/white"
-            style="@style/ButtonStyle.Primary" />
+            <Button
+                android:id="@+id/manageShipsButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="  • Manage Ships"
+                android:textColor="@android:color/white"
+                android:layout_marginBottom="4dp"
+                android:backgroundTint="#3a7ca5"
+                style="@style/ButtonStyle.Primary" />
+
+            <Button
+                android:id="@+id/manageRoomsButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="  • Manage Rooms"
+                android:textColor="@android:color/white"
+                android:layout_marginBottom="4dp"
+                android:backgroundTint="#3a7ca5"
+                style="@style/ButtonStyle.Primary" />
+
+            <Button
+                android:id="@+id/manageToursButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="  • Manage Tours"
+                android:textColor="@android:color/white"
+                android:layout_marginBottom="4dp"
+                android:backgroundTint="#3a7ca5"
+                style="@style/ButtonStyle.Primary" />
+
+            <Button
+                android:id="@+id/manageInstancesButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="  • Tour Instances"
+                android:textColor="@android:color/white"
+                android:layout_marginBottom="4dp"
+                android:backgroundTint="#3a7ca5"
+                style="@style/ButtonStyle.Primary" />
+
+            <Button
+                android:id="@+id/manageFeaturedPhotosButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="  • Featured Photos"
+                android:textColor="@android:color/white"
+                android:backgroundTint="#3a7ca5"
+                style="@style/ButtonStyle.Primary" />
+        </LinearLayout>
 
         <!-- Divider -->
         <View
