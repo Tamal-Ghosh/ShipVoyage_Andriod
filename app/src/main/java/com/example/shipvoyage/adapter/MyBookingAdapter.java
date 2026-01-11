@@ -34,7 +34,6 @@ public class MyBookingAdapter extends ListAdapter<Booking, MyBookingAdapter.View
         private TextView totalAmount;
         private TextView departureDate;
         private TextView returnDate;
-        private ImageView statusIcon;
         private Button cancelButton;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -43,7 +42,6 @@ public class MyBookingAdapter extends ListAdapter<Booking, MyBookingAdapter.View
             totalAmount = itemView.findViewById(R.id.totalAmount);
             departureDate = itemView.findViewById(R.id.departureDate);
             returnDate = itemView.findViewById(R.id.returnDate);
-            statusIcon = itemView.findViewById(R.id.statusIcon);
             cancelButton = itemView.findViewById(R.id.cancelButton);
         }
         public void bind(Booking booking, OnCancelClickListener listener) {
@@ -85,4 +83,4 @@ public class MyBookingAdapter extends ListAdapter<Booking, MyBookingAdapter.View
     public interface OnCancelClickListener {
         void onCancelClick(Booking booking);
     }
-}
+}

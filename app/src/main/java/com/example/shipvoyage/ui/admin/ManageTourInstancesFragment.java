@@ -38,7 +38,8 @@ public class ManageTourInstancesFragment extends Fragment {
     private RecyclerView instancesRecyclerView;
     private EditText startDateField, endDateField, searchField;
     private Spinner tourSpinner, shipSpinner;
-    private Button saveBtn, cancelBtn, searchBtn;
+    private Button saveBtn, cancelBtn, searchBtn, addToggleBtn;
+    private View formContainer;
     private TourInstanceDAO instanceDAO;
     private TourDAO tourDAO;
     private ShipDAO shipDAO;
@@ -50,6 +51,7 @@ public class ManageTourInstancesFragment extends Fragment {
     private static final int START_DATE = 1;
     private static final int END_DATE = 2;
     private int currentDateFieldType = 0;
+    private boolean isFormVisible = false;
 
     @Nullable
     @Override
@@ -80,6 +82,8 @@ public class ManageTourInstancesFragment extends Fragment {
         saveBtn = view.findViewById(R.id.saveBtn);
         cancelBtn = view.findViewById(R.id.cancelBtn);
         searchBtn = view.findViewById(R.id.searchBtn);
+        addToggleBtn = view.findViewById(R.id.addToggleBtn);
+        formContainer = view.findViewById(R.id.formContainer);
 
         instancesRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         adapter = new TourInstanceAdapter(new TourInstanceAdapter.OnTourInstanceClickListener() {
@@ -89,19 +93,20 @@ public class ManageTourInstancesFragment extends Fragment {
                 startDateField.setText(instance.getStartDate());
                 endDateField.setText(instance.getEndDate());
                 
-                // Set spinner selections
+                // Set spinner selections (add 1 to account for "None" at position 0)
                 for (int i = 0; i < toursList.size(); i++) {
                     if (toursList.get(i).getId().equals(instance.getTourId())) {
-                        tourSpinner.setSelection(i);
+                        tourSpinner.setSelection(i + 1);
                         break;
                     }
                 }
                 for (int i = 0; i < shipsList.size(); i++) {
                     if (shipsList.get(i).getId().equals(instance.getShipId())) {
-                        shipSpinner.setSelection(i);
+                        shipSpinner.setSelection(i + 1);
                         break;
                     }
                 }
+                toggleForm(true);
             }
 
             @Override
@@ -129,6 +134,14 @@ public class ManageTourInstancesFragment extends Fragment {
         saveBtn.setOnClickListener(v -> saveInstance());
         cancelBtn.setOnClickListener(v -> clearForm());
         searchBtn.setOnClickListener(v -> performSearch());
+        addToggleBtn.setOnClickListener(v -> {
+            if (isFormVisible) {
+                clearForm();
+                toggleForm(false);
+            } else {
+                toggleForm(true);
+            }
+        });
         searchField.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -184,31 +197,33 @@ public class ManageTourInstancesFragment extends Fragment {
     }
 
     private void updateTourSpinner() {
-        android.widget.ArrayAdapter<Tour> adapter = new android.widget.ArrayAdapter<Tour>(
+        List<String> tourNames = new ArrayList<>();
+        tourNames.add("None");
+        for (Tour tour : toursList) {
+            tourNames.add(tour.getName());
+        }
+        
+        android.widget.ArrayAdapter<String> adapter = new android.widget.ArrayAdapter<>(
                 requireContext(),
                 android.R.layout.simple_spinner_item,
-                toursList
-        ) {
-
-            public String toString(Tour tour) {
-                return tour.getName();
-            }
-        };
+                tourNames
+        );
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         tourSpinner.setAdapter(adapter);
     }
 
     private void updateShipSpinner() {
-        android.widget.ArrayAdapter<Ship> adapter = new android.widget.ArrayAdapter<Ship>(
+        List<String> shipNames = new ArrayList<>();
+        shipNames.add("None");
+        for (Ship ship : shipsList) {
+            shipNames.add(ship.getName());
+        }
+        
+        android.widget.ArrayAdapter<String> adapter = new android.widget.ArrayAdapter<>(
                 requireContext(),
                 android.R.layout.simple_spinner_item,
-                shipsList
-        ) {
-           
-            public String toString(Ship ship) {
-                return ship.getName();
-            }
-        };
+                shipNames
+        );
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         shipSpinner.setAdapter(adapter);
     }
@@ -243,14 +258,16 @@ public class ManageTourInstancesFragment extends Fragment {
     private void saveInstance() {
         String startDate = startDateField.getText().toString().trim();
         String endDate = endDateField.getText().toString().trim();
+        int tourPosition = tourSpinner.getSelectedItemPosition();
+        int shipPosition = shipSpinner.getSelectedItemPosition();
 
-        if (startDate.isEmpty() || endDate.isEmpty() || tourSpinner.getSelectedItem() == null || shipSpinner.getSelectedItem() == null) {
+        if (startDate.isEmpty() || endDate.isEmpty() || tourPosition == 0 || shipPosition == 0) {
             Toast.makeText(requireContext(), "Please fill all fields", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        Tour selectedTour = (Tour) tourSpinner.getSelectedItem();
-        Ship selectedShip = (Ship) shipSpinner.getSelectedItem();
+        Tour selectedTour = toursList.get(tourPosition - 1);
+        Ship selectedShip = shipsList.get(shipPosition - 1);
 
         String instanceId = editingInstanceId != null ? editingInstanceId : instanceDAO.tourInstancesRef.push().getKey();
         if (instanceId != null) {
@@ -260,6 +277,7 @@ public class ManageTourInstancesFragment extends Fragment {
             instanceDAO.addTourInstance(instance).addOnSuccessListener(unused -> {
                 Toast.makeText(requireContext(), editingInstanceId != null ? "Instance updated" : "Instance saved", Toast.LENGTH_SHORT).show();
                 clearForm();
+                toggleForm(false);
                 loadInstances();
             }).addOnFailureListener(e -> {
                 Toast.makeText(requireContext(), "Failed to save instance", Toast.LENGTH_SHORT).show();
@@ -271,6 +289,16 @@ public class ManageTourInstancesFragment extends Fragment {
         editingInstanceId = null;
         startDateField.setText("");
         endDateField.setText("");
+        toggleForm(false);
+    }
+
+    private void toggleForm(boolean show) {
+        isFormVisible = show;
+        formContainer.setVisibility(show ? View.VISIBLE : View.GONE);
+        addToggleBtn.setText(show ? "Close Form" : "Add Instance");
+        if (show) {
+            startDateField.requestFocus();
+        }
     }
 
     private void performSearch() {

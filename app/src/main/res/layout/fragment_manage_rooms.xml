@@ -21,40 +21,69 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginBottom="20dp"
-        android:gravity="center_vertical">
+        android:padding="16dp">
 
-        <com.google.android.material.textfield.TextInputLayout
+        <EditText
+            android:id="@+id/searchField"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:layout_weight="1"
-            android:layout_marginEnd="8dp">
+            android:hint="Search room number or type"
+            android:padding="12dp"
+            android:background="@android:drawable/edit_text" />
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/searchField"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Search room number or type"
-                android:textColor="@color/text_primary"
-                android:textColorHint="@color/text_secondary" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.button.MaterialButton
+        <Button
             android:id="@+id/searchBtn"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="48dp"
             android:text="Search"
-            android:textColor="@android:color/white" />
+            android:layout_marginStart="8dp" />
+    </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/addToggleBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add Room"
+        android:textColor="@android:color/white"
+        android:layout_marginBottom="16dp" />
+
+    <!-- Ship Filter Section -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="16dp"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Select Ship"
+            android:textColor="@color/text_primary"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginEnd="8dp" />
+
+        <Spinner
+            android:id="@+id/shipSpinner"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_weight="1"
+            android:padding="12dp"
+            android:background="@android:drawable/btn_dropdown" />
     </LinearLayout>
 
     <!-- Form Section -->
     <LinearLayout
+        android:id="@+id/formContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginBottom="20dp"
         android:padding="16dp"
-        android:background="@android:color/white">
+        android:background="@android:color/white"
+        android:visibility="gone">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -156,29 +185,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginBottom="16dp"
-            android:gravity="center_vertical">
-
-            <TextView
-                android:layout_width="140dp"
-                android:layout_height="wrap_content"
-                android:text="Ship"
-                android:textColor="@color/text_primary"
-                android:textSize="16sp"
-                android:textStyle="bold" />
-
-            <Spinner
-                android:id="@+id/shipSpinner"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="16dp">
+            android:layout_marginTop="16dp">>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/saveBtn"

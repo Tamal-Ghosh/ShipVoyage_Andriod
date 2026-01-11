@@ -3,16 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="@dimen/margin_small"
-    app:cardElevation="@dimen/elevation_small"
-    app:cardCornerRadius="@dimen/corner_radius_medium"
-    style="@style/CardStyle">
+    android:layout_margin="8dp"
+    app:cardCornerRadius="12dp"
+    app:cardElevation="2dp"
+    app:cardBackgroundColor="@android:color/white">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:padding="@dimen/padding_medium">
+        android:padding="16dp">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -20,52 +20,100 @@
             android:layout_weight="1"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tourName"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Tour Name"
-                android:textAppearance="@style/TextAppearance.Title" />
+                android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/shipName"
-                android:layout_width="wrap_content"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tour: "
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="#6B7280" />
+
+                <TextView
+                    android:id="@+id/tourName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tour Name"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/text_primary" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Ship Name"
-                android:textAppearance="@style/TextAppearance.Body" />
+                android:orientation="horizontal"
+                android:layout_marginTop="6dp">
 
-            <TextView
-                android:id="@+id/instanceDates"
-                android:layout_width="wrap_content"
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ship: "
+                    android:textSize="14sp"
+                    android:textColor="#6B7280" />
+
+                <TextView
+                    android:id="@+id/shipName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ship Name"
+                    android:textSize="14sp"
+                    android:textColor="#6B7280" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="4dp"
-                android:text="Start Date - End Date"
-                android:textAppearance="@style/TextAppearance.BodySmall" />
+                android:orientation="horizontal"
+                android:layout_marginTop="6dp">
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Dates: "
+                    android:textSize="14sp"
+                    android:textColor="#6B7280" />
+
+                <TextView
+                    android:id="@+id/instanceDates"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Start - End"
+                    android:textSize="14sp"
+                    android:textColor="@color/text_primary" />
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
 
             <ImageButton
                 android:id="@+id/editBtn"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
+                android:layout_marginEnd="8dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:src="@android:drawable/ic_menu_edit"
-                android:contentDescription="Edit" />
+                android:contentDescription="Edit"
+                android:scaleType="centerInside"
+                android:src="@drawable/baseline_edit_24"
+                android:tint="#26A65B" />
 
             <ImageButton
                 android:id="@+id/deleteBtn"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:background="?attr/selectableItemBackgroundBorderless"
-                android:src="@android:drawable/ic_menu_delete"
-                android:contentDescription="Delete" />
-
+                android:contentDescription="Delete"
+                android:scaleType="centerInside"
+                android:src="@drawable/baseline_delete_24"
+                android:tint="#E74C3C" />
         </LinearLayout>
 
     </LinearLayout>

@@ -28,11 +28,13 @@ import java.util.List;
 public class ManageToursFragment extends Fragment {
     private RecyclerView toursRecyclerView;
     private EditText nameField, fromField, toField, descriptionField, searchField;
-    private Button saveBtn, cancelBtn, searchBtn;
+    private Button saveBtn, cancelBtn, searchBtn, addToggleBtn;
+    private View formContainer;
     private TourDAO tourDAO;
     private List<Tour> toursList = new ArrayList<>();
     private TourAdapter tourAdapter;
     private String editingTourId = null;
+    private boolean isFormVisible = false;
 
     @Nullable
     @Override
@@ -59,6 +61,8 @@ public class ManageToursFragment extends Fragment {
         saveBtn = view.findViewById(R.id.saveBtn);
         cancelBtn = view.findViewById(R.id.cancelBtn);
         searchBtn = view.findViewById(R.id.searchBtn);
+        addToggleBtn = view.findViewById(R.id.addToggleBtn);
+        formContainer = view.findViewById(R.id.formContainer);
 
         toursRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         tourAdapter = new TourAdapter(new TourAdapter.OnTourClickListener() {
@@ -69,6 +73,7 @@ public class ManageToursFragment extends Fragment {
                 fromField.setText(tour.getFrom());
                 toField.setText(tour.getTo());
                 descriptionField.setText(tour.getDescription());
+                toggleForm(true);
             }
 
             @Override
@@ -88,6 +93,14 @@ public class ManageToursFragment extends Fragment {
         saveBtn.setOnClickListener(v -> saveTour());
         cancelBtn.setOnClickListener(v -> clearForm());
         searchBtn.setOnClickListener(v -> performSearch());
+        addToggleBtn.setOnClickListener(v -> {
+            if (isFormVisible) {
+                clearForm();
+                toggleForm(false);
+            } else {
+                toggleForm(true);
+            }
+        });
         searchField.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -152,6 +165,7 @@ public class ManageToursFragment extends Fragment {
             tourDAO.addTour(tour).addOnSuccessListener(unused -> {
                 Toast.makeText(requireContext(), editingTourId != null ? "Tour updated successfully" : "Tour saved successfully", Toast.LENGTH_SHORT).show();
                 clearForm();
+                toggleForm(false);
                 loadTours();
             }).addOnFailureListener(e -> {
                 Toast.makeText(requireContext(), "Failed to save tour", Toast.LENGTH_SHORT).show();
@@ -165,6 +179,16 @@ public class ManageToursFragment extends Fragment {
         fromField.setText("");
         toField.setText("");
         descriptionField.setText("");
+        toggleForm(false);
+    }
+
+    private void toggleForm(boolean show) {
+        isFormVisible = show;
+        formContainer.setVisibility(show ? View.VISIBLE : View.GONE);
+        addToggleBtn.setText(show ? "Close Form" : "Add Tour");
+        if (show) {
+            nameField.requestFocus();
+        }
     }
 
     private void performSearch() {

@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="@dimen/padding_medium">
+        android:padding="16dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -25,36 +25,94 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/bookingId"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Booking #12345"
-                    android:textAppearance="@style/TextAppearance.Title" />
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/customerName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="Customer Name"
-                    android:textAppearance="@style/TextAppearance.Body" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Booking ID: "
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="#6B7280" />
 
-                <TextView
-                    android:id="@+id/customerEmail"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:text="email@example.com"
-                    android:textAppearance="@style/TextAppearance.BodySmall" />
+                    <TextView
+                        android:id="@+id/bookingId"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="#12345"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/text_primary" />
+                </LinearLayout>
 
-                <TextView
-                    android:id="@+id/customerPhone"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="2dp"
-                    android:text="+1234567890"
-                    android:textAppearance="@style/TextAppearance.BodySmall" />
+                    android:orientation="horizontal"
+                    android:layout_marginTop="6dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Customer: "
+                        android:textSize="14sp"
+                        android:textColor="#6B7280" />
+
+                    <TextView
+                        android:id="@+id/customerName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Customer Name"
+                        android:textSize="14sp"
+                        android:textColor="@color/text_primary" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="4dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Email: "
+                        android:textSize="13sp"
+                        android:textColor="#6B7280" />
+
+                    <TextView
+                        android:id="@+id/customerEmail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="email@example.com"
+                        android:textSize="13sp"
+                        android:textColor="@color/text_primary" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="4dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Phone: "
+                        android:textSize="13sp"
+                        android:textColor="#6B7280" />
+
+                    <TextView
+                        android:id="@+id/customerPhone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="+1234567890"
+                        android:textSize="13sp"
+                        android:textColor="@color/text_primary" />
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -62,30 +120,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
-                android:gravity="end">
-
-                <TextView
-                    android:id="@+id/bookingStatus"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Confirmed"
-                    android:textAppearance="@style/TextAppearance.Body"
-                    android:textColor="@color/secondary"
-                    android:textStyle="bold"
-                    android:paddingStart="12dp"
-                    android:paddingEnd="12dp"
-                    android:paddingTop="4dp"
-                    android:paddingBottom="4dp"
-                    android:background="@drawable/badge_background" />
+                android:gravity="center_vertical">
 
                 <ImageButton
                     android:id="@+id/deleteBtn"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginStart="8dp"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:src="@android:drawable/ic_menu_delete"
-                    android:contentDescription="Delete" />
+                    android:contentDescription="Delete"
+                    android:scaleType="centerInside"
+                    android:src="@drawable/baseline_delete_24"
+                    android:tint="#E74C3C" />
 
             </LinearLayout>
 
@@ -104,19 +150,20 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Rooms:"
-                android:textAppearance="@style/TextAppearance.BodySmall"
-                android:textStyle="bold" />
+                android:text="Rooms: "
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:textColor="#6B7280" />
 
             <TextView
                 android:id="@+id/bookingRooms"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="2, 5, 7"
-                android:textAppearance="@style/TextAppearance.BodySmall" />
+                android:textSize="13sp"
+                android:textColor="@color/text_primary" />
 
         </LinearLayout>
 
@@ -127,22 +174,46 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Total Payment:"
-                android:textAppearance="@style/TextAppearance.BodySmall"
-                android:textStyle="bold" />
+                android:text="Total: "
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:textColor="#6B7280" />
 
             <TextView
                 android:id="@+id/bookingTotal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="$2,500"
-                android:textAppearance="@style/TextAppearance.Body"
-                android:textColor="@color/accent"
+                android:textSize="13sp"
+                android:textColor="#26A65B"
                 android:textStyle="bold" />
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Status: "
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:textColor="#6B7280" />
+
+            <TextView
+                android:id="@+id/bookingStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Confirmed"
+                android:textSize="13sp"
+                android:textColor="#26A65B"
+                android:textStyle="bold" />
         </LinearLayout>
 
     </LinearLayout>

@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -33,9 +34,12 @@ public class ManageShipsFragment extends Fragment {
     private Button saveBtn;
     private Button cancelBtn;
     private Button searchBtn;
+    private Button addToggleBtn;
+    private View formContainer;
     private ShipDAO shipDAO;
     private List<Ship> shipsList;
     private ShipAdapter shipAdapter;
+    private boolean isFormVisible = false;
 
     @Nullable
     @Override
@@ -62,6 +66,8 @@ public class ManageShipsFragment extends Fragment {
         saveBtn = view.findViewById(R.id.saveBtn);
         cancelBtn = view.findViewById(R.id.cancelBtn);
         searchBtn = view.findViewById(R.id.searchBtn);
+        addToggleBtn = view.findViewById(R.id.addToggleBtn);
+        formContainer = view.findViewById(R.id.formContainer);
 
         shipsRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
         shipAdapter = new ShipAdapter(new ShipAdapter.OnShipClickListener() {
@@ -69,6 +75,7 @@ public class ManageShipsFragment extends Fragment {
             public void onEditClick(Ship ship) {
                 nameField.setText(ship.getName());
                 capacityField.setText(String.valueOf(ship.getCapacity()));
+                toggleForm(true);
             }
 
             @Override
@@ -88,6 +95,14 @@ public class ManageShipsFragment extends Fragment {
         saveBtn.setOnClickListener(v -> saveShip());
         cancelBtn.setOnClickListener(v -> clearForm());
         searchBtn.setOnClickListener(v -> performSearch());
+        addToggleBtn.setOnClickListener(v -> {
+            if (isFormVisible) {
+                clearForm();
+                toggleForm(false);
+            } else {
+                toggleForm(true);
+            }
+        });
 
         searchField.addTextChangedListener(new TextWatcher() {
             @Override
@@ -155,6 +170,7 @@ public class ManageShipsFragment extends Fragment {
             shipDAO.addShip(ship).addOnSuccessListener(unused -> {
                 Toast.makeText(requireContext(), "Ship saved successfully", Toast.LENGTH_SHORT).show();
                 clearForm();
+                toggleForm(false);
                 loadShips();
             }).addOnFailureListener(e -> {
                 Toast.makeText(requireContext(), "Failed to save ship", Toast.LENGTH_SHORT).show();
@@ -165,6 +181,7 @@ public class ManageShipsFragment extends Fragment {
     private void clearForm() {
         nameField.setText("");
         capacityField.setText("");
+        toggleForm(false);
     }
 
     private void performSearch() {
@@ -185,5 +202,14 @@ public class ManageShipsFragment extends Fragment {
 
     private void updateRecyclerView() {
         shipAdapter.submitList(new ArrayList<>(shipsList));
+    }
+
+    private void toggleForm(boolean show) {
+        isFormVisible = show;
+        formContainer.setVisibility(show ? View.VISIBLE : View.GONE);
+        addToggleBtn.setText(show ? "Close Form" : "Add Ship");
+        if (show) {
+            nameField.requestFocus();
+        }
     }
 }

@@ -64,7 +64,6 @@ public class ViewBookingsFragment extends Fragment {
         initViews(view);
         loadUsers();
         loadTours();
-        loadBookings();
     }
 
     private void initViews(View view) {
@@ -105,6 +104,7 @@ public class ViewBookingsFragment extends Fragment {
                     getActivity().runOnUiThread(() -> {
                         usersMap.clear();
                         usersMap.putAll(newUsersMap);
+                        loadTours();
                     });
                 }
             });
@@ -149,7 +149,7 @@ public class ViewBookingsFragment extends Fragment {
             ThreadPool.getExecutor().execute(() -> {
                 List<TourInstance> newInstances = new ArrayList<>();
                 List<String> instanceNames = new ArrayList<>();
-                instanceNames.add("All Tour Instances");
+                instanceNames.add("Select Tour Instance");
                 
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     TourInstance instance = snapshot.getValue(TourInstance.class);
@@ -181,6 +181,7 @@ public class ViewBookingsFragment extends Fragment {
                             @Override
                             public void onNothingSelected(AdapterView<?> parent) {}
                         });
+                        loadBookings();
                     });
                 }
             });

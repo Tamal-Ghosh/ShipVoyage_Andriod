@@ -123,7 +123,7 @@ public class CustomerListFragment extends Fragment {
         tourInstanceDAO.getAllTourInstances().addOnSuccessListener(dataSnapshot -> {
             instancesList.clear();
             List<String> instanceNames = new ArrayList<>();
-            instanceNames.add("All Instances");
+            instanceNames.add("Select Tour Instance");
             
             for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                 TourInstance instance = snapshot.getValue(TourInstance.class);

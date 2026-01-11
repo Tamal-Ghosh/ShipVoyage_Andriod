@@ -16,11 +16,23 @@
         android:gravity="center"
         android:paddingVertical="12dp" />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Filter by Tour Instance"
+        android:textColor="@color/text_primary"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="4dp" />
+
     <Spinner
         android:id="@+id/tourInstanceSpinner"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_height="48dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginBottom="16dp"
         android:padding="12dp"
         android:background="@android:drawable/btn_dropdown" />
 

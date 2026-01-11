@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="@dimen/padding_medium">
+        android:padding="16dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -25,43 +25,91 @@
                 android:layout_weight="1"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/customerName"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Customer Name"
-                    android:textAppearance="@style/TextAppearance.Title" />
+                    android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/customerEmail"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="email@example.com"
-                    android:textAppearance="@style/TextAppearance.Body" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Name: "
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="#6B7280" />
 
-                <TextView
-                    android:id="@+id/customerPhone"
-                    android:layout_width="wrap_content"
+                    <TextView
+                        android:id="@+id/customerName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Customer Name"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/text_primary" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="4dp"
-                    android:text="+1234567890"
-                    android:textAppearance="@style/TextAppearance.BodySmall" />
+                    android:orientation="horizontal"
+                    android:layout_marginTop="6dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Email: "
+                        android:textSize="14sp"
+                        android:textColor="#6B7280" />
+
+                    <TextView
+                        android:id="@+id/customerEmail"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="email@example.com"
+                        android:textSize="14sp"
+                        android:textColor="@color/text_primary" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="4dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Phone: "
+                        android:textSize="14sp"
+                        android:textColor="#6B7280" />
+
+                    <TextView
+                        android:id="@+id/customerPhone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="+1234567890"
+                        android:textSize="14sp"
+                        android:textColor="@color/text_primary" />
+                </LinearLayout>
 
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:gravity="center_vertical">
 
                 <ImageButton
                     android:id="@+id/viewBtn"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
+                    android:layout_marginEnd="8dp"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:contentDescription="View"
-                    android:src="@android:drawable/ic_menu_view" />
+                    android:scaleType="centerInside"
+                    android:src="@drawable/baseline_edit_24"
+                    android:tint="#26A65B" />
 
                 <ImageButton
                     android:id="@+id/deleteBtn"
@@ -69,28 +117,65 @@
                     android:layout_height="40dp"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:contentDescription="Delete"
-                    android:src="@android:drawable/ic_menu_delete" />
+                    android:scaleType="centerInside"
+                    android:src="@drawable/baseline_delete_24"
+                    android:tint="#E74C3C" />
 
             </LinearLayout>
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/customerInstance"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:text="Tour Instance: Example Tour"
-            android:textAppearance="@style/TextAppearance.BodySmall"
-            android:textColor="@color/secondary" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
+            android:background="@color/divider" />
 
-        <TextView
-            android:id="@+id/customerPayment"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tour Instance: "
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:textColor="#6B7280" />
+
+            <TextView
+                android:id="@+id/customerInstance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Example Tour"
+                android:textSize="13sp"
+                android:textColor="@color/text_primary" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
-            android:text="Payment: Pending"
-            android:textAppearance="@style/TextAppearance.BodySmall" />
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Payment Status: "
+                android:textSize="13sp"
+                android:textStyle="bold"
+                android:textColor="#6B7280" />
+
+            <TextView
+                android:id="@+id/customerPayment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pending"
+                android:textSize="13sp"
+                android:textColor="@color/text_primary" />
+        </LinearLayout>
 
     </LinearLayout>
 
