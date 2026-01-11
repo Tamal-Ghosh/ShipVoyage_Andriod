@@ -91,7 +91,13 @@ public class BookingAdapter extends ListAdapter<Booking, BookingAdapter.BookingV
         public boolean areContentsTheSame(@NonNull Booking oldItem, @NonNull Booking newItem) {
             return oldItem.getId().equals(newItem.getId()) &&
                     oldItem.getStatus().equals(newItem.getStatus()) &&
-                    oldItem.getPrice() == newItem.getPrice();
+                    oldItem.getPrice() == newItem.getPrice() &&
+                    ((oldItem.getCustomerName() == null && newItem.getCustomerName() == null) || 
+                     (oldItem.getCustomerName() != null && oldItem.getCustomerName().equals(newItem.getCustomerName()))) &&
+                    ((oldItem.getCustomerEmail() == null && newItem.getCustomerEmail() == null) || 
+                     (oldItem.getCustomerEmail() != null && oldItem.getCustomerEmail().equals(newItem.getCustomerEmail()))) &&
+                    ((oldItem.getCustomerPhone() == null && newItem.getCustomerPhone() == null) || 
+                     (oldItem.getCustomerPhone() != null && oldItem.getCustomerPhone().equals(newItem.getCustomerPhone())));
         }
     }
 

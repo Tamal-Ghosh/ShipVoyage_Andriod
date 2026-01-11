@@ -7,7 +7,7 @@ import android.os.Looper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import java.net.HttpURLConnection;
@@ -54,7 +54,7 @@ public class FeaturedPhotoAdapter extends ListAdapter<FeaturedPhoto, FeaturedPho
     static class ViewHolder extends RecyclerView.ViewHolder {
         ImageView photoImage;
         TextView photoTitle, photoDescription;
-        Button editButton, deleteButton;
+        ImageButton editButton, deleteButton;
         private FeaturedPhoto currentPhoto;
         private final boolean showEdit;
         private final boolean showDelete;
@@ -148,4 +148,4 @@ public class FeaturedPhotoAdapter extends ListAdapter<FeaturedPhoto, FeaturedPho
                    (oldItem.getDescription() != null ? oldItem.getDescription().equals(newItem.getDescription()) : newItem.getDescription() == null);
         }
     }
-}
+}

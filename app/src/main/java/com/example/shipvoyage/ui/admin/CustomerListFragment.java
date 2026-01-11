@@ -9,11 +9,13 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -74,7 +76,7 @@ public class CustomerListFragment extends Fragment {
         customerAdapter = new CustomerAdapter(new CustomerAdapter.OnCustomerClickListener() {
             @Override
             public void onViewClick(User customer) {
-                Toast.makeText(requireContext(), "View: " + customer.getName(), Toast.LENGTH_SHORT).show();
+                showEditCustomerDialog(customer);
             }
 
             @Override
@@ -185,5 +187,60 @@ public class CustomerListFragment extends Fragment {
             }
         }
         customerAdapter.submitList(filteredList);
+    }
+
+    private void showEditCustomerDialog(User customer) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+        builder.setTitle("Edit Customer");
+        
+        View dialogView = getLayoutInflater().inflate(android.R.layout.simple_list_item_1, null);
+        LinearLayout layout = new LinearLayout(requireContext());
+        layout.setOrientation(LinearLayout.VERTICAL);
+        layout.setPadding(50, 40, 50, 10);
+        
+        final EditText nameInput = new EditText(requireContext());
+        nameInput.setHint("Name");
+        nameInput.setText(customer.getName());
+        layout.addView(nameInput);
+        
+        final EditText emailInput = new EditText(requireContext());
+        emailInput.setHint("Email");
+        emailInput.setInputType(android.text.InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+        emailInput.setText(customer.getEmail());
+        layout.addView(emailInput);
+        
+        final EditText phoneInput = new EditText(requireContext());
+        phoneInput.setHint("Phone");
+        phoneInput.setInputType(android.text.InputType.TYPE_CLASS_PHONE);
+        phoneInput.setText(customer.getPhone());
+        layout.addView(phoneInput);
+        
+        builder.setView(layout);
+        
+        builder.setPositiveButton("Save", (dialog, which) -> {
+            String name = nameInput.getText().toString().trim();
+            String email = emailInput.getText().toString().trim();
+            String phone = phoneInput.getText().toString().trim();
+            
+            if (name.isEmpty() || email.isEmpty() || phone.isEmpty()) {
+                Toast.makeText(requireContext(), "Please fill all fields", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            
+            customer.setName(name);
+            customer.setEmail(email);
+            customer.setPhone(phone);
+            
+            userDAO.updateUser(customer).addOnSuccessListener(unused -> {
+                Toast.makeText(requireContext(), "Customer updated successfully", Toast.LENGTH_SHORT).show();
+                loadCustomers();
+            }).addOnFailureListener(e -> {
+                Toast.makeText(requireContext(), "Failed to update customer", Toast.LENGTH_SHORT).show();
+            });
+        });
+        
+        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss());
+        
+        builder.create().show();
     }
 }

@@ -62,7 +62,6 @@ public class ViewBookingsFragment extends Fragment {
         userDAO = new UserDAO();
         
         initViews(view);
-        loadUsers();
         loadTours();
     }
 
@@ -88,33 +87,6 @@ public class ViewBookingsFragment extends Fragment {
             }
         });
         bookingsRecyclerView.setAdapter(bookingAdapter);
-    }
-
-    private void loadUsers() {
-        userDAO.getAllUsers().addOnSuccessListener(dataSnapshot -> {
-            ThreadPool.getExecutor().execute(() -> {
-                Map<String, User> newUsersMap = new HashMap<>();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    User user = snapshot.getValue(User.class);
-                    if (user != null) {
-                        newUsersMap.put(user.getId(), user);
-                    }
-                }
-                if (getActivity() != null) {
-                    getActivity().runOnUiThread(() -> {
-                        usersMap.clear();
-                        usersMap.putAll(newUsersMap);
-                        loadTours();
-                    });
-                }
-            });
-        }).addOnFailureListener(e -> {
-            if (getActivity() != null) {
-                getActivity().runOnUiThread(() -> {
-                    Toast.makeText(requireContext(), "Failed to load users", Toast.LENGTH_SHORT).show();
-                });
-            }
-        });
     }
 
     private void loadTours() {
@@ -196,34 +168,63 @@ public class ViewBookingsFragment extends Fragment {
 
     private void loadBookings() {
         bookingDAO.getAllBookings().addOnSuccessListener(dataSnapshot -> {
-            ThreadPool.getExecutor().execute(() -> {
-                List<Booking> newBookings = new ArrayList<>();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    Booking booking = snapshot.getValue(Booking.class);
-                    if (booking != null) {
-                        User user = usersMap.get(booking.getUserId());
-                        if (user != null) {
-                            booking.setCustomerName(user.getName());
-                            booking.setCustomerEmail(user.getEmail());
-                            booking.setCustomerPhone(user.getPhone());
-                        }
-                        newBookings.add(booking);
-                    }
+            List<Booking> newBookings = new ArrayList<>();
+            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                Booking booking = snapshot.getValue(Booking.class);
+                if (booking != null) {
+                    newBookings.add(booking);
                 }
-                if (getActivity() != null) {
-                    getActivity().runOnUiThread(() -> {
-                        bookingsList.clear();
-                        bookingsList.addAll(newBookings);
-                        filterBookings();
-                    });
-                }
-            });
+            }
+            bookingsList.clear();
+            bookingsList.addAll(newBookings);
+            
+            // Fetch customer data for each booking
+            fetchCustomerDataForBookings();
         }).addOnFailureListener(e -> {
             if (getActivity() != null) {
                 getActivity().runOnUiThread(() -> {
                     Toast.makeText(requireContext(), "Failed to load bookings", Toast.LENGTH_SHORT).show();
                 });
             }
+        });
+    }
+
+    private void fetchCustomerDataForBookings() {
+        if (bookingsList.isEmpty()) {
+            if (getActivity() != null) {
+                getActivity().runOnUiThread(this::filterBookings);
+            }
+            return;
+        }
+
+        ThreadPool.getExecutor().execute(() -> {
+            userDAO.getAllUsers().addOnSuccessListener(dataSnapshot -> {
+                Map<String, User> usersMap = new HashMap<>();
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    User user = snapshot.getValue(User.class);
+                    if (user != null) {
+                        usersMap.put(user.getId(), user);
+                    }
+                }
+
+                // Now match bookings with their customer data
+                for (Booking booking : bookingsList) {
+                    User user = usersMap.get(booking.getUserId());
+                    if (user != null) {
+                        booking.setCustomerName(user.getName() != null ? user.getName() : "N/A");
+                        booking.setCustomerEmail(user.getEmail() != null ? user.getEmail() : "N/A");
+                        booking.setCustomerPhone(user.getPhone() != null ? user.getPhone() : "N/A");
+                    }
+                }
+
+                if (getActivity() != null) {
+                    getActivity().runOnUiThread(this::filterBookings);
+                }
+            }).addOnFailureListener(e -> {
+                if (getActivity() != null) {
+                    getActivity().runOnUiThread(this::filterBookings);
+                }
+            });
         });
     }
 

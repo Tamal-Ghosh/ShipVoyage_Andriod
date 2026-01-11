@@ -24,7 +24,12 @@ public class UserDAO {
     public Task<Void> updateUser(String id, Map<String, Object> updates) {
         return usersRef.child(id).updateChildren(updates);
     }
+
+    public Task<Void> updateUser(User user) {
+        return usersRef.child(user.getId()).setValue(user);
+    }
+
     public Task<Void> deleteUser(String id) {
         return usersRef.child(id).removeValue();
     }
-}
+}
