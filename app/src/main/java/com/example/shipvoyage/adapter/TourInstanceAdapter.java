@@ -31,6 +31,7 @@ public class TourInstanceAdapter extends ListAdapter<TourInstance, TourInstanceA
         private TextView tourName;
         private TextView shipName;
         private TextView instanceDates;
+        private TextView returnDate;
         private ImageButton editBtn;
         private ImageButton deleteBtn;
         public TourInstanceViewHolder(@NonNull View itemView) {
@@ -38,6 +39,7 @@ public class TourInstanceAdapter extends ListAdapter<TourInstance, TourInstanceA
             tourName = itemView.findViewById(R.id.tourName);
             shipName = itemView.findViewById(R.id.shipName);
             instanceDates = itemView.findViewById(R.id.instanceDates);
+            returnDate = itemView.findViewById(R.id.returnDate);
             editBtn = itemView.findViewById(R.id.editBtn);
             deleteBtn = itemView.findViewById(R.id.deleteBtn);
         }
@@ -45,6 +47,7 @@ public class TourInstanceAdapter extends ListAdapter<TourInstance, TourInstanceA
             tourName.setText(tourInstance.getTourName());
             shipName.setText(tourInstance.getShipName());
             instanceDates.setText(tourInstance.getStartDate() + " - " + tourInstance.getEndDate());
+            returnDate.setText(tourInstance.getEndDate() != null ? tourInstance.getEndDate() : "N/A");
             editBtn.setOnClickListener(v -> {
                 if (listener != null) {
                     listener.onEditClick(tourInstance);
@@ -75,4 +78,4 @@ public class TourInstanceAdapter extends ListAdapter<TourInstance, TourInstanceA
         void onEditClick(TourInstance tourInstance);
         void onDeleteClick(TourInstance tourInstance);
     }
-}
+}

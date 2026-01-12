@@ -25,7 +25,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class AdminProfileFragment extends Fragment {
-    private EditText usernameField, emailField, phoneField, nameField;
+    private EditText emailField, phoneField, nameField;
     private EditText currentPasswordField, newPasswordField, confirmPasswordField;
     private Button logoutButton, changePasswordButton, changePasswordToggleButton, editButton;
     private LinearLayout changePasswordSection;
@@ -53,7 +53,6 @@ public class AdminProfileFragment extends Fragment {
     }
 
     private void initViews(View view) {
-        usernameField = view.findViewById(R.id.usernameField);
         emailField = view.findViewById(R.id.emailField);
         phoneField = view.findViewById(R.id.phoneField);
         nameField = view.findViewById(R.id.nameField);
@@ -143,7 +142,6 @@ public class AdminProfileFragment extends Fragment {
         userDAO.getUser(currentUserId).addOnSuccessListener(snapshot -> {
             User user = snapshot.getValue(User.class);
             if (user != null) {
-                usernameField.setText(user.getUsername());
                 emailField.setText(user.getEmail());
                 phoneField.setText(user.getPhone() != null ? user.getPhone() : "Not provided");
                 nameField.setText(user.getName() != null ? user.getName() : "Not provided");

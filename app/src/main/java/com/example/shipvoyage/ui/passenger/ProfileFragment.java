@@ -22,6 +22,7 @@ import com.example.shipvoyage.model.User;
 import com.example.shipvoyage.ui.auth.UserTypeActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DataSnapshot;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

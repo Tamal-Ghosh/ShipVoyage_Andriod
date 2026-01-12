@@ -7,6 +7,9 @@ public class TourInstance {
     public String endDate;
     public String tourName;
     public String shipName;
+    public String fromLocation;
+    public String toLocation;
+    
     public TourInstance() {}
     public TourInstance(String id, String tourId, String shipId, String startDate, String endDate) {
         this.id = id;
@@ -56,6 +59,22 @@ public class TourInstance {
     }
     public void setShipName(String shipName) {
         this.shipName = shipName;
+    }
+
+    public String getFromLocation() {
+        return fromLocation;
+    }
+
+    public void setFromLocation(String fromLocation) {
+        this.fromLocation = fromLocation;
+    }
+
+    public String getToLocation() {
+        return toLocation;
+    }
+
+    public void setToLocation(String toLocation) {
+        this.toLocation = toLocation;
     }
 
     @Override

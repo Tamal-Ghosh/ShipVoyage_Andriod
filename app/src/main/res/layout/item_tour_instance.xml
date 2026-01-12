@@ -86,6 +86,28 @@
                     android:textSize="14sp"
                     android:textColor="@color/text_primary" />
             </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="6dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Return Date: "
+                    android:textSize="14sp"
+                    android:textColor="#6B7280" />
+
+                <TextView
+                    android:id="@+id/returnDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Return Date"
+                    android:textSize="14sp"
+                    android:textColor="@color/text_primary" />
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout

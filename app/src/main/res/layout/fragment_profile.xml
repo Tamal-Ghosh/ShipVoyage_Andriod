@@ -12,14 +12,15 @@
         android:orientation="vertical"
         android:padding="24dp">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/editButton"
+        <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Edit Profile"
-            android:textAllCaps="false"
-            android:layout_marginBottom="20dp"
-            style="@style/Widget.Material3.Button.OutlinedButton" />
+            android:text="Profile"
+            android:textColor="@color/text_primary"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginBottom="24dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -65,7 +66,7 @@
             <TextView
                 android:layout_width="140dp"
                 android:layout_height="wrap_content"
-                android:text="Email address"
+                android:text="Email"
                 android:textColor="@color/text_primary"
                 android:textSize="16sp"
                 android:textStyle="bold" />
@@ -134,7 +135,6 @@
             android:layout_marginBottom="16dp">
 
             <TextView
-                android:id="@+id/memberSinceLabel"
                 android:layout_width="140dp"
                 android:layout_height="wrap_content"
                 android:text="Member since"
@@ -185,6 +185,15 @@
             android:layout_height="1dp"
             android:background="#E0E0E0"
             android:layout_marginBottom="24dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/editButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Edit Profile"
+            android:textAllCaps="false"
+            android:layout_marginBottom="16dp"
+            style="@style/Widget.Material3.Button.OutlinedButton" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/changePasswordToggleButton"

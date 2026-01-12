@@ -160,7 +160,7 @@ public class PassengerHomeFragment extends Fragment {
         userDAO.getUser(userId).addOnSuccessListener(snapshot -> {
             User user = snapshot.getValue(User.class);
             if (user != null && user.getUsername() != null) {
-                welcomeText.setText("Ahoy, " + user.getUsername() + "!");
+                welcomeText.setText("Hello, " + user.getUsername() + "!");
             }
         });
     }
@@ -286,6 +286,8 @@ public class PassengerHomeFragment extends Fragment {
                         Ship ship = shipsMap.get(instance.getShipId());
                         if (tour != null) {
                             instance.setTourName(tour.getName());
+                            instance.setFromLocation(tour.getFrom());
+                            instance.setToLocation(tour.getTo());
                         }
                         if (ship != null) {
                             instance.setShipName(ship.getName());

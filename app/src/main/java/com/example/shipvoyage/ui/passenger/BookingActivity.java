@@ -2,6 +2,7 @@ package com.example.shipvoyage.ui.passenger;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -85,6 +86,47 @@ public class BookingActivity extends AppCompatActivity {
         cancelButton = findViewById(R.id.cancelButton);
         cancelButton.setOnClickListener(v -> finish());
         confirmBookingButton.setOnClickListener(v -> onConfirmBooking());
+        setupLegend();
+    }
+    
+    private void setupLegend() {
+        LinearLayout legendContainer = findViewById(R.id.legendContainer);
+        legendContainer.removeAllViews();
+        
+        addLegendItem(legendContainer, "#10B981", "Single");
+        addLegendItem(legendContainer, "#2563EB", "Double");
+        addLegendItem(legendContainer, "#1D4ED8", "Selected");
+        addLegendItem(legendContainer, "#F97316", "Booked");
+    }
+    
+    private void addLegendItem(LinearLayout container, String color, String label) {
+        LinearLayout item = new LinearLayout(this);
+        item.setOrientation(LinearLayout.HORIZONTAL);
+        item.setGravity(android.view.Gravity.CENTER_VERTICAL);
+        LinearLayout.LayoutParams itemParams = new LinearLayout.LayoutParams(
+            LinearLayout.LayoutParams.WRAP_CONTENT,
+            LinearLayout.LayoutParams.WRAP_CONTENT
+        );
+        itemParams.setMarginEnd(24);
+        item.setLayoutParams(itemParams);
+        
+        View colorBox = new View(this);
+        LinearLayout.LayoutParams boxParams = new LinearLayout.LayoutParams(
+            (int) (16 * getResources().getDisplayMetrics().density),
+            (int) (16 * getResources().getDisplayMetrics().density)
+        );
+        boxParams.setMarginEnd((int) (8 * getResources().getDisplayMetrics().density));
+        colorBox.setLayoutParams(boxParams);
+        colorBox.setBackgroundColor(Color.parseColor(color));
+        
+        TextView labelText = new TextView(this);
+        labelText.setText(label);
+        labelText.setTextSize(12);
+        labelText.setTextColor(Color.parseColor("#6B7280"));
+        
+        item.addView(colorBox);
+        item.addView(labelText);
+        container.addView(item);
     }
     private void loadData() {
         tourInstanceDAO.getTourInstance(tourInstanceId).addOnSuccessListener(dataSnapshot -> {
@@ -145,6 +187,7 @@ public class BookingActivity extends AppCompatActivity {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     Booking booking = snapshot.getValue(Booking.class);
                     if (booking != null
+                            && "Confirmed".equalsIgnoreCase(booking.getStatus())
                             && tourInstanceId.equals(booking.getTourInstanceId())
                             && booking.getSelectedRooms() != null) {
                         for (String roomNum : booking.getSelectedRooms()) {
@@ -296,4 +339,4 @@ public class BookingActivity extends AppCompatActivity {
             Toast.makeText(this, "Failed to start booking: " + e.getMessage(), Toast.LENGTH_SHORT).show();
         });
     }
-}
+}

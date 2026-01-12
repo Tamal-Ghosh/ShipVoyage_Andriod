@@ -219,14 +219,42 @@ public class ManageRoomsFragment extends Fragment {
         String type = typeField.getText().toString().trim();
         String priceStr = priceField.getText().toString().trim();
 
-        if (roomNumber.isEmpty() || type.isEmpty() || priceStr.isEmpty() || shipSpinner.getSelectedItem() == null) {
+        if (roomNumber.isEmpty() || type.isEmpty() || priceStr.isEmpty() || shipSpinner.getSelectedItemPosition() == 0) {
             Toast.makeText(requireContext(), "Please fill all fields", Toast.LENGTH_SHORT).show();
             return;
         }
 
         try {
             double price = Double.parseDouble(priceStr);
-            Ship selectedShip = (Ship) shipSpinner.getSelectedItem();
+            
+            // Get selected ship
+            int spinnerPosition = shipSpinner.getSelectedItemPosition();
+            if (spinnerPosition <= 0 || spinnerPosition - 1 >= shipsList.size()) {
+                Toast.makeText(requireContext(), "Please select a valid ship", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            
+            Ship selectedShip = shipsList.get(spinnerPosition - 1);
+            
+            // Count existing rooms for this ship
+            int existingRoomCount = 0;
+            for (Room room : roomsList) {
+                if (room.getShipId().equals(selectedShip.getId())) {
+                    // Don't count the room being edited
+                    if (!room.getId().equals(editingRoomId)) {
+                        existingRoomCount++;
+                    }
+                }
+            }
+            
+            // Check if adding new room would exceed capacity
+            if (existingRoomCount >= selectedShip.getCapacity()) {
+                Toast.makeText(requireContext(), 
+                    "Cannot add more rooms! Ship capacity is " + selectedShip.getCapacity() + 
+                    " and already has " + existingRoomCount + " rooms.", 
+                    Toast.LENGTH_LONG).show();
+                return;
+            }
 
             String roomId = editingRoomId != null ? editingRoomId : roomDAO.roomsRef.push().getKey();
             if (roomId != null) {

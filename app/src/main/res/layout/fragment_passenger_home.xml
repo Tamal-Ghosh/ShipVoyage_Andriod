@@ -19,7 +19,7 @@
             android:id="@+id/welcomeText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ahoy, Traveler!"
+            android:text="Hello, Traveler!"
             android:textColor="@color/text_primary"
             android:textSize="24sp"
             android:textStyle="bold"
@@ -75,7 +75,11 @@
                             android:id="@+id/fromField"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="text" />
+                            android:inputType="text"
+                            android:paddingStart="12dp"
+                            android:paddingEnd="12dp"
+                            android:paddingTop="8dp"
+                            android:paddingBottom="8dp" />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
@@ -90,7 +94,11 @@
                             android:id="@+id/toField"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:inputType="text" />
+                            android:inputType="text"
+                            android:paddingStart="12dp"
+                            android:paddingEnd="12dp"
+                            android:paddingTop="8dp"
+                            android:paddingBottom="8dp" />
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
 

@@ -13,7 +13,6 @@
         android:layout_height="wrap_content"
         android:padding="16dp">
 
-        <!-- Status Badge -->
         <TextView
             android:id="@+id/tripStatus"
             android:layout_width="wrap_content"
@@ -24,27 +23,52 @@
             app:layout_constraintEnd_toEndOf="parent" />
 
         <TextView
+            android:id="@+id/labelTour"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tour:"
+            android:textColor="#6B7280"
+            android:textSize="14sp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@id/tripStatus"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
             android:id="@+id/tripTitle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Mediterranean Cruise"
             android:maxLines="2"
             android:ellipsize="end"
-            android:textAppearance="@style/TextAppearance.ShipVoyage.TitleMedium"
-            android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@id/tripStatus"
-            app:layout_constraintStart_toStartOf="parent"
+            android:textColor="@color/text_primary"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:layout_marginStart="8dp"
+            app:layout_constraintTop_toTopOf="@id/labelTour"
+            app:layout_constraintStart_toEndOf="@id/labelTour"
             app:layout_constraintEnd_toEndOf="parent" />
+
+        <TextView
+            android:id="@+id/labelRoute"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Route:"
+            android:textColor="#6B7280"
+            android:textSize="14sp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@id/labelTour"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/tripRoute"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Barcelona → Rome"
-            android:textAppearance="@style/TextAppearance.ShipVoyage.BodyMedium"
-            android:layout_marginTop="4dp"
-            app:layout_constraintTop_toBottomOf="@id/tripTitle"
-            app:layout_constraintStart_toStartOf="parent"
+            android:textColor="@color/text_primary"
+            android:textSize="14sp"
+            android:layout_marginStart="8dp"
+            app:layout_constraintTop_toTopOf="@id/labelRoute"
+            app:layout_constraintStart_toEndOf="@id/labelRoute"
             app:layout_constraintEnd_toEndOf="parent" />
 
         <View
@@ -55,52 +79,54 @@
             android:layout_marginTop="12dp"
             app:layout_constraintTop_toBottomOf="@id/tripRoute" />
 
-        <!-- Date Section -->
-        <ImageView
-            android:id="@+id/icDate"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:src="@android:drawable/ic_menu_my_calendar"
-            app:tint="@color/text_tertiary"
+        <TextView
+            android:id="@+id/labelDepart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Start Date:"
+            android:textColor="#6B7280"
+            android:textSize="14sp"
             android:layout_marginTop="12dp"
             app:layout_constraintTop_toBottomOf="@id/divider"
-            app:layout_constraintStart_toStartOf="parent"
-            android:contentDescription="Date" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/tripDepart"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="May 12, 2026"
-            android:textAppearance="@style/TextAppearance.ShipVoyage.LabelSmall"
+            android:textColor="@color/text_primary"
+            android:textSize="14sp"
             android:layout_marginStart="8dp"
-            app:layout_constraintStart_toEndOf="@id/icDate"
-            app:layout_constraintTop_toTopOf="@id/icDate"
-            app:layout_constraintBottom_toBottomOf="@id/icDate" />
+            app:layout_constraintStart_toEndOf="@id/labelDepart"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/labelDepart"
+            app:layout_constraintBottom_toBottomOf="@id/labelDepart" />
 
-        <!-- Ship Section -->
-        <ImageView
-            android:id="@+id/icShip"
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:src="@android:drawable/ic_menu_compass"
-            app:tint="@color/text_tertiary"
+        <TextView
+            android:id="@+id/labelShip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ship:"
+            android:textColor="#6B7280"
+            android:textSize="14sp"
             android:layout_marginTop="8dp"
-            app:layout_constraintTop_toBottomOf="@id/icDate"
-            app:layout_constraintStart_toStartOf="parent"
-            android:contentDescription="Ship" />
+            app:layout_constraintTop_toBottomOf="@id/labelDepart"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/tripShip"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Ocean Voyager"
-            android:textAppearance="@style/TextAppearance.ShipVoyage.LabelSmall"
+            android:textColor="@color/text_primary"
+            android:textSize="14sp"
             android:layout_marginStart="8dp"
-            app:layout_constraintStart_toEndOf="@id/icShip"
-            app:layout_constraintTop_toTopOf="@id/icShip"
-            app:layout_constraintBottom_toBottomOf="@id/icShip" />
-            
+            app:layout_constraintStart_toEndOf="@id/labelShip"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/labelShip"
+            app:layout_constraintBottom_toBottomOf="@id/labelShip" />
+
         <TextView
             android:id="@+id/tripReturn"
             android:layout_width="wrap_content"
