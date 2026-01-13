@@ -70,14 +70,27 @@ public class CustomerAdapter extends ListAdapter<User, CustomerAdapter.CustomerV
         }
         @Override
         public boolean areContentsTheSame(@NonNull User oldItem, @NonNull User newItem) {
-            return oldItem.getId().equals(newItem.getId()) &&
-                    oldItem.getName().equals(newItem.getName()) &&
-                    oldItem.getEmail().equals(newItem.getEmail()) &&
-                    oldItem.getPhone().equals(newItem.getPhone());
+                // Compare all relevant fields with null checks
+                boolean nameEqual = (oldItem.getName() == null && newItem.getName() == null) ||
+                    (oldItem.getName() != null && oldItem.getName().equals(newItem.getName()));
+            
+                boolean emailEqual = (oldItem.getEmail() == null && newItem.getEmail() == null) ||
+                    (oldItem.getEmail() != null && oldItem.getEmail().equals(newItem.getEmail()));
+            
+                boolean phoneEqual = (oldItem.getPhone() == null && newItem.getPhone() == null) ||
+                    (oldItem.getPhone() != null && oldItem.getPhone().equals(newItem.getPhone()));
+            
+                boolean instanceEqual = (oldItem.getLastInstance() == null && newItem.getLastInstance() == null) ||
+                    (oldItem.getLastInstance() != null && oldItem.getLastInstance().equals(newItem.getLastInstance()));
+            
+                boolean paymentEqual = (oldItem.getPaymentStatus() == null && newItem.getPaymentStatus() == null) ||
+                    (oldItem.getPaymentStatus() != null && oldItem.getPaymentStatus().equals(newItem.getPaymentStatus()));
+            
+                return nameEqual && emailEqual && phoneEqual && instanceEqual && paymentEqual;
         }
     }
     public interface OnCustomerClickListener {
         void onViewClick(User customer);
         void onDeleteClick(User customer);
     }
-}
+}

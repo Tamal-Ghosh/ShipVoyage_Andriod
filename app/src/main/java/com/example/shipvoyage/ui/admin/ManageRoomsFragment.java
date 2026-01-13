@@ -6,6 +6,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -30,8 +31,8 @@ import java.util.List;
 
 public class ManageRoomsFragment extends Fragment {
     private RecyclerView roomsRecyclerView;
-    private EditText roomNumberField, typeField, priceField, searchField;
-    private Spinner shipSpinner;
+    private EditText roomNumberField, priceField, searchField;
+    private Spinner shipSpinner, typeSpinner;
     private Button saveBtn, cancelBtn, searchBtn, addToggleBtn;
     private View formContainer;
     private RoomDAO roomDAO;
@@ -63,7 +64,7 @@ public class ManageRoomsFragment extends Fragment {
     private void initViews(View view) {
         roomsRecyclerView = view.findViewById(R.id.roomsRecyclerView);
         roomNumberField = view.findViewById(R.id.roomNumberField);
-        typeField = view.findViewById(R.id.typeField);
+        typeSpinner = view.findViewById(R.id.typeSpinner);
         priceField = view.findViewById(R.id.priceField);
         searchField = view.findViewById(R.id.searchField);
         shipSpinner = view.findViewById(R.id.shipSpinner);
@@ -74,12 +75,32 @@ public class ManageRoomsFragment extends Fragment {
         formContainer = view.findViewById(R.id.formContainer);
 
         roomsRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        
+        // Setup room type spinner
+        List<String> roomTypes = new ArrayList<>();
+        roomTypes.add("None");
+        roomTypes.add("Single");
+        roomTypes.add("Double");
+        ArrayAdapter<String> typeAdapter = new ArrayAdapter<>(requireContext(), android.R.layout.simple_spinner_item, roomTypes);
+        typeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        typeSpinner.setAdapter(typeAdapter);
+        
         roomAdapter = new RoomAdapter(new RoomAdapter.OnRoomActionListener() {
             @Override
             public void onEdit(Room room) {
                 editingRoomId = room.getId();
                 roomNumberField.setText(room.getRoomNumber());
-                typeField.setText(room.getType());
+                
+                // Set room type spinner
+                String roomType = room.getType();
+                if (roomType.equalsIgnoreCase("Single")) {
+                    typeSpinner.setSelection(1);
+                } else if (roomType.equalsIgnoreCase("Double")) {
+                    typeSpinner.setSelection(2);
+                } else {
+                    typeSpinner.setSelection(0);
+                }
+                
                 priceField.setText(String.valueOf(room.getPrice()));
                 
                 // Set ship spinner selection (add 1 to account for "None" at position 0)
@@ -216,10 +237,9 @@ public class ManageRoomsFragment extends Fragment {
 
     private void saveRoom() {
         String roomNumber = roomNumberField.getText().toString().trim();
-        String type = typeField.getText().toString().trim();
         String priceStr = priceField.getText().toString().trim();
 
-        if (roomNumber.isEmpty() || type.isEmpty() || priceStr.isEmpty() || shipSpinner.getSelectedItemPosition() == 0) {
+        if (roomNumber.isEmpty() || priceStr.isEmpty() || shipSpinner.getSelectedItemPosition() == 0 || typeSpinner.getSelectedItemPosition() == 0) {
             Toast.makeText(requireContext(), "Please fill all fields", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -235,6 +255,9 @@ public class ManageRoomsFragment extends Fragment {
             }
             
             Ship selectedShip = shipsList.get(spinnerPosition - 1);
+            
+            // Get selected room type
+            String type = typeSpinner.getSelectedItem().toString();
             
             // Count existing rooms for this ship
             int existingRoomCount = 0;
@@ -276,7 +299,7 @@ public class ManageRoomsFragment extends Fragment {
     private void clearForm() {
         editingRoomId = null;
         roomNumberField.setText("");
-        typeField.setText("");
+        typeSpinner.setSelection(0);
         priceField.setText("");
         toggleForm(false);
     }

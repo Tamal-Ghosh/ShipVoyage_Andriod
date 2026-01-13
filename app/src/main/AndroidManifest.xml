@@ -29,8 +29,14 @@
         </activity>
 
         <!-- Main Activities for Single Activity Architecture -->
-        <activity android:name=".ui.admin.AdminMainActivity" android:exported="false" />
-        <activity android:name=".ui.passenger.PassengerMainActivity" android:exported="false" />
+        <activity
+            android:name=".ui.admin.AdminMainActivity"
+            android:exported="false"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
+        <activity
+            android:name=".ui.passenger.PassengerMainActivity"
+            android:exported="false"
+            android:windowSoftInputMode="stateHidden|adjustResize" />
 
         <!-- Admin Activities (Legacy - kept for reference) -->
         <activity android:name=".ui.admin.AdminDashboardActivity" android:exported="false" android:hardwareAccelerated="false" />

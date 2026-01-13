@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -22,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.shipvoyage.R;
 import com.example.shipvoyage.adapter.CustomerAdapter;
+import com.example.shipvoyage.dao.BookingDAO;
 import com.example.shipvoyage.dao.TourDAO;
 import com.example.shipvoyage.dao.TourInstanceDAO;
 import com.example.shipvoyage.dao.UserDAO;
@@ -41,6 +43,7 @@ public class CustomerListFragment extends Fragment {
     private UserDAO userDAO;
     private TourDAO tourDAO;
     private TourInstanceDAO tourInstanceDAO;
+    private BookingDAO bookingDAO;
     private List<User> customersList = new ArrayList<>();
     private List<Tour> toursList = new ArrayList<>();
     private List<TourInstance> instancesList = new ArrayList<>();
@@ -59,6 +62,7 @@ public class CustomerListFragment extends Fragment {
         userDAO = new UserDAO();
         tourDAO = new TourDAO();
         tourInstanceDAO = new TourInstanceDAO();
+        bookingDAO = new BookingDAO();
         
         initViews(view);
         setupListeners();
@@ -103,6 +107,18 @@ public class CustomerListFragment extends Fragment {
             }
             @Override
             public void afterTextChanged(Editable s) {}
+        });
+
+        // Filter when tour instance selection changes
+        instanceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                performSearch();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                performSearch();
+            }
         });
     }
 
@@ -158,7 +174,8 @@ public class CustomerListFragment extends Fragment {
                     customersList.add(user);
                 }
             }
-            updateRecyclerView();
+            // Apply current filters (search text + instance selection)
+            performSearch();
         }).addOnFailureListener(e -> {
             Toast.makeText(requireContext(), "Failed to load customers", Toast.LENGTH_SHORT).show();
         });
@@ -171,22 +188,55 @@ public class CustomerListFragment extends Fragment {
     private void performSearch() {
         String query = searchField.getText().toString().trim().toLowerCase();
         int selectedPosition = instanceSpinner.getSelectedItemPosition();
-        
-        List<User> filteredList = new ArrayList<>();
-        for (User customer : customersList) {
-            boolean matchesSearch = query.isEmpty() || 
-                customer.getName().toLowerCase().contains(query) ||
-                customer.getEmail().toLowerCase().contains(query) ||
-                customer.getPhone().contains(query);
-            
-            boolean matchesInstance = selectedPosition == 0 ||
-                (customer.getLastInstance() != null && customer.getLastInstance().equals(instancesList.get(selectedPosition - 1).getId()));
-            
-            if (matchesSearch && matchesInstance) {
-                filteredList.add(customer);
+
+        boolean hasValidInstanceSelection = selectedPosition > 0 && (selectedPosition - 1) < instancesList.size();
+
+        if (!hasValidInstanceSelection) {
+            // No instance selected: filter only by search
+            List<User> filteredList = new ArrayList<>();
+            for (User customer : customersList) {
+                boolean matchesSearch = query.isEmpty() ||
+                        (customer.getName() != null && customer.getName().toLowerCase().contains(query)) ||
+                        (customer.getEmail() != null && customer.getEmail().toLowerCase().contains(query)) ||
+                        (customer.getPhone() != null && customer.getPhone().contains(query));
+                if (matchesSearch) {
+                    filteredList.add(customer);
+                }
             }
+            customerAdapter.submitList(filteredList);
+            return;
         }
-        customerAdapter.submitList(filteredList);
+
+        // Instance selected: fetch bookings and filter customers by those who booked the instance
+        String selectedInstanceId = instancesList.get(selectedPosition - 1).getId();
+        bookingDAO.getAllBookings().addOnSuccessListener(snapshot -> {
+            java.util.HashSet<String> userIdsForInstance = new java.util.HashSet<>();
+            for (com.google.firebase.database.DataSnapshot bookingSnap : snapshot.getChildren()) {
+                com.example.shipvoyage.model.Booking booking = bookingSnap.getValue(com.example.shipvoyage.model.Booking.class);
+                if (booking != null && selectedInstanceId.equals(booking.getTourInstanceId())) {
+                    // Optionally skip cancelled bookings
+                    // if ("CANCELLED".equalsIgnoreCase(booking.getStatus())) continue;
+                    if (booking.getUserId() != null) {
+                        userIdsForInstance.add(booking.getUserId());
+                    }
+                }
+            }
+
+            List<User> filteredList = new ArrayList<>();
+            for (User customer : customersList) {
+                boolean matchesSearch = query.isEmpty() ||
+                        (customer.getName() != null && customer.getName().toLowerCase().contains(query)) ||
+                        (customer.getEmail() != null && customer.getEmail().toLowerCase().contains(query)) ||
+                        (customer.getPhone() != null && customer.getPhone().contains(query));
+                boolean bookedThisInstance = customer.getId() != null && userIdsForInstance.contains(customer.getId());
+                if (matchesSearch && bookedThisInstance) {
+                    filteredList.add(customer);
+                }
+            }
+            customerAdapter.submitList(filteredList);
+        }).addOnFailureListener(e -> {
+            Toast.makeText(requireContext(), "Failed to filter by instance", Toast.LENGTH_SHORT).show();
+        });
     }
 
     private void showEditCustomerDialog(User customer) {
